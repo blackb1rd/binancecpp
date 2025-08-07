@@ -1,85 +1,57 @@
-
 # Binance C++ API
 
 #### Installation
-    git clone https://github.com/tensaix2j/binacpp    
+    git clone https://github.com/blackb1rd/binacpp    
 
 #### Dependencies
 	
-	jsoncpp-1.8.3
-	libcurl-7.56.0
-	libwebsockets-2.4.0
+	jsoncpp
+	libcurl  
+	libwebsockets
+	openssl
 
+Dependencies are managed through vcpkg package manager.
 
+#### Prerequisites
 
-Depended shared libraries and their headers are included in the repository's lib directory 
+- CMake 3.20 or higher
+- vcpkg package manager
+- C++14 compatible compiler
 
-use -I<include path> to include header paths for compiler to look for headers 
+#### Building with CMake and vcpkg
 
-and -L<lib path> and -l<libname> for linker to link against shared libraries.
+1. **Install vcpkg** (if not already installed):
+   ```bash
+   git clone https://github.com/Microsoft/vcpkg.git
+   cd vcpkg
+   ./bootstrap-vcpkg.sh  # On Windows: .\bootstrap-vcpkg.bat
+   ```
 
-	libcurl_dir=../lib/libcurl-7.56.0
-	libcurl_include=${libcurl_dir}/include
-	libcurl_lib=${libcurl_dir}/lib
-	
-	jsoncpp_dir=../lib/jsoncpp-1.8.3
-	jsoncpp_include=${jsoncpp_dir}/include
-	jsoncpp_src=${jsoncpp_dir}/src
-	
-	libwebsockets_dir=../lib/libwebsockets-2.4.0
-	libwebsockets_include=${libwebsockets_dir}/include
-	libwebsockets_lib=${libwebsockets_dir}/lib
-	
-	libbinacpp_dir=../lib/libbinacpp
-	libbinacpp_include=${libbinacpp_dir}/include
-	libbinacpp_lib=${libbinacpp_dir}/lib
+2. **Configure CMake with vcpkg**:
+   ```bash
+   cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=[path-to-vcpkg]/scripts/buildsystems/vcpkg.cmake
+   ```
 
+3. **Build the project**:
+   ```bash
+   cmake --build build
+   ```
 
+4. **Run examples**:
+   ```bash
+   cd build/example
+   export SSL_CERT_FILE=./cacert.pem
+   ./example
+   ```
 
-.
-Then compile like this:
+#### Alternative: vcpkg integration
 
-
-	g++ -I$(libcurl_include) -I$(jsoncpp_include) -I$(libwebsockets_include) -I$(libbinacpp_include) \
-	example.cpp \
-	-L$(libcurl_lib) \
-	-L$(libwebsockets_lib) \
-	-L$(libbinacpp_lib) \
-	-lcurl -lcrypto -lwebsockets -lbinacpp -o example
-
-
-
-
-
-And export LD\_LIBRARY\_PATH and run like this:
-
-	libcurl_dir=../lib/libcurl-7.56.0
-	libcurl_lib=${libcurl_dir}/lib
-
-	libwebsockets_dir=../lib/libwebsockets-2.4.0
-	libwebsockets_lib=${libwebsockets_dir}/lib
-
-	libbinacpp_dir=../lib/libbinacpp
-	libbinacpp_lib=${libbinacpp_dir}/lib
-
-	export SSL_CERT_FILE=`pwd`/cacert.pem
-	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$libcurl_lib:$libwebsockets_lib:$libbinacpp_lib
-
-	./example 
-
-
-
-
-
-You can refer to the following Makefile to get a better picture...
-
-	https://github.com/tensaix2j/binacpp/blob/master/example/Makefile
-
-
-#### To Build Example
-	
-	cd example
-	make example
+You can also integrate vcpkg globally and then simply use:
+```bash
+vcpkg integrate install
+cmake -B build -S .
+cmake --build build
+```
 
 ---
 ## Coding with libBinaCPP
@@ -235,5 +207,4 @@ You can refer to the following Makefile to get a better picture...
 [example.cpp](https://github.com/tensaix2j/binacpp/blob/master/example/example.cpp)
 
 	
-
 

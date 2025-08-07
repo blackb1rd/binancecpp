@@ -1,0 +1,11 @@
+{
+  "name": "binacpp",
+  "version": "1.0.0",
+  "description": "C++ library for Binance API",
+  "dependencies": [
+    "jsoncpp",
+    "curl",
+    "libwebsockets",
+    "openssl"
+  ]
+}

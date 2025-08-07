@@ -1,0 +1,36 @@
+# Example executables
+set(EXAMPLES
+    example
+    example_aggTrades
+    example_depthCache
+    example_klines
+    example_template
+    example_userStream
+    example_wapi
+)
+
+foreach(EXAMPLE_NAME ${EXAMPLES})
+    if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${EXAMPLE_NAME}.cpp)
+        add_executable(${EXAMPLE_NAME} ${EXAMPLE_NAME}.cpp)
+        
+        target_link_libraries(${EXAMPLE_NAME}
+            PRIVATE
+                binacpp
+                JsonCpp::JsonCpp
+                CURL::libcurl
+                websockets
+                OpenSSL::SSL
+                OpenSSL::Crypto
+        )
+        
+        target_include_directories(${EXAMPLE_NAME}
+            PRIVATE
+                ${CMAKE_SOURCE_DIR}/src
+        )
+    endif()
+endforeach()
+
+# Copy cacert.pem to build directory
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cacert.pem 
+               ${CMAKE_CURRENT_BINARY_DIR}/cacert.pem 
+               COPYONLY)
