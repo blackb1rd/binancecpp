@@ -1,171 +1,128 @@
 
 /*
-	Author: tensaix2j
-	Date  : 2017/10/15
-	
-	C++ library for Binance API.
-*/
+        Author: tensaix2j
+        Date  : 2017/10/15
 
+        C++ library for Binance API.
+        Updated for C++20 support
+*/
 
 #ifndef BINACPP_H
 #define BINACPP_H
 
-
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdarg.h>
-
-#include <iostream>
-#include <sstream>
-#include <string>
-#include <map>
-#include <vector>
-#include <exception>
-
+// Modern C++20 headers
 #include <curl/curl.h>
 #include <json/json.h>
 
-
+#include <concepts>
+#include <cstdarg>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <exception>
+#include <iostream>
+#include <map>
+#include <memory>
+#include <optional>
+#include <sstream>
+#include <string>
+#include <string_view>
+#include <vector>
 
 #define BINANCE_HOST "https://api.binance.com"
 
+// C++20 concepts for validation
+template <typename T>
+concept StringLike = std::convertible_to<T, std::string_view>;
 
-using namespace std;
+template <typename T>
+concept Numeric = std::integral<T> || std::floating_point<T>;
 
 class BinaCPP {
+  static std::string api_key;
+  static std::string secret_key;
+  static CURL *curl;
 
-	static string api_key;
-	static string secret_key;
-	static CURL* curl;
+ public:
+  static void curl_api(std::string &url, std::string &result_json);
+  static void curl_api_with_header(std::string &url, std::string &result_json,
+                                   std::vector<std::string> &extra_http_header,
+                                   std::string &post_data, std::string &action);
+  [[nodiscard]] static size_t curl_cb(void *content, size_t size, size_t nmemb,
+                                      std::string *buffer);
 
-	
+  static void init(std::string_view api_key, std::string_view secret_key);
+  static void cleanup() noexcept;
 
-	public:
+  // Public API
+  static void get_exchangeInfo(Json::Value &json_result);
+  static void get_serverTime(Json::Value &json_result);
 
-		
+  static void get_allPrices(Json::Value &json_result);
+  [[nodiscard]] static double get_price(std::string_view symbol);
 
-		static void curl_api( string &url, string &result_json );
-		static void curl_api_with_header( string &url, string &result_json , vector <string> &extra_http_header, string &post_data, string &action );
-		static size_t curl_cb( void *content, size_t size, size_t nmemb, string *buffer ) ;
-		
-		static void init( string &api_key, string &secret_key);
-		static void cleanup();
+  static void get_allBookTickers(Json::Value &json_result);
+  static void get_bookTicker(std::string_view symbol, Json::Value &json_result);
 
+  static void get_depth(std::string_view symbol, int limit,
+                        Json::Value &json_result);
+  static void get_aggTrades(std::string_view symbol, int fromId,
+                            time_t startTime, time_t endTime, int limit,
+                            Json::Value &json_result);
+  static void get_24hr(std::string_view symbol, Json::Value &json_result);
+  static void get_klines(std::string_view symbol, std::string_view interval,
+                         int limit, time_t startTime, time_t endTime,
+                         Json::Value &json_result);
 
-		// Public API
-		static void get_exchangeInfo( Json::Value &json_result);
-		static void get_serverTime( Json::Value &json_result); 	
+  // API + Secret keys required
+  static void get_account(long recvWindow, Json::Value &json_result);
 
-		static void get_allPrices( Json::Value &json_result );
-		static double get_price( const char *symbol );
+  static void get_myTrades(std::string_view symbol, int limit, long fromId,
+                           long recvWindow, Json::Value &json_result);
 
-		static void get_allBookTickers( Json::Value &json_result );
-		static void get_bookTicker( const char *symbol, Json::Value &json_result ) ;
+  static void get_openOrders(std::string_view symbol, long recvWindow,
+                             Json::Value &json_result);
 
-		static void get_depth( const char *symbol, int limit, Json::Value &json_result );
-		static void get_aggTrades( const char *symbol, int fromId, time_t startTime, time_t endTime, int limit, Json::Value &json_result ); 
-		static void get_24hr( const char *symbol, Json::Value &json_result ); 
-		static void get_klines( const char *symbol, const char *interval, int limit, time_t startTime, time_t endTime,  Json::Value &json_result );
+  static void get_allOrders(std::string_view symbol, long orderId, int limit,
+                            long recvWindow, Json::Value &json_result);
 
+  static void send_order(std::string_view symbol, std::string_view side,
+                         std::string_view type, std::string_view timeInForce,
+                         double quantity, double price,
+                         std::string_view newClientOrderId, double stopPrice,
+                         double icebergQty, long recvWindow,
+                         Json::Value &json_result);
 
-		// API + Secret keys required
-		static void get_account( long recvWindow , Json::Value &json_result );
-		
-		static void get_myTrades( 
-			const char *symbol, 
-			int limit,
-			long fromId,
-			long recvWindow, 
-			Json::Value &json_result 
-		);
-		
-		static void get_openOrders(  
-			const char *symbol, 
-			long recvWindow,   
-			Json::Value &json_result 
-		) ;
-		
+  static void get_order(std::string_view symbol, long orderId,
+                        std::string_view origClientOrderId, long recvWindow,
+                        Json::Value &json_result);
 
-		static void get_allOrders(   
-			const char *symbol, 
-			long orderId,
-			int limit,
-			long recvWindow,
-			Json::Value &json_result 
-		);
+  static void cancel_order(std::string_view symbol, long orderId,
+                           std::string_view origClientOrderId,
+                           std::string_view newClientOrderId, long recvWindow,
+                           Json::Value &json_result);
 
+  // API key required
+  static void start_userDataStream(Json::Value &json_result);
+  static void keep_userDataStream(std::string_view listenKey);
+  static void close_userDataStream(std::string_view listenKey);
 
-		static void send_order( 
-			const char *symbol, 
-			const char *side,
-			const char *type,
-			const char *timeInForce,
-			double quantity,
-			double price,
-			const char *newClientOrderId,
-			double stopPrice,
-			double icebergQty,
-			long recvWindow,
-			Json::Value &json_result ) ;
+  // WAPI
+  static void withdraw(std::string_view asset, std::string_view address,
+                       std::string_view addressTag, double amount,
+                       std::string_view name, long recvWindow,
+                       Json::Value &json_result);
 
+  static void get_depositHistory(std::string_view asset, int status,
+                                 long startTime, long endTime, long recvWindow,
+                                 Json::Value &json_result);
 
-		static void get_order( 
-			const char *symbol, 
-			long orderId,
-			const char *origClientOrderId,
-			long recvWindow,
-			Json::Value &json_result ); 
+  static void get_withdrawHistory(std::string_view asset, int status,
+                                  long startTime, long endTime, long recvWindow,
+                                  Json::Value &json_result);
 
-
-		static void cancel_order( 
-			const char *symbol, 
-			long orderId,
-			const char *origClientOrderId,
-			const char *newClientOrderId,
-			long recvWindow,
-			Json::Value &json_result 
-		);
-
-		// API key required
-		static void start_userDataStream( Json::Value &json_result );
-		static void keep_userDataStream( const char *listenKey  );
-		static void close_userDataStream( const char *listenKey );
-
-
-		// WAPI
-		static void withdraw( 
-			const char *asset,
-			const char *address,
-			const char *addressTag,
-			double amount, 
-			const char *name,
-			long recvWindow,
-			Json::Value &json_result );
-
-		static void get_depositHistory( 
-			const char *asset,
-			int  status,
-			long startTime,
-			long endTime, 
-			long recvWindow,
-			Json::Value &json_result );
-
-		static void get_withdrawHistory( 
-			const char *asset,
-			int  status,
-			long startTime,
-			long endTime, 
-			long recvWindow,
-			Json::Value &json_result ); 
-
-		static void get_depositAddress( 
-			const char *asset,
-			long recvWindow,
-			Json::Value &json_result );
-
-
+  static void get_depositAddress(std::string_view asset, long recvWindow,
+                                 Json::Value &json_result);
 };
-
 
 #endif

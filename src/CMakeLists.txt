@@ -10,11 +10,14 @@ add_library(binacpp SHARED
 set_target_properties(binacpp PROPERTIES
     VERSION ${PROJECT_VERSION}
     SOVERSION 1
+    CXX_STANDARD 20
+    CXX_STANDARD_REQUIRED ON
+    CXX_EXTENSIONS OFF
 )
 
 # Link libraries
-target_link_libraries(binacpp 
-    PRIVATE 
+target_link_libraries(binacpp
+    PRIVATE
         JsonCpp::JsonCpp
         CURL::libcurl
         websockets
@@ -27,5 +30,9 @@ target_include_directories(binacpp
         $<INSTALL_INTERFACE:include/binacpp>
 )
 
-# Compiler-specific options
-target_compile_options(binacpp PRIVATE -fPIC)
+# Compiler-specific options for C++20
+target_compile_options(binacpp PRIVATE
+    -fPIC
+    $<$<CXX_COMPILER_ID:GNU>:-fconcepts>
+    $<$<CXX_COMPILER_ID:Clang>:-fconcepts-ts>
+)

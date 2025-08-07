@@ -63,7 +63,7 @@ echo
 # 3. Cppcheck static analysis
 echo "🔍 Running static analysis with cppcheck..."
 if cppcheck --enable=warning,style,performance,portability \
-           --std=c++11 \
+           --std=c++20 \
            --language=c++ \
            --suppress=missingIncludeSystem \
            --suppress=unusedFunction \

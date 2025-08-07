@@ -4,7 +4,10 @@ BasedOnStyle: Google
 
 # Language and standard
 Language: Cpp
-Standard: Cpp11
+Standard: Cpp20
+
+BinPackArguments: false
+BinPackParameters: false
 
 # Column limit
 ColumnLimit: 80

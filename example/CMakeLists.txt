@@ -12,7 +12,14 @@ set(EXAMPLES
 foreach(EXAMPLE_NAME ${EXAMPLES})
     if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${EXAMPLE_NAME}.cpp)
         add_executable(${EXAMPLE_NAME} ${EXAMPLE_NAME}.cpp)
-        
+
+        # Set C++20 standard for examples
+        set_target_properties(${EXAMPLE_NAME} PROPERTIES
+            CXX_STANDARD 20
+            CXX_STANDARD_REQUIRED ON
+            CXX_EXTENSIONS OFF
+        )
+
         target_link_libraries(${EXAMPLE_NAME}
             PRIVATE
                 binacpp
@@ -20,15 +27,21 @@ foreach(EXAMPLE_NAME ${EXAMPLES})
                 CURL::libcurl
                 websockets
         )
-        
+
         target_include_directories(${EXAMPLE_NAME}
             PRIVATE
                 ${CMAKE_SOURCE_DIR}/src
+        )
+
+        # C++20 compile options
+        target_compile_options(${EXAMPLE_NAME} PRIVATE
+            $<$<CXX_COMPILER_ID:GNU>:-fconcepts>
+            $<$<CXX_COMPILER_ID:Clang>:-fconcepts-ts>
         )
     endif()
 endforeach()
 
 # Copy cacert.pem to build directory
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cacert.pem 
-               ${CMAKE_CURRENT_BINARY_DIR}/cacert.pem 
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cacert.pem
+               ${CMAKE_CURRENT_BINARY_DIR}/cacert.pem
                COPYONLY)

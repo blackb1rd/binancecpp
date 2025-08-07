@@ -1,12 +1,12 @@
 # Binance C++ API
 
 #### Installation
-    git clone https://github.com/blackb1rd/binacpp    
+    git clone https://github.com/blackb1rd/binacpp
 
 #### Dependencies
-	
+
 	jsoncpp
-	libcurl  
+	libcurl
 	libwebsockets
 	openssl
 
@@ -16,7 +16,7 @@ Dependencies are managed through vcpkg package manager.
 
 - CMake 3.20 or higher
 - vcpkg package manager
-- C++14 compatible compiler
+- C++20 compatible compiler
 
 #### Building with CMake and vcpkg
 
@@ -107,7 +107,7 @@ All code quality tools run automatically in GitHub Actions CI on every push and 
 
 #### Headers to include
 
-	#include "binacpp.h"	
+	#include "binacpp.h"
 	#include "binacpp_websocket.h"
 	#include <json/json.h>
 
@@ -119,7 +119,7 @@ All code quality tools run automatically in GitHub Actions CI on every push and 
 
 ---
 #### Example : Get Server Time.
-	
+
 	Json::Value result;
 	BinaCPP::get_serverTime( result ) ;
 
@@ -132,31 +132,31 @@ All code quality tools run automatically in GitHub Actions CI on every push and 
 
 	double bnbeth_price = BinaCPP::get_price( "BNBETH");
 
-#### Example: Get Account 
-	
+#### Example: Get Account
+
 	Json::Value result;
-	long recvWindow = 10000;	
+	long recvWindow = 10000;
 	BinaCPP::get_account( recvWindow , result );
 
 #### Example : Get all bid/ask prices
-	
+
 	Json::Value result;
 	BinaCPP::get_allBookTickers( result );
 
 #### Example: Get bid/ask for single pair
-	
+
 	Json::Value result;
 	BinaCPP::get_bookTicker("bnbeth", result );
-	
+
 #### Example: Get Depth of single pair
-	
+
 	Json::Value result;
 	BinaCPP::get_depth( "ETHBTC", 5, result ) ;
-	
+
 
 #### Example: Placing a LIMIT order
-	
-	long recvWindow = 10000;	
+
+	long recvWindow = 10000;
 	Json::Value result;
 	BinaCPP::send_order( "BNBETH", "BUY", "LIMIT", "GTC", 20 , 0.00380000, "",0,0, recvWindow, result );
 
@@ -167,7 +167,7 @@ All code quality tools run automatically in GitHub Actions CI on every push and 
 	BinaCPP::send_order( "BNBETH", "BUY", "MARKET", "GTC", 20 , 0,   "",0,0, recvWindow, result );
 
 #### Example: Placing an ICEBERG order
-	
+
 	long recvWindow = 10000;
 	Json::Value result;
 	BinaCPP::send_order( "BNBETH", "BUY", "MARKET", "GTC", 1 , 0,   "",0,20, recvWindow , result );
@@ -185,30 +185,30 @@ All code quality tools run automatically in GitHub Actions CI on every push and 
 	BinaCPP::cancel_order("BNBETH", 12345678, "","", recvWindow, result);
 
 #### Example: Getting list of open orders for specific pair
-	
+
 	long recvWindow = 10000;
 	Json::Value result;
 	BinaCPP::get_openOrders( "BNBETH", recvWindow, result ) ;
 
 #### Example: Get all account orders; active, canceled, or filled.
-	
+
 	long recvWindow = 10000;
 	Json::Value result;
-	BinaCPP::get_allOrders( "BNBETH", 0,0, recvWindow, result ) 
+	BinaCPP::get_allOrders( "BNBETH", 0,0, recvWindow, result )
 
 #### Example : Get all trades history
-	
+
 	long recvWindow = 10000;
 	Json::Value result;
 	BinaCPP::get_myTrades( "BNBETH", 0,0, recvWindow , result );
 
 #### Example: Getting 24hr ticker price change statistics for a symbol
-	
+
 	Json::Value result;
 	BinaCPP::get_24hr( "ETHBTC", result ) ;
 
 #### Example: Get Kline/candlestick data for a symbol
-	
+
 	Json::Value result;
 	BinaCPP::get_klines( "ETHBTC", "1h", 10 , 0, 0, result );
 
@@ -218,12 +218,12 @@ All code quality tools run automatically in GitHub Actions CI on every push and 
 
 
 #### Example: Maintain Market Depth Cache Locally via Web Socket
-	
-	
+
+
 [example_depthCache.cpp](https://github.com/tensaix2j/binacpp/blob/master/example/example_depthCache.cpp)
 
 #### Example: KLine/Candlestick Cache and update via Web Socket
-	
+
 
 [example_klines.cpp](https://github.com/tensaix2j/binacpp/blob/master/example/example_klines.cpp)
 
@@ -245,15 +245,15 @@ All code quality tools run automatically in GitHub Actions CI on every push and 
 
 
 	BinaCPP_websocket::init();
- 	
- 	BinaCPP_websocket::connect_endpoint( ws_aggTrade_OnData ,"/ws/bnbbtc@aggTrade" ); 
-	BinaCPP_websocket::connect_endpoint( ws_userStream_OnData , ws_path.c_str() ); 
-	BinaCPP_websocket::connect_endpoint( ws_klines_onData ,"/ws/bnbbtc@kline_1m" ); 
-	BinaCPP_websocket::connect_endpoint( ws_depth_onData ,"/ws/bnbbtc@depth" ); 
- 		
-	BinaCPP_websocket::enter_event_loop(); 
+
+ 	BinaCPP_websocket::connect_endpoint( ws_aggTrade_OnData ,"/ws/bnbbtc@aggTrade" );
+	BinaCPP_websocket::connect_endpoint( ws_userStream_OnData , ws_path.c_str() );
+	BinaCPP_websocket::connect_endpoint( ws_klines_onData ,"/ws/bnbbtc@kline_1m" );
+	BinaCPP_websocket::connect_endpoint( ws_depth_onData ,"/ws/bnbbtc@depth" );
+
+	BinaCPP_websocket::enter_event_loop();
 
 [example.cpp](https://github.com/tensaix2j/binacpp/blob/master/example/example.cpp)
 
-	
+
 

@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
 
 jobs:
   build:
@@ -18,7 +18,7 @@ jobs:
             preset: linux-default
             vcpkg_triplet: x64-linux
           - os: windows-latest
-            preset: windows-default  
+            preset: windows-default
             vcpkg_triplet: x64-windows
           - os: macos-latest
             preset: macos-default
@@ -27,174 +27,174 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Install system dependencies (Ubuntu)
-      if: matrix.os == 'ubuntu-latest'
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y ninja-build pkg-config build-essential curl zip unzip tar
+      - name: Install system dependencies (Ubuntu)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build pkg-config build-essential curl zip unzip tar
 
-    - name: Install system dependencies (macOS)
-      if: matrix.os == 'macos-latest'
-      run: |
-        brew install ninja pkg-config
+      - name: Install system dependencies (macOS)
+        if: matrix.os == 'macos-latest'
+        run: |
+          brew install ninja pkg-config
 
-    - name: Setup vcpkg
-      uses: lukka/get-cmake@latest
+      - name: Setup vcpkg
+        uses: lukka/get-cmake@latest
 
-    - name: Setup vcpkg
-      uses: lukka/run-vcpkg@v11
-      with:
-        vcpkgGitCommitId: 'dd3097e305afa53f7b4312371f62058d2e665320'
+      - name: Setup vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: "dd3097e305afa53f7b4312371f62058d2e665320"
 
-    - name: Configure CMake (Linux/macOS)
-      if: matrix.os != 'windows-latest'
-      run: |
-        cmake --preset=${{ matrix.preset }} \
-          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+      - name: Configure CMake (Linux/macOS)
+        if: matrix.os != 'windows-latest'
+        run: |
+          cmake --preset=${{ matrix.preset }} \
+            -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
 
-    - name: Configure CMake (Windows)
-      if: matrix.os == 'windows-latest'
-      run: |
-        cmake --preset=${{ matrix.preset }}
+      - name: Configure CMake (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          cmake --preset=${{ matrix.preset }}
 
-    - name: Build
-      run: cmake --build --preset=${{ matrix.preset }} --config ${{ matrix.build_type }}
+      - name: Build
+        run: cmake --build --preset=${{ matrix.preset }} --config ${{ matrix.build_type }}
 
-    - name: Test library linkage (Linux/macOS)
-      if: matrix.os != 'windows-latest'
-      run: |
-        cd build/${{ matrix.preset }}/example
-        ls -la
-        file example* || true
+      - name: Test library linkage (Linux/macOS)
+        if: matrix.os != 'windows-latest'
+        run: |
+          cd build/${{ matrix.preset }}/example
+          ls -la
+          file example* || true
 
-    - name: Test library linkage (Windows)
-      if: matrix.os == 'windows-latest'
-      run: |
-        cd build/${{ matrix.preset }}/example/${{ matrix.build_type }}
-        dir
-        
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: binacpp-${{ matrix.os }}-${{ matrix.build_type }}
-        path: |
-          build/${{ matrix.preset }}/src/
-          build/${{ matrix.preset }}/example/
-        retention-days: 5
+      - name: Test library linkage (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          cd build/${{ matrix.preset }}/example/${{ matrix.build_type }}
+          dir
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: binacpp-${{ matrix.os }}-${{ matrix.build_type }}
+          path: |
+            build/${{ matrix.preset }}/src/
+            build/${{ matrix.preset }}/example/
+          retention-days: 5
 
   lint:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      
-    - name: Install code quality tools
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y clang-format cppcheck
-        
-        # Install cpplint via pip
-        python3 -m pip install --upgrade pip
-        python3 -m pip install cpplint
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Check code formatting with clang-format
-      run: |
-        echo "Checking code formatting with Google style..."
-        
-        # Find all C++ source files
-        find src example -name "*.cpp" -o -name "*.h" -o -name "*.hpp" -o -name "*.cc" -o -name "*.cxx" > /tmp/cpp_files.txt
-        
-        # Check if files need formatting (but don't fail the build)
-        FORMAT_ISSUES=0
-        while IFS= read -r file; do
-          if [ -f "$file" ]; then
-            echo "Checking format for: $file"
-            if ! clang-format --dry-run --Werror "$file" > /dev/null 2>&1; then
-              echo "⚠️  Format issues found in: $file"
-              FORMAT_ISSUES=1
-            else
-              echo "✅ Format OK: $file"
+      - name: Install code quality tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang-format cppcheck
+
+          # Install cpplint via pip
+          python3 -m pip install --upgrade pip
+          python3 -m pip install cpplint
+
+      - name: Check code formatting with clang-format
+        run: |
+          echo "Checking code formatting with Google style..."
+
+          # Find all C++ source files
+          find src example -name "*.cpp" -o -name "*.h" -o -name "*.hpp" -o -name "*.cc" -o -name "*.cxx" > /tmp/cpp_files.txt
+
+          # Check if files need formatting (but don't fail the build)
+          FORMAT_ISSUES=0
+          while IFS= read -r file; do
+            if [ -f "$file" ]; then
+              echo "Checking format for: $file"
+              if ! clang-format --dry-run --Werror "$file" > /dev/null 2>&1; then
+                echo "⚠️  Format issues found in: $file"
+                FORMAT_ISSUES=1
+              else
+                echo "✅ Format OK: $file"
+              fi
             fi
-          fi
-        done < /tmp/cpp_files.txt
-        
-        if [ $FORMAT_ISSUES -eq 1 ]; then
-          echo "⚠️  Code formatting issues found. This is acceptable for legacy code."
-          echo "💡 To format code, run: find src example -name '*.cpp' -o -name '*.h' | xargs clang-format -i"
-        else
-          echo "✅ All files are properly formatted"
-        fi
+          done < /tmp/cpp_files.txt
 
-    - name: Run cpplint style checker
-      run: |
-        echo "Running cpplint style checker..."
-        
-        # Find all C++ source files
-        find src example -name "*.cpp" -o -name "*.h" -o -name "*.hpp" -o -name "*.cc" -o -name "*.cxx" > /tmp/cpp_files.txt
-        
-        # Run cpplint on each file (with relaxed filters for legacy code)
-        LINT_ISSUES=0
-        while IFS= read -r file; do
-          if [ -f "$file" ]; then
-            echo "Checking style for: $file"
-            if ! cpplint --filter=-legal/copyright,-build/include_subdir,-readability/streams,-build/header_guard,-build/include_order,-build/namespaces,-whitespace/tab --linelength=80 "$file" 2>&1; then
-              LINT_ISSUES=1
+          if [ $FORMAT_ISSUES -eq 1 ]; then
+            echo "⚠️  Code formatting issues found. This is acceptable for legacy code."
+            echo "💡 To format code, run: find src example -name '*.cpp' -o -name '*.h' | xargs clang-format -i"
+          else
+            echo "✅ All files are properly formatted"
+          fi
+
+      - name: Run cpplint style checker
+        run: |
+          echo "Running cpplint style checker..."
+
+          # Find all C++ source files
+          find src example -name "*.cpp" -o -name "*.h" -o -name "*.hpp" -o -name "*.cc" -o -name "*.cxx" > /tmp/cpp_files.txt
+
+          # Run cpplint on each file (with relaxed filters for legacy code)
+          LINT_ISSUES=0
+          while IFS= read -r file; do
+            if [ -f "$file" ]; then
+              echo "Checking style for: $file"
+              if ! cpplint --filter=-legal/copyright,-build/include_subdir,-readability/streams,-build/header_guard,-build/include_order,-build/namespaces,-whitespace/tab --linelength=80 "$file" 2>&1; then
+                LINT_ISSUES=1
+              fi
             fi
-          fi
-        done < /tmp/cpp_files.txt
-        
-        if [ $LINT_ISSUES -eq 1 ]; then
-          echo "⚠️  Style issues found. This is acceptable for legacy code."
-          echo "💡 Consider gradually improving code style in new changes."
-        else
-          echo "✅ No significant style issues found"
-        fi
+          done < /tmp/cpp_files.txt
 
-    - name: Run cppcheck static analysis
-      run: |
-        echo "Running cppcheck static analysis..."
-        
-        # Run cppcheck on source directories
-        cppcheck --enable=warning,style,performance,portability \
-                 --std=c++11 \
-                 --language=c++ \
-                 --verbose \
-                 --error-exitcode=1 \
-                 --suppress=missingIncludeSystem \
-                 --suppress=unusedFunction \
-                 --inline-suppr \
-                 src/ example/ 2>&1 | tee cppcheck_output.txt
-        
-        # Check if there were any errors (not warnings)
-        if grep -q "error:" cppcheck_output.txt; then
-          echo "❌ Cppcheck found errors"
-          exit 1
-        else
-          echo "✅ Cppcheck passed (warnings are acceptable)"
-        fi
+          if [ $LINT_ISSUES -eq 1 ]; then
+            echo "⚠️  Style issues found. This is acceptable for legacy code."
+            echo "💡 Consider gradually improving code style in new changes."
+          else
+            echo "✅ No significant style issues found"
+          fi
+
+      - name: Run cppcheck static analysis
+        run: |
+          echo "Running cppcheck static analysis..."
+
+          # Run cppcheck on source directories
+          cppcheck --enable=warning,style,performance,portability \
+                   --std=c++20 \
+                   --language=c++ \
+                   --verbose \
+                   --error-exitcode=1 \
+                   --suppress=missingIncludeSystem \
+                   --suppress=unusedFunction \
+                   --inline-suppr \
+                   src/ example/ 2>&1 | tee cppcheck_output.txt
+
+          # Check if there were any errors (not warnings)
+          if grep -q "error:" cppcheck_output.txt; then
+            echo "❌ Cppcheck found errors"
+            exit 1
+          else
+            echo "✅ Cppcheck passed (warnings are acceptable)"
+          fi
 
   documentation:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      
-    - name: Validate README
-      run: |
-        # Check that README contains build instructions
-        grep -q "cmake" README.md
-        grep -q "vcpkg" README.md
-        echo "README validation passed"
-        
-    - name: Check for missing files
-      run: |
-        # Check that important files exist
-        test -f CMakeLists.txt
-        test -f vcpkg.json
-        test -f CMakePresets.json
-        echo "Required files validation passed"
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate README
+        run: |
+          # Check that README contains build instructions
+          grep -q "cmake" README.md
+          grep -q "vcpkg" README.md
+          echo "README validation passed"
+
+      - name: Check for missing files
+        run: |
+          # Check that important files exist
+          test -f CMakeLists.txt
+          test -f vcpkg.json
+          test -f CMakePresets.json
+          echo "Required files validation passed"

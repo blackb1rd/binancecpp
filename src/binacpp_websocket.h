@@ -1,46 +1,43 @@
 
+#ifndef BINACPP_WEBSOCKET_H
+#define BINACPP_WEBSOCKET_H
 
-
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdarg.h>
-
-#include <iostream>
-#include <string>
-#include <map>
-#include <vector>
-#include <exception>
-
+// Modern C++20 headers
 #include <json/json.h>
 #include <libwebsockets.h>
 
+#include <cstdarg>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <exception>
+#include <functional>
+#include <iostream>
+#include <map>
+#include <memory>
+#include <string>
+#include <string_view>
+#include <vector>
 
-#define BINANCE_WS_HOST "stream.binance.com"
-#define BINANCE_WS_PORT 9443
+constexpr std::string_view BINANCE_WS_HOST = "stream.binance.com";
+constexpr int BINANCE_WS_PORT = 9443;
 
-
-using namespace std;
-
-typedef int (*CB)(Json::Value &json_value );
-
+// Modern C++20 callback type using std::function
+using CB = std::function<int(Json::Value &json_value)>;
 
 class BinaCPP_websocket {
+  static struct lws_context *context;
+  static struct lws_protocols protocols[];
 
+  static std::map<struct lws *, CB> handles;
 
-	static struct lws_context *context;
-	static struct lws_protocols protocols[]; 
-
-	static map <struct lws *,CB> handles ;
-	
-	public:
-		static int  event_cb( struct lws *wsi, enum lws_callback_reasons reason, void *user, void *in, size_t len );
-		static void connect_endpoint(
-			CB user_cb,
-			const char* path
-		);
-		static void init();
-		static void enter_event_loop();
-
-
+ public:
+  [[nodiscard]] static int event_cb(struct lws *wsi,
+                                    enum lws_callback_reasons reason,
+                                    void *user, void *in, size_t len);
+  static void connect_endpoint(CB user_cb, std::string_view path);
+  static void init();
+  static void enter_event_loop();
 };
+
+#endif
