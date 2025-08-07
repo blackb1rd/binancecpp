@@ -10,11 +10,9 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Find packages
-find_package(PkgConfig REQUIRED)
 find_package(jsoncpp CONFIG REQUIRED)
 find_package(CURL REQUIRED)
 find_package(libwebsockets CONFIG REQUIRED)
-find_package(OpenSSL REQUIRED)
 
 # Add subdirectories
 add_subdirectory(src)

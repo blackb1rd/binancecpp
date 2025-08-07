@@ -19,8 +19,6 @@ foreach(EXAMPLE_NAME ${EXAMPLES})
                 JsonCpp::JsonCpp
                 CURL::libcurl
                 websockets
-                OpenSSL::SSL
-                OpenSSL::Crypto
         )
         
         target_include_directories(${EXAMPLE_NAME}

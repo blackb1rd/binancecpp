@@ -4,8 +4,10 @@
   "description": "C++ library for Binance API",
   "dependencies": [
     "jsoncpp",
-    "curl",
-    "libwebsockets",
-    "openssl"
+    {
+      "name": "curl",
+      "features": ["ssl"]
+    },
+    "libwebsockets"
   ]
 }

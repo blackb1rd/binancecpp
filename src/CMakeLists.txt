@@ -18,8 +18,6 @@ target_link_libraries(binacpp
         JsonCpp::JsonCpp
         CURL::libcurl
         websockets
-        OpenSSL::SSL
-        OpenSSL::Crypto
 )
 
 # Include directories
