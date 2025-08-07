@@ -23,7 +23,8 @@ void print_depthCache() {
     std::map<double, double>::reverse_iterator it_j;
 
     for (it_j = depthCache[bid_or_ask].rbegin();
-         it_j != depthCache[bid_or_ask].rend(); it_j++) {
+         it_j != depthCache[bid_or_ask].rend();
+         it_j++) {
       double price = (*it_j).first;
       double qty = (*it_j).second;
       printf("%.08f          %.08f\n", price, qty);
@@ -78,10 +79,11 @@ int main() {
   // Market Depth
   int i;
   std::string symbol = "BNBBTC";
+  BinaCPP::init();
   BinaCPP::get_depth(symbol.c_str(), 20, result);
 
   // Initialize the lastUpdateId
-  lastUpdateId = result["lastUpdateId"].asInt();
+  lastUpdateId = result["lastUpdateId"].asInt64();
 
   for (int i = 0; i < result["asks"].size(); i++) {
     double price = atof(result["asks"][i][0].asString().c_str());

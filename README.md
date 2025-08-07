@@ -49,7 +49,6 @@ Dependencies are managed through vcpkg package manager.
 4. **Run examples**:
    ```bash
    cd build/release/example  # or build/debug/example
-   export SSL_CERT_FILE=./cacert.pem
    ./example
    ```
 

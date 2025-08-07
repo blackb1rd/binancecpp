@@ -49,6 +49,8 @@ int main() {
   Json::Value result;
   long recvWindow = 10000;
 
+  BinaCPP::init();
+
   //  AggTrades
   BinaCPP::get_aggTrades("BNBBTC", 0, 0, 0, 10, result);
 

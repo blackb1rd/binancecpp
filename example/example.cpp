@@ -54,10 +54,13 @@ void print_klinesCache() {
   std::cout << "==================================" << std::endl;
 
   for (const auto &[start_of_candle, candle_obj] : klinesCache) {
-    std::cout << std::format("s:{},o:{},h:{},l:{},c:{},v:{} \n", start_of_candle,
-                        candle_obj.at("o"), candle_obj.at("h"),
-                        candle_obj.at("l"), candle_obj.at("c"),
-                        candle_obj.at("v"));
+    std::cout << std::format("s:{},o:{},h:{},l:{},c:{},v:{} \n",
+                             start_of_candle,
+                             candle_obj.at("o"),
+                             candle_obj.at("h"),
+                             candle_obj.at("l"),
+                             candle_obj.at("c"),
+                             candle_obj.at("v"));
   }
 }
 
@@ -173,13 +176,26 @@ int ws_userStream_OnData(Json::Value &json_result) {
       if (orderStatus == "REJECTED") {
         printf("%sOrder Failed! Reason: %s\n%s", KRED, reason.c_str(), RESET);
       }
-      printf("%s\n\n%s %s %s %s(%s) %s %s\n\n%s", KGRN, symbol.c_str(),
-             side.c_str(), orderType.c_str(), orderId.c_str(),
-             orderStatus.c_str(), price.c_str(), qty.c_str(), RESET);
+      printf("%s\n\n%s %s %s %s(%s) %s %s\n\n%s",
+             KGRN,
+             symbol.c_str(),
+             side.c_str(),
+             orderType.c_str(),
+             orderId.c_str(),
+             orderStatus.c_str(),
+             price.c_str(),
+             qty.c_str(),
+             RESET);
       return 0;
     }
-    printf("%s\n\n%s %s %s %s %s\n\n%s", KBLU, symbol.c_str(), side.c_str(),
-           executionType.c_str(), orderType.c_str(), orderId.c_str(), RESET);
+    printf("%s\n\n%s %s %s %s %s\n\n%s",
+           KBLU,
+           symbol.c_str(),
+           side.c_str(),
+           executionType.c_str(),
+           orderType.c_str(),
+           orderId.c_str(),
+           RESET);
   } else if (action == "outboundAccountInfo") {
     // Update user balance
     for (i = 0; i < json_result["B"].size(); i++) {
@@ -338,7 +354,7 @@ int main() {
   BinaCPP::get_depth(symbol.c_str(), 20, result);
 
   // Initialize the lastUpdateId
-  lastUpdateId = result["lastUpdateId"].asInt();
+  lastUpdateId = result["lastUpdateId"].asInt64();
 
   for (int i = 0; i < result["asks"].size(); i++) {
     double price = atof(result["asks"][i][0].asString().c_str());

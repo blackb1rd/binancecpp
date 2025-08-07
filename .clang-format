@@ -4,7 +4,6 @@ BasedOnStyle: Google
 
 # Language and standard
 Language: Cpp
-Standard: Cpp20
 
 BinPackArguments: false
 BinPackParameters: false

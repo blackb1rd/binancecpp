@@ -40,8 +40,3 @@ foreach(EXAMPLE_NAME ${EXAMPLES})
         )
     endif()
 endforeach()
-
-# Copy cacert.pem to build directory
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cacert.pem
-               ${CMAKE_CURRENT_BINARY_DIR}/cacert.pem
-               COPYONLY)

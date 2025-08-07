@@ -59,6 +59,7 @@ int ws_klines_onData(Json::Value &json_result) {
 int main() {
   Json::Value result;
   long recvWindow = 10000;
+  BinaCPP::init();
 
   // Klines/CandleStick
   BinaCPP::get_klines("BNBBTC", "1h", 10, 0, 0, result);

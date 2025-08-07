@@ -17,7 +17,11 @@ std::string BinaCPP::api_key = "";
 std::string BinaCPP::secret_key = "";
 CURL *BinaCPP::curl = nullptr;
 
-//---------------------------------
+void BinaCPP::init() {
+  curl_global_init(CURL_GLOBAL_DEFAULT);
+  BinaCPP::curl = curl_easy_init();
+}
+
 void BinaCPP::init(std::string_view api_key, std::string_view secret_key) {
   curl_global_init(CURL_GLOBAL_DEFAULT);
   BinaCPP::curl = curl_easy_init();
@@ -206,7 +210,8 @@ limit	INT		NO		Default 100; max 100.
 
 */
 
-void BinaCPP::get_depth(std::string_view symbol, int limit,
+void BinaCPP::get_depth(std::string_view symbol,
+                        int limit,
                         Json::Value &json_result) {
   BinaCPP_logger::write_log("<BinaCPP::get_depth>");
 
@@ -255,8 +260,11 @@ to get aggregate trades until INCLUSIVE. limit		INT	NO
 Default 500; max 500.
 */
 
-void BinaCPP::get_aggTrades(std::string_view symbol, int fromId,
-                            time_t startTime, time_t endTime, int limit,
+void BinaCPP::get_aggTrades(std::string_view symbol,
+                            int fromId,
+                            time_t startTime,
+                            time_t endTime,
+                            int limit,
                             Json::Value &json_result) {
   BinaCPP_logger::write_log("<BinaCPP::get_aggTrades>");
 
@@ -357,8 +365,11 @@ endTime		LONG	NO
 
 */
 
-void BinaCPP::get_klines(std::string_view symbol, std::string_view interval,
-                         int limit, time_t startTime, time_t endTime,
+void BinaCPP::get_klines(std::string_view symbol,
+                         std::string_view interval,
+                         int limit,
+                         time_t startTime,
+                         time_t endTime,
                          Json::Value &json_result) {
   BinaCPP_logger::write_log("<BinaCPP::get_klines>");
 
@@ -484,8 +495,11 @@ trades. recvWindow	LONG	NO timestamp	LONG	YES
 
 */
 
-void BinaCPP::get_myTrades(std::string_view symbol, int limit, long fromId,
-                           long recvWindow, Json::Value &json_result) {
+void BinaCPP::get_myTrades(std::string_view symbol,
+                           int limit,
+                           long fromId,
+                           long recvWindow,
+                           Json::Value &json_result) {
   BinaCPP_logger::write_log("<BinaCPP::get_myTrades>");
 
   if (api_key.size() == 0 || secret_key.size() == 0) {
@@ -566,7 +580,8 @@ recvWindow	LONG	NO
 timestamp	LONG	YES
 */
 
-void BinaCPP::get_openOrders(std::string_view symbol, long recvWindow,
+void BinaCPP::get_openOrders(std::string_view symbol,
+                             long recvWindow,
                              Json::Value &json_result) {
   BinaCPP_logger::write_log("<BinaCPP::get_openOrders>");
 
@@ -642,8 +657,11 @@ recvWindow	LONG	NO
 timestamp	LONG	YES
 */
 
-void BinaCPP::get_allOrders(std::string_view symbol, long orderId, int limit,
-                            long recvWindow, Json::Value &json_result)
+void BinaCPP::get_allOrders(std::string_view symbol,
+                            long orderId,
+                            int limit,
+                            long recvWindow,
+                            Json::Value &json_result)
 
 {
   BinaCPP_logger::write_log("<BinaCPP::get_allOrders>");
@@ -735,11 +753,16 @@ DECIMAL		NO		Used with icebergOrders recvWindow
 LONG		NO timestamp			LONG		YES
 */
 
-void BinaCPP::send_order(std::string_view symbol, std::string_view side,
-                         std::string_view type, std::string_view timeInForce,
-                         double quantity, double price,
-                         std::string_view newClientOrderId, double stopPrice,
-                         double icebergQty, long recvWindow,
+void BinaCPP::send_order(std::string_view symbol,
+                         std::string_view side,
+                         std::string_view type,
+                         std::string_view timeInForce,
+                         double quantity,
+                         double price,
+                         std::string_view newClientOrderId,
+                         double stopPrice,
+                         double icebergQty,
+                         long recvWindow,
                          Json::Value &json_result) {
   BinaCPP_logger::write_log("<BinaCPP::send_order>");
 
@@ -805,7 +828,8 @@ void BinaCPP::send_order(std::string_view symbol, std::string_view side,
   extra_http_header.push_back(header_chunk);
 
   BinaCPP_logger::write_log(
-      "<BinaCPP::send_order> url = |%s|, post_data = |%s|", url.c_str(),
+      "<BinaCPP::send_order> url = |%s|, post_data = |%s|",
+      url.c_str(),
       post_data.c_str());
 
   std::string str_result;
@@ -842,8 +866,10 @@ recvWindow			LONG	NO
 timestamp			LONG	YES
 */
 
-void BinaCPP::get_order(std::string_view symbol, long orderId,
-                        std::string_view origClientOrderId, long recvWindow,
+void BinaCPP::get_order(std::string_view symbol,
+                        long orderId,
+                        std::string_view origClientOrderId,
+                        long recvWindow,
                         Json::Value &json_result) {
   BinaCPP_logger::write_log("<BinaCPP::get_order>");
 
@@ -928,9 +954,11 @@ NO timestamp			LONG	YES
 
 */
 
-void BinaCPP::cancel_order(std::string_view symbol, long orderId,
+void BinaCPP::cancel_order(std::string_view symbol,
+                           long orderId,
                            std::string_view origClientOrderId,
-                           std::string_view newClientOrderId, long recvWindow,
+                           std::string_view newClientOrderId,
+                           long recvWindow,
                            Json::Value &json_result) {
   BinaCPP_logger::write_log("<BinaCPP::send_order>");
 
@@ -981,7 +1009,8 @@ void BinaCPP::cancel_order(std::string_view symbol, long orderId,
   extra_http_header.push_back(header_chunk);
 
   BinaCPP_logger::write_log(
-      "<BinaCPP::send_order> url = |%s|, post_data = |%s|", url.c_str(),
+      "<BinaCPP::send_order> url = |%s|, post_data = |%s|",
+      url.c_str(),
       post_data.c_str());
 
   std::string str_result;
@@ -1081,7 +1110,8 @@ void BinaCPP::keep_userDataStream(std::string_view listenKey) {
 
   BinaCPP_logger::write_log(
       "<BinaCPP::keep_userDataStream> url = |%s|, post_data = |%s|",
-      url.c_str(), post_data.c_str());
+      url.c_str(),
+      post_data.c_str());
 
   std::string str_result;
   curl_api_with_header(url, str_result, extra_http_header, post_data, action);
@@ -1123,7 +1153,8 @@ void BinaCPP::close_userDataStream(std::string_view listenKey) {
 
   BinaCPP_logger::write_log(
       "<BinaCPP::close_userDataStream> url = |%s|, post_data = |%s|",
-      url.c_str(), post_data.c_str());
+      url.c_str(),
+      post_data.c_str());
 
   std::string str_result;
   curl_api_with_header(url, str_result, extra_http_header, post_data, action);
@@ -1153,9 +1184,12 @@ XRP,XMR etc. amount		DECIMAL	YES name		STRING	NO
 Description of the address recvWindow	LONG	NO timestamp	LONG	YES
 
 */
-void BinaCPP::withdraw(std::string_view asset, std::string_view address,
-                       std::string_view addressTag, double amount,
-                       std::string_view name, long recvWindow,
+void BinaCPP::withdraw(std::string_view asset,
+                       std::string_view address,
+                       std::string_view addressTag,
+                       double amount,
+                       std::string_view name,
+                       long recvWindow,
                        Json::Value &json_result) {
   BinaCPP_logger::write_log("<BinaCPP::withdraw>");
 
@@ -1207,7 +1241,8 @@ void BinaCPP::withdraw(std::string_view asset, std::string_view address,
   extra_http_header.push_back(header_chunk);
 
   BinaCPP_logger::write_log("<BinaCPP::withdraw> url = |%s|, post_data = |%s|",
-                            url.c_str(), post_data.c_str());
+                            url.c_str(),
+                            post_data.c_str());
 
   std::string str_result;
   curl_api_with_header(url, str_result, extra_http_header, post_data, action);
@@ -1244,8 +1279,11 @@ endTime	LONG		NO
 recvWindow	LONG	NO
 timestamp	LONG	YES
 */
-void BinaCPP::get_depositHistory(std::string_view asset, int status,
-                                 long startTime, long endTime, long recvWindow,
+void BinaCPP::get_depositHistory(std::string_view asset,
+                                 int status,
+                                 long startTime,
+                                 long endTime,
+                                 long recvWindow,
                                  Json::Value &json_result) {
   BinaCPP_logger::write_log("<BinaCPP::get_depostHistory>");
 
@@ -1344,8 +1382,11 @@ status		INT	NO	0(0:Email Sent,1:Cancelled 2:Awaiting Approval
 LONG		NO recvWindow	LONG	NO timestamp	LONG	YES
 */
 
-void BinaCPP::get_withdrawHistory(std::string_view asset, int status,
-                                  long startTime, long endTime, long recvWindow,
+void BinaCPP::get_withdrawHistory(std::string_view asset,
+                                  int status,
+                                  long startTime,
+                                  long endTime,
+                                  long recvWindow,
                                   Json::Value &json_result) {
   BinaCPP_logger::write_log("<BinaCPP::get_withdrawHistory>");
 
@@ -1442,7 +1483,8 @@ timestamp	LONG	YES
 
 */
 
-void BinaCPP::get_depositAddress(std::string_view asset, long recvWindow,
+void BinaCPP::get_depositAddress(std::string_view asset,
+                                 long recvWindow,
                                  Json::Value &json_result) {
   BinaCPP_logger::write_log("<BinaCPP::get_depositAddress>");
 
@@ -1509,7 +1551,9 @@ void BinaCPP::get_depositAddress(std::string_view asset, long recvWindow,
 
 //-----------------
 // Curl's callback
-size_t BinaCPP::curl_cb(void *content, size_t size, size_t nmemb,
+size_t BinaCPP::curl_cb(void *content,
+                        size_t size,
+                        size_t nmemb,
                         std::string *buffer) {
   BinaCPP_logger::write_log("<BinaCPP::curl_cb> ");
 
@@ -1529,9 +1573,11 @@ void BinaCPP::curl_api(std::string &url, std::string &result_json) {
 
 //--------------------
 // Do the curl
-void BinaCPP::curl_api_with_header(std::string &url, std::string &str_result,
+void BinaCPP::curl_api_with_header(std::string &url,
+                                   std::string &str_result,
                                    std::vector<std::string> &extra_http_header,
-                                   std::string &post_data, std::string &action) {
+                                   std::string &post_data,
+                                   std::string &action) {
   BinaCPP_logger::write_log("<BinaCPP::curl_api>");
 
   CURLcode res;
