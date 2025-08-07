@@ -70,6 +70,38 @@ cmake --preset=default  # Will use integrated vcpkg
 cmake --build --preset=default
 ```
 
+#### Code Quality Tools
+
+This project includes code quality tools to maintain consistency and catch potential issues:
+
+**Available Tools:**
+- **clang-format**: Code formatting with Google C++ style
+- **cpplint**: Google C++ style checker
+- **cppcheck**: Static analysis for bugs and style issues
+
+**Usage:**
+```bash
+# Format all source files
+./scripts/format.sh
+
+# Run all quality checks
+./scripts/lint.sh
+
+# Manual commands:
+clang-format -i src/*.h src/*.cpp example/*.cpp  # Format code
+cpplint src/*.h src/*.cpp                         # Style check
+cppcheck --enable=all src/ example/               # Static analysis
+```
+
+**Installation (Ubuntu/Debian):**
+```bash
+sudo apt-get install clang-format cppcheck
+pip install cpplint
+```
+
+**CI Integration:**
+All code quality tools run automatically in GitHub Actions CI on every push and pull request.
+
 ---
 ## Coding with libBinaCPP
 

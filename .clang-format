@@ -1,0 +1,27 @@
+---
+# Google C++ Style Guide clang-format configuration
+BasedOnStyle: Google
+
+# Language and standard
+Language: Cpp
+Standard: Cpp11
+
+# Column limit
+ColumnLimit: 80
+
+# Indentation
+IndentWidth: 2
+UseTab: Never
+
+# Includes
+SortIncludes: true
+IncludeCategories:
+  - Regex: '^<.*\.h>'
+    Priority: 1
+  - Regex: '^<.*>'
+    Priority: 2
+  - Regex: '.*'
+    Priority: 3
+
+# Braces
+BreakBeforeBraces: Attach

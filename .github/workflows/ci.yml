@@ -92,15 +92,90 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       
-    - name: Install clang-format
+    - name: Install code quality tools
       run: |
         sudo apt-get update
-        sudo apt-get install -y clang-format
+        sudo apt-get install -y clang-format cppcheck
+        
+        # Install cpplint via pip
+        python3 -m pip install --upgrade pip
+        python3 -m pip install cpplint
 
-    - name: Check code formatting
+    - name: Check code formatting with clang-format
       run: |
-        # Skip formatting check for now since this is legacy code
-        echo "Code formatting check skipped for legacy codebase"
+        echo "Checking code formatting with Google style..."
+        
+        # Find all C++ source files
+        find src example -name "*.cpp" -o -name "*.h" -o -name "*.hpp" -o -name "*.cc" -o -name "*.cxx" > /tmp/cpp_files.txt
+        
+        # Check if files need formatting (but don't fail the build)
+        FORMAT_ISSUES=0
+        while IFS= read -r file; do
+          if [ -f "$file" ]; then
+            echo "Checking format for: $file"
+            if ! clang-format --dry-run --Werror "$file" > /dev/null 2>&1; then
+              echo "⚠️  Format issues found in: $file"
+              FORMAT_ISSUES=1
+            else
+              echo "✅ Format OK: $file"
+            fi
+          fi
+        done < /tmp/cpp_files.txt
+        
+        if [ $FORMAT_ISSUES -eq 1 ]; then
+          echo "⚠️  Code formatting issues found. This is acceptable for legacy code."
+          echo "💡 To format code, run: find src example -name '*.cpp' -o -name '*.h' | xargs clang-format -i"
+        else
+          echo "✅ All files are properly formatted"
+        fi
+
+    - name: Run cpplint style checker
+      run: |
+        echo "Running cpplint style checker..."
+        
+        # Find all C++ source files
+        find src example -name "*.cpp" -o -name "*.h" -o -name "*.hpp" -o -name "*.cc" -o -name "*.cxx" > /tmp/cpp_files.txt
+        
+        # Run cpplint on each file (with relaxed filters for legacy code)
+        LINT_ISSUES=0
+        while IFS= read -r file; do
+          if [ -f "$file" ]; then
+            echo "Checking style for: $file"
+            if ! cpplint --filter=-legal/copyright,-build/include_subdir,-readability/streams,-build/header_guard,-build/include_order,-build/namespaces,-whitespace/tab --linelength=80 "$file" 2>&1; then
+              LINT_ISSUES=1
+            fi
+          fi
+        done < /tmp/cpp_files.txt
+        
+        if [ $LINT_ISSUES -eq 1 ]; then
+          echo "⚠️  Style issues found. This is acceptable for legacy code."
+          echo "💡 Consider gradually improving code style in new changes."
+        else
+          echo "✅ No significant style issues found"
+        fi
+
+    - name: Run cppcheck static analysis
+      run: |
+        echo "Running cppcheck static analysis..."
+        
+        # Run cppcheck on source directories
+        cppcheck --enable=warning,style,performance,portability \
+                 --std=c++11 \
+                 --language=c++ \
+                 --verbose \
+                 --error-exitcode=1 \
+                 --suppress=missingIncludeSystem \
+                 --suppress=unusedFunction \
+                 --inline-suppr \
+                 src/ example/ 2>&1 | tee cppcheck_output.txt
+        
+        # Check if there were any errors (not warnings)
+        if grep -q "error:" cppcheck_output.txt; then
+          echo "❌ Cppcheck found errors"
+          exit 1
+        else
+          echo "✅ Cppcheck passed (warnings are acceptable)"
+        fi
 
   documentation:
     runs-on: ubuntu-latest
