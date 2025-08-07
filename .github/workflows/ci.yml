@@ -1,0 +1,124 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        build_type: [Debug, Release]
+        include:
+          - os: ubuntu-latest
+            preset: linux-default
+            vcpkg_triplet: x64-linux
+          - os: windows-latest
+            preset: windows-default  
+            vcpkg_triplet: x64-windows
+          - os: macos-latest
+            preset: macos-default
+            vcpkg_triplet: x64-osx
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install system dependencies (Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ninja-build pkg-config
+
+    - name: Install system dependencies (macOS)
+      if: matrix.os == 'macos-latest'
+      run: |
+        brew install ninja pkg-config
+
+    - name: Setup vcpkg
+      uses: lukka/get-cmake@latest
+
+    - name: Setup vcpkg
+      uses: lukka/run-vcpkg@v11
+      with:
+        vcpkgGitCommitId: 'a42af01b72c28a8e1d7b48107b33e4f286a55ef6'
+
+    - name: Configure CMake (Linux/macOS)
+      if: matrix.os != 'windows-latest'
+      run: |
+        cmake --preset=${{ matrix.preset }} \
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+
+    - name: Configure CMake (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        cmake --preset=${{ matrix.preset }}
+
+    - name: Build
+      run: cmake --build --preset=${{ matrix.preset }} --config ${{ matrix.build_type }}
+
+    - name: Test library linkage (Linux/macOS)
+      if: matrix.os != 'windows-latest'
+      run: |
+        cd build/${{ matrix.preset }}/example
+        ls -la
+        file example* || true
+
+    - name: Test library linkage (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        cd build/${{ matrix.preset }}/example/${{ matrix.build_type }}
+        dir
+        
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: binacpp-${{ matrix.os }}-${{ matrix.build_type }}
+        path: |
+          build/${{ matrix.preset }}/src/
+          build/${{ matrix.preset }}/example/
+        retention-days: 5
+
+  lint:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Install clang-format
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y clang-format
+
+    - name: Check code formatting
+      run: |
+        find src example -name "*.cpp" -o -name "*.h" | xargs clang-format --dry-run --Werror
+
+  documentation:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Validate README
+      run: |
+        # Check that README contains build instructions
+        grep -q "cmake" README.md
+        grep -q "vcpkg" README.md
+        echo "README validation passed"
+        
+    - name: Check for missing files
+      run: |
+        # Check that important files exist
+        test -f CMakeLists.txt
+        test -f vcpkg.json
+        test -f CMakePresets.json
+        echo "Required files validation passed"

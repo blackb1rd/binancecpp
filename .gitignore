@@ -7,6 +7,7 @@ cmake_install.cmake
 Makefile
 *.cmake
 !CMakeLists.txt
+!CMakePresets.json
 
 # vcpkg
 vcpkg_installed/

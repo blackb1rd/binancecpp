@@ -27,30 +27,47 @@ Dependencies are managed through vcpkg package manager.
    ./bootstrap-vcpkg.sh  # On Windows: .\bootstrap-vcpkg.bat
    ```
 
-2. **Configure CMake with vcpkg**:
+2. **Set VCPKG_ROOT environment variable**:
    ```bash
-   cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=[path-to-vcpkg]/scripts/buildsystems/vcpkg.cmake
+   export VCPKG_ROOT=/path/to/vcpkg  # On Windows: set VCPKG_ROOT=C:\path\to\vcpkg
    ```
 
-3. **Build the project**:
+3. **Build using CMake presets** (recommended):
    ```bash
-   cmake --build build
+   # List available presets
+   cmake --list-presets=all
+
+   # Configure and build (Release)
+   cmake --preset=release
+   cmake --build --preset=release
+
+   # Or Debug build
+   cmake --preset=debug
+   cmake --build --preset=debug
    ```
 
 4. **Run examples**:
    ```bash
-   cd build/example
+   cd build/release/example  # or build/debug/example
    export SSL_CERT_FILE=./cacert.pem
    ./example
    ```
+
+#### Alternative: Manual CMake configuration
+
+If you prefer not to use presets:
+```bash
+cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
+cmake --build build
+```
 
 #### Alternative: vcpkg integration
 
 You can also integrate vcpkg globally and then simply use:
 ```bash
 vcpkg integrate install
-cmake -B build -S .
-cmake --build build
+cmake --preset=default  # Will use integrated vcpkg
+cmake --build --preset=default
 ```
 
 ---
