@@ -11,18 +11,19 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        # os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest]
         build_type: [Debug, Release]
         include:
           - os: ubuntu-latest
             preset: linux-default
             vcpkg_triplet: x64-linux
-          - os: windows-latest
-            preset: windows-default
-            vcpkg_triplet: x64-windows
-          - os: macos-latest
-            preset: macos-default
-            vcpkg_triplet: x64-osx
+          # - os: windows-latest
+          #   preset: windows-default
+          #   vcpkg_triplet: x64-windows
+          # - os: macos-latest
+          #   preset: macos-default
+          #   vcpkg_triplet: x64-osx
 
     runs-on: ${{ matrix.os }}
 

@@ -6,6 +6,34 @@
 
         C++ library for Binance API.
         Updated for C++20 support
+        
+        API Categories based on https://developers.binance.com/docs/:
+        
+        1. GENERAL MARKET DATA (Public endpoints - no API key required)
+           - Exchange information
+           - Server time
+           - Price information
+           - Order book data
+           - Trade data
+           - Kline/Candlestick data
+           - 24hr ticker statistics
+        
+        2. ACCOUNT INFORMATION (Private endpoints - API key + signature required)
+           - Account information
+           - Trade history
+        
+        3. SPOT TRADING (Private endpoints - API key + signature required)
+           - Order management (create, query, cancel)
+           - Open orders
+           - All orders history
+        
+        4. USER DATA STREAM (API key required)
+           - Start, maintain, close user data streams
+        
+        5. WALLET/WAPI (Private endpoints - API key + signature required)
+           - Deposit/withdrawal operations
+           - Deposit addresses
+           - Transaction history
 */
 
 #include "binacpp.h"
@@ -16,6 +44,10 @@
 std::string BinaCPP::api_key = "";
 std::string BinaCPP::secret_key = "";
 CURL *BinaCPP::curl = nullptr;
+
+//============================================================================
+// INITIALIZATION AND CLEANUP
+//============================================================================
 
 void BinaCPP::init() {
   curl_global_init(CURL_GLOBAL_DEFAULT);
@@ -37,8 +69,13 @@ void BinaCPP::cleanup() noexcept {
   curl_global_cleanup();
 }
 
+//============================================================================
+// 1. GENERAL MARKET DATA (Public endpoints - no API key required)
+//============================================================================
+
 //------------------
-// GET api/v1/exchangeInfo
+// GET /api/v1/exchangeInfo
+// Get current exchange trading rules and symbol information
 //------------------
 void BinaCPP::get_exchangeInfo(Json::Value &json_result) {
   BinaCPP_logger::write_log("<BinaCPP::get_exchangeInfo>");
@@ -68,7 +105,8 @@ void BinaCPP::get_exchangeInfo(Json::Value &json_result) {
 }
 //------------------
 // GET /api/v1/time
-//------------
+// Get server time for synchronization
+//------------------
 void BinaCPP::get_serverTime(Json::Value &json_result) {
   BinaCPP_logger::write_log("<BinaCPP::get_serverTime>");
 
@@ -97,7 +135,8 @@ void BinaCPP::get_serverTime(Json::Value &json_result) {
 }
 
 //--------------------
-// Get Latest price for all symbols.
+// GET /api/v1/ticker/allPrices
+// Get latest price for all symbols
 /*
         GET /api/v1/ticker/allPrices
 */
@@ -129,7 +168,8 @@ void BinaCPP::get_allPrices(Json::Value &json_result) {
 }
 
 //----------
-// Get Single Pair's Price
+// Get single pair's price
+// Helper function that uses get_allPrices internally
 double BinaCPP::get_price(std::string_view symbol) {
   BinaCPP_logger::write_log("<BinaCPP::get_price>");
 
@@ -148,10 +188,10 @@ double BinaCPP::get_price(std::string_view symbol) {
 }
 
 //--------------------
-// Get Best price/qty on the order book for all symbols.
+// GET /api/v1/ticker/allBookTickers
+// Get best price/qty on the order book for all symbols
 /*
         GET /api/v1/ticker/allBookTickers
-
 */
 
 void BinaCPP::get_allBookTickers(Json::Value &json_result) {
@@ -182,6 +222,8 @@ void BinaCPP::get_allBookTickers(Json::Value &json_result) {
 }
 
 //--------------
+// Get book ticker for a specific symbol
+// Helper function that uses get_allBookTickers internally
 void BinaCPP::get_bookTicker(std::string_view symbol,
                              Json::Value &json_result) {
   BinaCPP_logger::write_log("<BinaCPP::get_BookTickers>");
@@ -200,14 +242,14 @@ void BinaCPP::get_bookTicker(std::string_view symbol,
 }
 
 //--------------------
-// Get Market Depth
+// GET /api/v1/depth
+// Get market depth (order book)
 /*
 GET /api/v1/depth
 
 Name	Type		Mandatory	Description
 symbol	STRING		YES
 limit	INT		NO		Default 100; max 100.
-
 */
 
 void BinaCPP::get_depth(std::string_view symbol,
@@ -246,18 +288,17 @@ void BinaCPP::get_depth(std::string_view symbol,
 }
 
 //--------------------
-// Get Aggregated Trades list
+// GET /api/v1/aggTrades
+// Get aggregated trades list
 /*
-
 GET /api/v1/aggTrades
 
 Name		Type	Mandatory	Description
 symbol		STRING	YES
-fromId		LONG	NO		ID to get aggregate trades from
-INCLUSIVE. startTime	LONG	NO		Timestamp in ms to get aggregate
-trades from INCLUSIVE. endTime		LONG	NO		Timestamp in ms
-to get aggregate trades until INCLUSIVE. limit		INT	NO
-Default 500; max 500.
+fromId		LONG	NO		ID to get aggregate trades from INCLUSIVE
+startTime	LONG	NO		Timestamp in ms to get aggregate trades from INCLUSIVE
+endTime		LONG	NO		Timestamp in ms to get aggregate trades until INCLUSIVE
+limit		INT	NO		Default 500; max 500.
 */
 
 void BinaCPP::get_aggTrades(std::string_view symbol,
@@ -314,6 +355,7 @@ void BinaCPP::get_aggTrades(std::string_view symbol,
 }
 
 //--------------------
+// GET /api/v1/ticker/24hr
 // Get 24hr ticker price change statistics
 /*
 Name	Type	Mandatory	Description
@@ -351,9 +393,9 @@ void BinaCPP::get_24hr(std::string_view symbol, Json::Value &json_result) {
 }
 
 //-----------------
+// GET /api/v1/klines
+// Get Klines (Candlestick/OHLC data)
 /*
-
-Get KLines( Candle stick / OHLC )
 GET /api/v1/klines
 
 Name		Type	Mandatory	Description
@@ -362,7 +404,6 @@ interval	ENUM	YES
 limit		INT		NO	Default 500; max 500.
 startTime	LONG	NO
 endTime		LONG	NO
-
 */
 
 void BinaCPP::get_klines(std::string_view symbol,
@@ -416,8 +457,13 @@ void BinaCPP::get_klines(std::string_view symbol,
   }
 }
 
+//============================================================================
+// 2. ACCOUNT INFORMATION (Private endpoints - API key + signature required)
+//============================================================================
+
 //--------------------
-// Get current account information. (SIGNED)
+// GET /api/v3/account
+// Get current account information (SIGNED)
 /*
 GET /api/v3/account
 
@@ -484,15 +530,16 @@ void BinaCPP::get_account(long recvWindow, Json::Value &json_result) {
 }
 
 //--------------------
-// Get trades for a specific account and symbol. (SIGNED)
+// GET /api/v3/myTrades
+// Get trades for a specific account and symbol (SIGNED)
 /*
 GET /api/v3/myTrades
 Name		Type	Mandatory	Description
 symbol		STRING	YES
 limit		INT		NO	Default 500; max 500.
-fromId		LONG	NO	TradeId to fetch from. Default gets most recent
-trades. recvWindow	LONG	NO timestamp	LONG	YES
-
+fromId		LONG	NO	TradeId to fetch from. Default gets most recent trades
+recvWindow	LONG	NO
+timestamp	LONG	YES
 */
 
 void BinaCPP::get_myTrades(std::string_view symbol,
@@ -569,8 +616,13 @@ void BinaCPP::get_myTrades(std::string_view symbol,
   BinaCPP_logger::write_log("<BinaCPP::get_myTrades> Done.\n");
 }
 
+//============================================================================
+// 3. SPOT TRADING (Private endpoints - API key + signature required)
+//============================================================================
+
 //--------------------
-// Open Orders (SIGNED)
+// GET /api/v3/openOrders
+// Get open orders (SIGNED)
 /*
 GET /api/v3/openOrders
 
@@ -645,7 +697,8 @@ void BinaCPP::get_openOrders(std::string_view symbol,
 }
 
 //--------------------
-// All Orders (SIGNED)
+// GET /api/v3/allOrders
+// Get all orders (SIGNED)
 /*
 GET /api/v3/allOrders
 
@@ -735,8 +788,9 @@ void BinaCPP::get_allOrders(std::string_view symbol,
 }
 
 //------------
+// POST /api/v3/order
+// Send new order (SIGNED)
 /*
-send order (SIGNED)
 POST /api/v3/order
 
 Name				Type		Mandatory	Description
@@ -746,11 +800,11 @@ type				ENUM		YES
 timeInForce			ENUM		YES
 quantity			DECIMAL		YES
 price				DECIMAL		YES
-newClientOrderId		STRING		NO		A unique id for
-the order. Automatically generated by default. stopPrice
-DECIMAL		NO		Used with STOP orders icebergQty
-DECIMAL		NO		Used with icebergOrders recvWindow
-LONG		NO timestamp			LONG		YES
+newClientOrderId		STRING		NO		A unique id for the order. Automatically generated by default.
+stopPrice			DECIMAL		NO		Used with STOP orders
+icebergQty			DECIMAL		NO		Used with icebergOrders
+recvWindow			LONG		NO
+timestamp			LONG		YES
 */
 
 void BinaCPP::send_order(std::string_view symbol,
@@ -854,8 +908,9 @@ void BinaCPP::send_order(std::string_view symbol,
 }
 
 //------------------
+// GET /api/v3/order
+// Get order information (SIGNED)
 /*
-// get order (SIGNED)
 GET /api/v3/order
 
 Name				Type	Mandatory	Description
@@ -941,17 +996,17 @@ void BinaCPP::get_order(std::string_view symbol,
 }
 
 //------------
+// DELETE /api/v3/order
+// Cancel order (SIGNED)
 /*
 DELETE /api/v3/order
-cancel order (SIGNED)
 
 symbol				STRING	YES
 orderId				LONG	NO
 origClientOrderId		STRING	NO
-newClientOrderId		STRING	NO	Used to uniquely identify this
-cancel. Automatically generated by default. recvWindow			LONG
-NO timestamp			LONG	YES
-
+newClientOrderId		STRING	NO	Used to uniquely identify this cancel. Automatically generated by default.
+recvWindow			LONG	NO
+timestamp			LONG	YES
 */
 
 void BinaCPP::cancel_order(std::string_view symbol,
@@ -960,11 +1015,11 @@ void BinaCPP::cancel_order(std::string_view symbol,
                            std::string_view newClientOrderId,
                            long recvWindow,
                            Json::Value &json_result) {
-  BinaCPP_logger::write_log("<BinaCPP::send_order>");
+  BinaCPP_logger::write_log("<BinaCPP::cancel_order>");
 
   if (api_key.size() == 0 || secret_key.size() == 0) {
     BinaCPP_logger::write_log(
-        "<BinaCPP::send_order> API Key and Secret Key has not been set.");
+        "<BinaCPP::cancel_order> API Key and Secret Key has not been set.");
     return;
   }
 
@@ -1009,7 +1064,7 @@ void BinaCPP::cancel_order(std::string_view symbol,
   extra_http_header.push_back(header_chunk);
 
   BinaCPP_logger::write_log(
-      "<BinaCPP::send_order> url = |%s|, post_data = |%s|",
+      "<BinaCPP::cancel_order> url = |%s|, post_data = |%s|",
       url.c_str(),
       post_data.c_str());
 
@@ -1023,18 +1078,23 @@ void BinaCPP::cancel_order(std::string_view symbol,
       reader.parse(str_result, json_result);
 
     } catch (std::exception &e) {
-      BinaCPP_logger::write_log("<BinaCPP::send_order> Error ! %s", e.what());
+      BinaCPP_logger::write_log("<BinaCPP::cancel_order> Error ! %s", e.what());
     }
-    BinaCPP_logger::write_log("<BinaCPP::send_order> Done.");
+    BinaCPP_logger::write_log("<BinaCPP::cancel_order> Done.");
 
   } else {
-    BinaCPP_logger::write_log("<BinaCPP::send_order> Failed to get anything.");
+    BinaCPP_logger::write_log("<BinaCPP::cancel_order> Failed to get anything.");
   }
 
-  BinaCPP_logger::write_log("<BinaCPP::send_order> Done.\n");
+  BinaCPP_logger::write_log("<BinaCPP::cancel_order> Done.\n");
 }
 
+//============================================================================
+// 4. USER DATA STREAM (API key required)
+//============================================================================
+
 //--------------------
+// POST /api/v1/userDataStream
 // Start user data stream (API-KEY)
 
 void BinaCPP::start_userDataStream(Json::Value &json_result) {
@@ -1085,6 +1145,7 @@ void BinaCPP::start_userDataStream(Json::Value &json_result) {
 }
 
 //--------------------
+// PUT /api/v1/userDataStream
 // Keepalive user data stream (API-KEY)
 void BinaCPP::keep_userDataStream(std::string_view listenKey) {
   BinaCPP_logger::write_log("<BinaCPP::keep_userDataStream>");
@@ -1128,7 +1189,8 @@ void BinaCPP::keep_userDataStream(std::string_view listenKey) {
 }
 
 //--------------------
-// Keepalive user data stream (API-KEY)
+// DELETE /api/v1/userDataStream
+// Close user data stream (API-KEY)
 void BinaCPP::close_userDataStream(std::string_view listenKey) {
   BinaCPP_logger::write_log("<BinaCPP::close_userDataStream>");
 
@@ -1170,19 +1232,24 @@ void BinaCPP::close_userDataStream(std::string_view listenKey) {
   BinaCPP_logger::write_log("<BinaCPP::close_userDataStream> Done.\n");
 }
 
-//-------------
-/*
-Submit a withdraw request.
+//============================================================================
+// 5. WALLET/WAPI (Private endpoints - API key + signature required)
+//============================================================================
 
+//-------------
+// POST /wapi/v3/withdraw.html
+// Submit a withdraw request
+/*
 POST /wapi/v3/withdraw.html
 
 Name		Type	Mandatory	Description
 asset		STRING	YES
 address		STRING	YES
-addressTag	STRING	NO	Secondary address identifier for coins like
-XRP,XMR etc. amount		DECIMAL	YES name		STRING	NO
-Description of the address recvWindow	LONG	NO timestamp	LONG	YES
-
+addressTag	STRING	NO	Secondary address identifier for coins like XRP,XMR etc.
+amount		DECIMAL	YES
+name		STRING	NO	Description of the address
+recvWindow	LONG	NO
+timestamp	LONG	YES
 */
 void BinaCPP::withdraw(std::string_view asset,
                        std::string_view address,
@@ -1275,7 +1342,7 @@ Name		Type	Mandatory	Description
 asset		STRING	NO
 status		INT	NO	0(0:pending,1:success)
 startTime	LONG	NO
-endTime	LONG		NO
+endTime		LONG	NO
 recvWindow	LONG	NO
 timestamp	LONG	YES
 */
@@ -1368,18 +1435,20 @@ void BinaCPP::get_depositHistory(std::string_view asset,
 }
 
 //---------
-
+// GET /wapi/v3/withdrawHistory.html
+// Fetch withdraw history
 /*
--GET /wapi/v3/withdrawHistory.html
-Fetch withdraw history.
+GET /wapi/v3/withdrawHistory.html
 
 Parameters:
 
 Name		Type	Mandatory	Description
 asset		STRING	NO
-status		INT	NO	0(0:Email Sent,1:Cancelled 2:Awaiting Approval
-3:Rejected 4:Processing 5:Failure 6Completed) startTime	LONG	NO endTime
-LONG		NO recvWindow	LONG	NO timestamp	LONG	YES
+status		INT	NO	0(0:Email Sent,1:Cancelled 2:Awaiting Approval 3:Rejected 4:Processing 5:Failure 6:Completed)
+startTime	LONG	NO
+endTime		LONG	NO
+recvWindow	LONG	NO
+timestamp	LONG	YES
 */
 
 void BinaCPP::get_withdrawHistory(std::string_view asset,
@@ -1470,9 +1539,10 @@ void BinaCPP::get_withdrawHistory(std::string_view asset,
 }
 
 //--------------
+// GET /wapi/v3/depositAddress.html
+// Fetch deposit address
 /*
--GET /wapi/v3/depositAddress.html
-Fetch deposit address.
+GET /wapi/v3/depositAddress.html
 
 Parameters:
 
@@ -1480,7 +1550,6 @@ Name		Type	Mandatory	Description
 asset		STRING	YES
 recvWindow	LONG	NO
 timestamp	LONG	YES
-
 */
 
 void BinaCPP::get_depositAddress(std::string_view asset,
@@ -1549,8 +1618,12 @@ void BinaCPP::get_depositAddress(std::string_view asset,
   BinaCPP_logger::write_log("<BinaCPP::get_depositAddress> Done.\n");
 }
 
+//============================================================================
+// UTILITY FUNCTIONS (Internal HTTP/CURL operations)
+//============================================================================
+
 //-----------------
-// Curl's callback
+// Curl's callback function
 size_t BinaCPP::curl_cb(void *content,
                         size_t size,
                         size_t nmemb,
@@ -1564,6 +1637,7 @@ size_t BinaCPP::curl_cb(void *content,
 }
 
 //--------------------------------------------------
+// Simple curl API call without headers
 void BinaCPP::curl_api(std::string &url, std::string &result_json) {
   std::vector<std::string> v;
   std::string action = "GET";
@@ -1572,7 +1646,8 @@ void BinaCPP::curl_api(std::string &url, std::string &result_json) {
 }
 
 //--------------------
-// Do the curl
+// Main curl API function with headers and HTTP methods
+// Handles GET, POST, PUT, DELETE requests with authentication headers
 void BinaCPP::curl_api_with_header(std::string &url,
                                    std::string &str_result,
                                    std::vector<std::string> &extra_http_header,
