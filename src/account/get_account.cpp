@@ -1,3 +1,5 @@
+// Note: Headers are included in binacpp_modular.cpp
+
 /*
         Author: blackb1rd
         Date  : 2025/08/07
@@ -11,9 +13,6 @@
         - timestamp: LONG (YES)
 */
 
-#include "../binacpp.h"
-#include "../binacpp_logger.h"
-#include "../binacpp_utils.h"
 
 void BinaCPP::get_account(long recvWindow, Json::Value &json_result) {
   BinaCPP_logger::write_log("<BinaCPP::get_account>");

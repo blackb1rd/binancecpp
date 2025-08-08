@@ -1,3 +1,5 @@
+// Note: Headers are included in binacpp_modular.cpp
+
 /*
         Author: blackb1rd
         Date  : 2025/08/07
@@ -14,8 +16,6 @@
         - limit: INT (NO) - Default 500; max 500
 */
 
-#include "../binacpp.h"
-#include "../binacpp_logger.h"
 
 void BinaCPP::get_aggTrades(std::string_view symbol,
                             int fromId,

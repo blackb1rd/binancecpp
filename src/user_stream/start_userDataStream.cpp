@@ -1,3 +1,5 @@
+// Note: Headers are included in binacpp_modular.cpp
+
 /*
         Author: blackb1rd
         Date  : 2025/08/07
@@ -7,8 +9,6 @@
         POST /api/v1/userDataStream - Start user data stream (API-KEY)
 */
 
-#include "../binacpp.h"
-#include "../binacpp_logger.h"
 
 void BinaCPP::start_userDataStream(Json::Value &json_result) {
   BinaCPP_logger::write_log("<BinaCPP::start_userDataStream>");

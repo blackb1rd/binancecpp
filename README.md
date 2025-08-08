@@ -102,12 +102,173 @@ pip install cpplint
 All code quality tools run automatically in GitHub Actions CI on every push and pull request.
 
 ---
+
+## TODO - Current Binance API Endpoints
+
+This section lists current Binance API endpoints that could be implemented or updated in the library. Based on [Binance API Documentation](https://developers.binance.com/docs/binance-spot-api-docs/web-socket-api) (as of 2025).
+
+### ✅ Implemented Endpoints
+
+#### General/Market Data Endpoints
+- [x] `GET /api/v3/ping` - Test connectivity
+- [x] `GET /api/v3/time` - Server time  
+- [x] `GET /api/v3/exchangeInfo` - Exchange information
+- [x] `GET /api/v3/ticker/price` - Symbol price ticker
+- [x] `GET /api/v3/ticker/bookTicker` - Symbol order book ticker
+- [x] `GET /api/v3/ticker/24hr` - 24hr ticker price change statistics
+- [x] `GET /api/v3/depth` - Order book
+- [x] `GET /api/v3/aggTrades` - Aggregate trades list
+- [x] `GET /api/v3/klines` - Kline/Candlestick data
+
+#### Account Endpoints  
+- [x] `GET /api/v3/account` - Account information
+- [x] `GET /api/v3/myTrades` - Account trade list
+
+#### Trading Endpoints
+- [x] `POST /api/v3/order` - New order
+- [x] `DELETE /api/v3/order` - Cancel order  
+- [x] `GET /api/v3/openOrders` - Current open orders
+- [x] `GET /api/v3/allOrders` - All orders
+
+#### User Data Stream
+- [x] `POST /api/v3/userDataStream` - Start user data stream
+
+### 🚧 TODO - Missing/New Endpoints
+
+#### General/Market Data
+- [ ] `GET /api/v3/trades` - Recent trades list
+- [ ] `GET /api/v3/historicalTrades` - Old trade lookup  
+- [ ] `GET /api/v3/avgPrice` - Current average price
+- [ ] `GET /api/v3/ticker` - Rolling window price change statistics
+- [ ] `GET /api/v3/uiKlines` - UIKlines
+
+#### Account Management
+- [ ] `GET /api/v3/rateLimit/order` - Query current order count usage
+- [ ] `GET /api/v3/myAllocations` - Query allocations  
+- [ ] `GET /api/v3/account/commission` - Query commission rates
+
+#### Advanced Trading
+- [ ] `POST /api/v3/order/oco` - New OCO order
+- [ ] `DELETE /api/v3/orderList` - Cancel OCO order
+- [ ] `GET /api/v3/orderList` - Query OCO
+- [ ] `GET /api/v3/allOrderList` - Query all OCO  
+- [ ] `GET /api/v3/openOrderList` - Query open OCO
+- [ ] `POST /api/v3/order/cancelReplace` - Cancel and replace order
+- [ ] `POST /api/v3/sor/order` - New SOR order
+
+#### Margin Trading
+- [ ] `POST /api/v3/margin/transfer` - Cross margin account transfer
+- [ ] `POST /api/v3/margin/loan` - Margin account borrow
+- [ ] `POST /api/v3/margin/repay` - Margin account repay
+- [ ] `GET /api/v3/margin/asset` - Query margin asset
+- [ ] `GET /api/v3/margin/pair` - Query cross margin pair
+- [ ] `GET /api/v3/margin/allAssets` - Get all margin assets
+- [ ] `GET /api/v3/margin/allPairs` - Get all cross margin pairs
+- [ ] `GET /api/v3/margin/priceIndex` - Query margin price index
+- [ ] `POST /api/v3/margin/order` - Margin account new order
+- [ ] `DELETE /api/v3/margin/order` - Margin account cancel order
+- [ ] `DELETE /api/v3/margin/openOrders` - Margin account cancel all orders
+- [ ] `GET /api/v3/margin/transfer` - Get cross margin transfer history
+- [ ] `GET /api/v3/margin/loan` - Query loan record
+- [ ] `GET /api/v3/margin/repay` - Query repay record
+- [ ] `GET /api/v3/margin/interestHistory` - Get interest history
+- [ ] `GET /api/v3/margin/forceLiquidationRec` - Get force liquidation record
+- [ ] `GET /api/v3/margin/account` - Query cross margin account details
+- [ ] `GET /api/v3/margin/order` - Query margin account's order
+- [ ] `GET /api/v3/margin/openOrders` - Query margin account's open orders
+- [ ] `GET /api/v3/margin/allOrders` - Query margin account's all orders
+- [ ] `GET /api/v3/margin/myTrades` - Query margin account's trade list
+- [ ] `GET /api/v3/margin/maxBorrowable` - Query max borrow
+- [ ] `GET /api/v3/margin/maxTransferable` - Query max transfer-out amount
+
+#### Futures Trading  
+- [ ] `POST /api/v3/positionSide/dual` - Change position mode
+- [ ] `GET /api/v3/positionSide/dual` - Get current position mode
+- [ ] `POST /api/v3/multiAssetsMargin` - Change multi-assets mode
+- [ ] `GET /api/v3/multiAssetsMargin` - Get current multi-assets mode
+
+#### Wallet Endpoints
+- [ ] `GET /sapi/v1/system/status` - System status
+- [ ] `GET /sapi/v1/capital/config/getall` - All coins' information  
+- [ ] `GET /sapi/v1/accountSnapshot` - Daily account snapshot
+- [ ] `POST /sapi/v1/account/disableFastWithdrawSwitch` - Disable fast withdraw
+- [ ] `POST /sapi/v1/account/enableFastWithdrawSwitch` - Enable fast withdraw
+- [ ] `POST /sapi/v1/capital/withdraw/apply` - Withdraw
+- [ ] `GET /sapi/v1/capital/deposit/hisrec` - Deposit history
+- [ ] `GET /sapi/v1/capital/withdraw/history` - Withdraw history
+- [ ] `GET /sapi/v1/capital/deposit/address` - Deposit address
+- [ ] `GET /sapi/v1/account/status` - Account status
+- [ ] `GET /sapi/v1/account/apiTradingStatus` - Account API trading status
+- [ ] `GET /sapi/v1/asset/dribblet` - DustLog
+- [ ] `GET /sapi/v1/asset/dust-btc` - Get assets that can be converted to BNB
+- [ ] `POST /sapi/v1/asset/dust` - Dust transfer
+- [ ] `GET /sapi/v1/asset/assetDividend` - Asset dividend record
+- [ ] `GET /sapi/v1/asset/assetDetail` - Asset detail
+- [ ] `GET /sapi/v1/asset/tradeFee` - Trade fee
+
+#### Sub-Account Management  
+- [ ] `GET /sapi/v1/sub-account/list` - Query sub-account list
+- [ ] `GET /sapi/v1/sub-account/transfer/subUserHistory` - Query sub-account transfer history
+- [ ] `GET /sapi/v1/sub-account/assets` - Query sub-account assets
+- [ ] `POST /sapi/v1/sub-account/virtualSubAccount` - Create a virtual sub-account
+- [ ] `GET /sapi/v1/sub-account/virtualSubAccount/list` - Query virtual sub-account list
+
+#### Market Data Streams (WebSocket)
+- [ ] `<symbol>@trade` - Trade streams
+- [ ] `<symbol>@kline_<interval>` - Kline/Candlestick streams  
+- [ ] `<symbol>@miniTicker` - Individual symbol mini ticker stream
+- [ ] `!miniTicker@arr` - All market mini tickers stream
+- [ ] `<symbol>@ticker` - Individual symbol ticker streams
+- [ ] `!ticker@arr` - All market tickers stream
+- [ ] `<symbol>@bookTicker` - Individual symbol book ticker streams
+- [ ] `!bookTicker` - All book tickers stream
+- [ ] `<symbol>@depth<levels>` - Partial book depth streams
+- [ ] `<symbol>@depth` - Diff. depth stream
+
+#### User Data Streams (WebSocket)  
+- [ ] User data stream events for margin account
+- [ ] User data stream events for isolated margin account  
+- [ ] User data stream events for futures account
+
+### 🔧 Enhancement TODOs
+
+#### Code Quality & Structure
+- [ ] Add comprehensive unit tests for all endpoints
+- [ ] Implement async/await patterns for better performance
+- [ ] Add request rate limiting and retry logic
+- [ ] Implement proper error handling and custom exceptions
+- [ ] Add logging levels and configurable log output
+- [ ] Create comprehensive API documentation with examples
+
+#### Modern C++ Features
+- [ ] Utilize C++20 concepts for parameter validation
+- [ ] Implement std::optional for optional parameters  
+- [ ] Add constexpr where applicable
+- [ ] Use std::string_view consistently for string parameters
+- [ ] Implement RAII patterns for resource management
+
+#### Performance & Reliability
+- [ ] Connection pooling for HTTP requests
+- [ ] WebSocket connection auto-reconnection  
+- [ ] Request/response compression support
+- [ ] Memory pool allocation for high-frequency trading
+- [ ] Metrics and monitoring integration
+
+#### Developer Experience
+- [ ] CMake package config for easy integration
+- [ ] Conan package manager support
+- [ ] Pre-built packages for major platforms
+- [ ] Interactive examples and tutorials
+- [ ] VS Code extension with IntelliSense support
+
+---
+
 ## Coding with libBinaCPP
 
 #### Headers to include
 
-	#include "binacpp.h"
-	#include "binacpp_websocket.h"
+	#include "src/binacpp.h"
+	#include "src/binacpp_websocket.h"
 	#include <json/json.h>
 
 

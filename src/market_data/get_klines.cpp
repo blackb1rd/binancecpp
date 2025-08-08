@@ -1,3 +1,5 @@
+// Note: Headers are included in binacpp_modular.cpp
+
 /*
         Author: blackb1rd
         Date  : 2025/08/07
@@ -14,8 +16,6 @@
         - endTime: LONG (NO)
 */
 
-#include "../binacpp.h"
-#include "../binacpp_logger.h"
 
 void BinaCPP::get_klines(std::string_view symbol,
                          std::string_view interval,

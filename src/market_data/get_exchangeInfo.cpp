@@ -1,3 +1,5 @@
+// Note: Headers are included in binacpp_modular.cpp
+
 /*
         Author: blackb1rd
         Date  : 2025/08/07
@@ -6,8 +8,6 @@
         C++ library for Binance API - Exchange Info
         GET /api/v1/exchangeInfo - Get current exchange trading rules and symbol information
 */
-
-// Note: Headers are included in binacpp_modular.cpp
 
 void BinaCPP::get_exchangeInfo(Json::Value &json_result) {
   BinaCPP_logger::write_log("<BinaCPP::get_exchangeInfo>");

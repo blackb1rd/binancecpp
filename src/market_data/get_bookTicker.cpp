@@ -1,3 +1,5 @@
+// Note: Headers are included in binacpp_modular.cpp
+
 /*
         Author: blackb1rd
         Date  : 2025/08/07
@@ -7,9 +9,6 @@
         Helper function that uses get_allBookTickers internally to get book ticker for specific symbol
 */
 
-#include "../binacpp.h"
-#include "../binacpp_logger.h"
-#include "../binacpp_utils.h"
 
 void BinaCPP::get_bookTicker(std::string_view symbol,
                              Json::Value &json_result) {

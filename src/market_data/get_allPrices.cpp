@@ -1,3 +1,5 @@
+// Note: Headers are included in binacpp_modular.cpp
+
 /*
         Author: blackb1rd
         Date  : 2025/08/07
@@ -7,8 +9,6 @@
         GET /api/v1/ticker/allPrices - Get latest price for all symbols
 */
 
-#include "../binacpp.h"
-#include "../binacpp_logger.h"
 
 void BinaCPP::get_allPrices(Json::Value &json_result) {
   BinaCPP_logger::write_log("<BinaCPP::get_allPrices>");

@@ -1,3 +1,5 @@
+// Note: Headers are included in binacpp_modular.cpp
+
 /*
         Author: blackb1rd
         Date  : 2025/08/07
@@ -11,8 +13,6 @@
         - limit: INT (NO) - Default 100; max 100
 */
 
-#include "../binacpp.h"
-#include "../binacpp_logger.h"
 
 void BinaCPP::get_depth(std::string_view symbol,
                         int limit,

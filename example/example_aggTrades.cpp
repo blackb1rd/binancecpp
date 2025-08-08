@@ -5,8 +5,8 @@
 #include <string>
 #include <vector>
 
-#include "binacpp.h"
-#include "binacpp_websocket.h"
+#include "src/binacpp.h"
+#include "src/binacpp_websocket.h"
 
 std::map<long, std::map<std::string, double>> aggTradeCache;
 

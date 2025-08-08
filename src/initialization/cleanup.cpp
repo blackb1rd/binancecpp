@@ -1,3 +1,5 @@
+// Note: Headers are included in binacpp_modular.cpp
+
 /*
         Author: blackb1rd
         Date  : 2025/08/07
@@ -7,7 +9,6 @@
         Updated for C++20 support
 */
 
-#include "../binacpp.h"
 
 //============================================================================
 // CLEANUP FUNCTIONS

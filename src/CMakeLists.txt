@@ -1,34 +1,21 @@
-# Create binacpp library - Option to use modular or single file approach
-option(USE_MODULAR_STRUCTURE "Use modular file structure instead of single binacpp.cpp" OFF)
+# Create binacpp library using modular structure only
+file(GLOB_RECURSE BINACPP_SOURCES
+    "initialization/*.cpp"
+    "market_data/*.cpp"
+    "account/*.cpp"
+    "trading/*.cpp"
+    "user_stream/*.cpp"
+    "wallet/*.cpp"
+    "utils/*.cpp"
+)
 
-if(USE_MODULAR_STRUCTURE)
-    # Modular structure - include all individual function files
-    file(GLOB_RECURSE BINACPP_SOURCES
-        "initialization/*.cpp"
-        "market_data/*.cpp"
-        "account/*.cpp"
-        "trading/*.cpp"
-        "user_stream/*.cpp"
-        "wallet/*.cpp"
-        "utils/*.cpp"
-    )
-    
-    add_library(binacpp SHARED
-        binacpp_modular.cpp
-        binacpp_utils.cpp
-        binacpp_logger.cpp
-        binacpp_websocket.cpp
-        ${BINACPP_SOURCES}
-    )
-else()
-    # Traditional single file structure
-    add_library(binacpp SHARED
-        binacpp.cpp
-        binacpp_utils.cpp
-        binacpp_logger.cpp
-        binacpp_websocket.cpp
-    )
-endif()
+add_library(binacpp SHARED
+    binacpp_modular.cpp
+    binacpp_utils.cpp
+    binacpp_logger.cpp
+    binacpp_websocket.cpp
+    ${BINACPP_SOURCES}
+)
 
 # Set target properties
 set_target_properties(binacpp PROPERTIES
@@ -51,7 +38,10 @@ target_link_libraries(binacpp
 target_include_directories(binacpp
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/.>
         $<INSTALL_INTERFACE:include/binacpp>
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 # Compiler-specific options for C++20

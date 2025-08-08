@@ -1,3 +1,5 @@
+// Note: Headers are included in binacpp_modular.cpp
+
 /*
         Author: blackb1rd
         Date  : 2025/08/07
@@ -7,8 +9,6 @@
         Internal HTTP/CURL operations
 */
 
-#include "../binacpp.h"
-#include "../binacpp_logger.h"
 
 //============================================================================
 // CURL UTILITY FUNCTIONS

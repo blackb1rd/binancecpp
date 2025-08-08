@@ -1,3 +1,5 @@
+// Note: Headers are included in binacpp_modular.cpp
+
 /*
         Author: blackb1rd
         Date  : 2025/08/07
@@ -12,9 +14,6 @@
         - timestamp: LONG (YES)
 */
 
-#include "../binacpp.h"
-#include "../binacpp_logger.h"
-#include "../binacpp_utils.h"
 
 void BinaCPP::get_openOrders(std::string_view symbol,
                              long recvWindow,
