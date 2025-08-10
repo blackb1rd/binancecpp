@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-#include "binacpp.h"
+#include "binancecpp.h"
 
 int main() {
   std::cout << "Testing modular BinanceCPP structure..." << std::endl;

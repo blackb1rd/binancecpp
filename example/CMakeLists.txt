@@ -22,7 +22,7 @@ foreach(EXAMPLE_NAME ${EXAMPLES})
 
         target_link_libraries(${EXAMPLE_NAME}
             PRIVATE
-                binacpp
+                binancecpp
                 JsonCpp::JsonCpp
                 CURL::libcurl
                 websockets

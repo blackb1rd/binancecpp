@@ -1,4 +1,4 @@
-# Create binacpp library using modular structure only
+# Create binancecpp library using modular structure only
 file(GLOB_RECURSE BINANCE_CPP_SOURCES
     "initialization/*.cpp"
     "market_data/*.cpp"
@@ -9,7 +9,7 @@ file(GLOB_RECURSE BINANCE_CPP_SOURCES
     "utils/*.cpp"
 )
 
-add_library(binacpp SHARED
+add_library(binancecpp SHARED
     binance.cpp
     binance_utils.cpp
     binance_logger.cpp
@@ -18,7 +18,7 @@ add_library(binacpp SHARED
 )
 
 # Set target properties
-set_target_properties(binacpp PROPERTIES
+set_target_properties(binancecpp PROPERTIES
     VERSION ${PROJECT_VERSION}
     SOVERSION 1
     CXX_STANDARD 20
@@ -27,7 +27,7 @@ set_target_properties(binacpp PROPERTIES
 )
 
 # Link libraries
-target_link_libraries(binacpp
+target_link_libraries(binancecpp
     PRIVATE
         JsonCpp::JsonCpp
         CURL::libcurl
@@ -35,17 +35,17 @@ target_link_libraries(binacpp
 )
 
 # Include directories
-target_include_directories(binacpp
+target_include_directories(binancecpp
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/.>
-        $<INSTALL_INTERFACE:include/binacpp>
+        $<INSTALL_INTERFACE:include/binancecpp>
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 # Compiler-specific options for C++20
-target_compile_options(binacpp PRIVATE
+target_compile_options(binancecpp PRIVATE
     -fPIC
     $<$<CXX_COMPILER_ID:GNU>:-fconcepts>
     $<$<CXX_COMPILER_ID:Clang>:-fconcepts-ts>

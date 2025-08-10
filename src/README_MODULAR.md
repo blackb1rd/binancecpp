@@ -13,8 +13,8 @@ The BinanceCPP library has been reorganized into a modular structure for better 
 
 ```
 src/
-├── binacpp.h                    # Main header file
-├── binacpp.cpp                  # New modular implementation entry point
+├── binancecpp.h                    # Main header file
+├── binancecpp.cpp                  # New modular implementation entry point
 ├── binance_utils.h/.cpp         # Utility functions
 ├── binance_logger.h/.cpp        # Logging functions
 ├── binance_websocket.h/.cpp     # WebSocket functionality
@@ -97,7 +97,7 @@ cmake --build build/modular
 The API remains the same regardless of which build approach you use. All functions are still called the same way:
 
 ```cpp
-#include "binacpp.h"
+#include "binancecpp.h"
 
 int main() {
     // Initialize library

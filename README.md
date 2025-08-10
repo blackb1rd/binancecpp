@@ -269,7 +269,7 @@ This section lists current Binance API endpoints that could be implemented or up
 
 #### Headers to include
 
-	#include "src/binacpp.h"
+	#include "src/binancecpp.h"
 	#include "src/binance_websocket.h"
 	#include <json/json.h>
 

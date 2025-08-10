@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(binacpp
+project(binancecpp
     VERSION 1.0.0
     DESCRIPTION "C++ library for Binance API"
     LANGUAGES CXX)
@@ -25,13 +25,13 @@ add_subdirectory(example)
 # Installation
 include(GNUInstallDirs)
 
-install(TARGETS binacpp
+install(TARGETS binancecpp
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
 install(DIRECTORY src/
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/binacpp
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/binancecpp
     FILES_MATCHING PATTERN "*.h"
 )

@@ -80,7 +80,7 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: binacpp-${{ matrix.os }}-${{ matrix.build_type }}
+          name: binancecpp-${{ matrix.os }}-${{ matrix.build_type }}
           path: |
             build/${{ matrix.preset }}/src/
             build/${{ matrix.preset }}/example/
