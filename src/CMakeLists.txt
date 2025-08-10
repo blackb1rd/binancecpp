@@ -24,6 +24,7 @@ set_target_properties(binancecpp PROPERTIES
     CXX_STANDARD 20
     CXX_STANDARD_REQUIRED ON
     CXX_EXTENSIONS OFF
+    EXPORT_NAME binancecpp
 )
 
 # Link libraries
@@ -50,3 +51,6 @@ target_compile_options(binancecpp PRIVATE
     $<$<CXX_COMPILER_ID:GNU>:-fconcepts>
     $<$<CXX_COMPILER_ID:Clang>:-fconcepts-ts>
 )
+
+# Add alias for consistent naming
+add_library(binancecpp::binancecpp ALIAS binancecpp)

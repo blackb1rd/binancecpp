@@ -5,6 +5,8 @@
 #### Installation
     git clone https://github.com/blackb1rd/binance-cpp
 
+For installation and deployment instructions, see [INSTALL.md](INSTALL.md).
+
 #### Dependencies
 
 	jsoncpp
