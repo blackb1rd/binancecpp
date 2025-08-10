@@ -269,10 +269,10 @@ int main() {
 
   /*-------------------------------------------------------------
   // Example: Get bid/ask for single pair
-  /*
-  BinanceCPP::get_bookTicker("bnbeth", result );
-  cout << result << endl;
-  */
+  //
+  // BinanceCPP::get_bookTicker("bnbeth", result );
+  // cout << result << endl;
+  //*/
 
   /*-------------------------------------------------------------
   // Example: Get Depth of single pair
@@ -297,6 +297,7 @@ int main() {
   //BinanceCPP::send_order( "BNBETH", "BUY", "MARKET", "GTC", 1 , 0,   "",0,20,
   recvWindow , result );
   //cout << result << endl;
+  */
 
 
   /*-------------------------------------------------------------
@@ -313,10 +314,10 @@ int main() {
 
   /*-------------------------------------------------------------
   // Example: Getting list of open orders for specific pair
-  /*
-  BinanceCPP::get_openOrders( "BNBETH", recvWindow, result ) ;
-  cout << result << endl;
-  */
+  //
+  // BinanceCPP::get_openOrders( "BNBETH", recvWindow, result ) ;
+  // cout << result << endl;
+  //*/
 
   /*-------------------------------------------------------------
   // Example: Get all account orders; active, canceled, or filled.
@@ -326,27 +327,27 @@ int main() {
 
   /*-------------------------------------------------------------
   // Example : Get all trades history
-  /*
-  BinanceCPP::get_myTrades( "BNBETH", 0,0, recvWindow , result );
-  cout << result << endl;
+  //
+  // BinanceCPP::get_myTrades( "BNBETH", 0,0, recvWindow , result );
+  // cout << result << endl;
   */
 
   /*-------------------------------------------------------------
-  /*
+  //
   // Example: Getting 24hr ticker price change statistics for a symbol
-     BinanceCPP::get_24hr( "ETHBTC", result ) ;
-     cout << result << endl;
+  // BinanceCPP::get_24hr( "ETHBTC", result ) ;
+  // cout << result << endl;
   */
 
   /*-------------------------------------------------------------
-  /*
+  //
   // Example: Get Kline/candlestick data for a symbol
-    BinanceCPP::get_klines( "ETHBTC", "1h", 10 , 0, 0, result );
-    cout << result << endl;
+  // BinanceCPP::get_klines( "ETHBTC", "1h", 10 , 0, 0, result );
+  // cout << result << endl;
   */
 
-  /*-------------------------------------------------------------
-  /* Websockets Endpoints */
+  /*-------------------------------------------------------------*/
+  // Websockets Endpoints
 
   // Market Depth
   int i;
