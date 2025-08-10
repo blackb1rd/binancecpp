@@ -10,8 +10,8 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Options
-option(BINANCECPP_BUILD_EXAMPLES "Build examples" OFF)
-option(BINANCECPP_INSTALL_EXAMPLES "Install examples" OFF)
+option(BINANCECPP_BUILD_EXAMPLES "Build examples" ON)
+
 
 # Find packages
 find_package(jsoncpp CONFIG REQUIRED)
@@ -49,8 +49,8 @@ install(DIRECTORY src/
     FILES_MATCHING PATTERN "*.h"
 )
 
-# Install examples if requested
-if(BINANCECPP_INSTALL_EXAMPLES)
+# Install examples if built and not in deploy mode
+if(BINANCECPP_BUILD_EXAMPLES)
     install(DIRECTORY example/
         DESTINATION ${CMAKE_INSTALL_DATADIR}/binancecpp/examples
         FILES_MATCHING PATTERN "*.cpp"
@@ -67,9 +67,7 @@ if(BINANCECPP_INSTALL_EXAMPLES)
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/examples/CMakeLists.txt
         DESTINATION ${CMAKE_INSTALL_DATADIR}/binancecpp/examples
     )
-endif()
-
-# Generate and install package config files
+endif()# Generate and install package config files
 set(BINANCECPP_CMAKE_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/binancecpp)
 
 configure_package_config_file(

@@ -2,22 +2,57 @@
 
 ## Building and Installing binancecpp
 
-### Basic Installation
+### Development Build (with examples)
 
 ```bash
 mkdir build && cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release
+cmake .. -DCMAKE_BUILD_TYPE=Debug
+# or use preset: cmake --preset=dev
 cmake --build .
 sudo cmake --install .
 ```
 
-### Installation with Examples
+### Production/Deployment Build (without examples)
 
 ```bash
 mkdir build && cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release -DBINANCECPP_BUILD_EXAMPLES=ON -DBINANCECPP_INSTALL_EXAMPLES=ON
+cmake .. -DCMAKE_BUILD_TYPE=Release -DBINANCECPP_DEPLOY_MODE=ON
+# or use preset: cmake --preset=deploy
 cmake --build .
 sudo cmake --install .
+```
+
+### Custom Build Options
+
+```bash
+# Build without examples (override default)
+cmake .. -DBINANCECPP_BUILD_EXAMPLES=OFF
+
+# Force deployment mode (disables examples regardless of BUILD_EXAMPLES)
+cmake .. -DBINANCECPP_DEPLOY_MODE=ON
+```
+
+### Using CMake Presets (Recommended)
+
+```bash
+# List available presets
+cmake --list-presets=all
+
+# Development build with examples
+cmake --preset=dev
+cmake --build --preset=dev
+
+# Production deployment without examples
+cmake --preset=deploy
+cmake --build --preset=deploy
+
+# Platform-specific builds
+cmake --preset=macos-debug      # macOS debug with examples
+cmake --preset=macos-release    # macOS release for deployment
+cmake --preset=linux-debug      # Linux debug with examples  
+cmake --preset=linux-release    # Linux release for deployment
+cmake --preset=windows-debug    # Windows debug with examples
+cmake --preset=windows-release  # Windows release for deployment
 ```
 
 ### Custom Installation Prefix
@@ -66,9 +101,16 @@ make
 
 ## CMake Options
 
-- `BINANCECPP_BUILD_EXAMPLES=ON/OFF`: Build examples during the main build (default: OFF)
-- `BINANCECPP_INSTALL_EXAMPLES=ON/OFF`: Install example source files (default: OFF)
+- `BINANCECPP_BUILD_EXAMPLES=ON/OFF`: Build and install examples (default: ON)
+- `BINANCECPP_DEPLOY_MODE=ON/OFF`: Enable deployment mode, disables examples (default: OFF)
 - `CMAKE_INSTALL_PREFIX`: Installation directory (default: /usr/local)
+
+## Build Behavior
+
+- **Default**: Examples are built and installed
+- **Debug builds**: Always include examples (unless deploy mode is enabled)
+- **Release builds with deploy mode**: Examples are disabled
+- **Deploy mode overrides**: When `BINANCECPP_DEPLOY_MODE=ON`, examples are always disabled regardless of `BINANCECPP_BUILD_EXAMPLES`
 
 ## Installation Locations
 

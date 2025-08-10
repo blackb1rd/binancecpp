@@ -33,6 +33,20 @@
             }
         },
         {
+            "name": "deploy",
+            "displayName": "Deployment Config",
+            "description": "Production deployment build without examples",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/bin/build/${presetName}",
+            "installDir": "${sourceDir}/bin/install/${presetName}",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+                "CMAKE_BUILD_TYPE": "Release",
+                "BINANCECPP_BUILD_EXAMPLES": false
+            }
+        },
+        {
             "name": "windows-debug",
             "inherits": "debug",
             "displayName": "Windows Debug",
