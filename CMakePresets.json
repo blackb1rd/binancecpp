@@ -12,6 +12,7 @@
             "description": "Debug build using vcpkg",
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build/${presetName}",
+            "hidden": true,
             "cacheVariables": {
                 "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
                 "CMAKE_BUILD_TYPE": "Debug"
@@ -23,6 +24,7 @@
             "description": "Release build using vcpkg",
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build/${presetName}",
+            "hidden": true,
             "cacheVariables": {
                 "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
                 "CMAKE_BUILD_TYPE": "Release"
@@ -30,116 +32,90 @@
         },
         {
             "name": "windows-debug",
+            "inherits": "debug",
             "displayName": "Windows Debug",
-            "description": "Debug Windows build using vcpkg",
-            "generator": "Visual Studio 17 2022",
-            "binaryDir": "${sourceDir}/build/${presetName}",
+            "description": "Debug Windows build using vcpkg with Ninja",
+            "generator": "Ninja",
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
                 "rhs": "Windows"
-            },
-            "cacheVariables": {
-                "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
-                "CMAKE_BUILD_TYPE": "Debug"
             }
         },
         {
             "name": "windows-release",
+            "inherits": "release",
             "displayName": "Windows Release",
-            "description": "Release Windows build using vcpkg",
-            "generator": "Visual Studio 17 2022",
-            "binaryDir": "${sourceDir}/build/${presetName}",
+            "description": "Release Windows build using vcpkg with Ninja",
+            "generator": "Ninja",
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
                 "rhs": "Windows"
-            },
-            "cacheVariables": {
-                "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
-                "CMAKE_BUILD_TYPE": "Release"
             }
         },
         {
             "name": "linux-debug",
+            "inherits": "debug",
             "displayName": "Linux Debug",
-            "description": "Debug Linux build using vcpkg",
-            "generator": "Ninja",
-            "binaryDir": "${sourceDir}/build/${presetName}",
+            "description": "Debug Linux build using vcpkg with GCC",
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
                 "rhs": "Linux"
             },
             "cacheVariables": {
-                "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
-                "CMAKE_BUILD_TYPE": "Debug"
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++"
             }
         },
         {
             "name": "linux-release",
+            "inherits": "release",
             "displayName": "Linux Release",
-            "description": "Release Linux build using vcpkg",
-            "generator": "Ninja",
-            "binaryDir": "${sourceDir}/build/${presetName}",
+            "description": "Release Linux build using vcpkg with GCC",
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
                 "rhs": "Linux"
             },
             "cacheVariables": {
-                "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
-                "CMAKE_BUILD_TYPE": "Release"
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++"
             }
         },
         {
             "name": "macos-debug",
+            "inherits": "debug",
             "displayName": "macOS Debug",
             "description": "Debug macOS build using vcpkg with Clang",
-            "generator": "Ninja",
-            "binaryDir": "${sourceDir}/build/${presetName}",
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
                 "rhs": "Darwin"
             },
             "cacheVariables": {
-                "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
-                "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_C_COMPILER": "clang",
                 "CMAKE_CXX_COMPILER": "clang++"
             }
         },
         {
             "name": "macos-release",
+            "inherits": "release",
             "displayName": "macOS Release",
             "description": "Release macOS build using vcpkg with Clang",
-            "generator": "Ninja",
-            "binaryDir": "${sourceDir}/build/${presetName}",
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
                 "rhs": "Darwin"
             },
             "cacheVariables": {
-                "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
-                "CMAKE_BUILD_TYPE": "Release",
                 "CMAKE_C_COMPILER": "clang",
                 "CMAKE_CXX_COMPILER": "clang++"
             }
         }
     ],
     "buildPresets": [
-        {
-            "name": "debug",
-            "displayName": "Debug Build",
-            "configurePreset": "debug"
-        },
-        {
-            "name": "release",
-            "displayName": "Release Build",
-            "configurePreset": "release"
-        },
         {
             "name": "windows-debug",
             "displayName": "Windows Debug Build",
