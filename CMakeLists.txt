@@ -9,6 +9,12 @@ project(binancecpp
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Configure RPATH
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+if(APPLE)
+    set(CMAKE_INSTALL_RPATH "@loader_path/../lib")
+endif()
+
 # Options
 option(BINANCECPP_BUILD_EXAMPLES "Build examples" ON)
 

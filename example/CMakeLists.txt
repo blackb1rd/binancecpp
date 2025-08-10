@@ -30,6 +30,12 @@ foreach(EXAMPLE_NAME ${EXAMPLES})
                 ${CMAKE_SOURCE_DIR}/src
         )
 
+        # Set RPATH to find the library
+        set_target_properties(${EXAMPLE_NAME} PROPERTIES
+            INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib"
+            BUILD_WITH_INSTALL_RPATH TRUE
+        )
+
         # C++20 compile options
         target_compile_options(${EXAMPLE_NAME} PRIVATE
             $<$<CXX_COMPILER_ID:GNU>:-fconcepts>
