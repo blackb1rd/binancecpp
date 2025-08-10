@@ -11,7 +11,8 @@
             "displayName": "Debug Config",
             "description": "Debug build using vcpkg",
             "generator": "Ninja",
-            "binaryDir": "${sourceDir}/build/${presetName}",
+            "binaryDir": "${sourceDir}/bin/build/${presetName}",
+            "installDir": "${sourceDir}/bin/install/${presetName}",
             "hidden": true,
             "cacheVariables": {
                 "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
@@ -23,7 +24,8 @@
             "displayName": "Release Config",
             "description": "Release build using vcpkg",
             "generator": "Ninja",
-            "binaryDir": "${sourceDir}/build/${presetName}",
+            "binaryDir": "${sourceDir}/bin/build/${presetName}",
+            "installDir": "${sourceDir}/bin/install/${presetName}",
             "hidden": true,
             "cacheVariables": {
                 "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
