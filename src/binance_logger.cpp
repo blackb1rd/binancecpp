@@ -1,10 +1,15 @@
-
 #include "binance_logger.h"
 
-int         BinanceCPP_logger::debug_level           = 1;
-std::string BinanceCPP_logger::debug_log_file        = "/tmp/binawatch.log";
-int         BinanceCPP_logger::debug_log_file_enable = 0;
-FILE       *BinanceCPP_logger::log_fp                = nullptr;
+#include <chrono>
+
+int BinanceCPP_logger::debug_level = 1;
+#ifdef _WIN32
+std::string BinanceCPP_logger::debug_log_file = "C:\\temp\\binawatch.log";
+#else
+std::string BinanceCPP_logger::debug_log_file = "/tmp/binawatch.log";
+#endif
+int   BinanceCPP_logger::debug_log_file_enable = 0;
+FILE *BinanceCPP_logger::log_fp                = nullptr;
 
 //-----------------------------------------------
 void BinanceCPP_logger::write_log(const char *fmt, ...)
@@ -22,10 +27,15 @@ void BinanceCPP_logger::write_log(const char *fmt, ...)
 
   char new_fmt[1024];
 
-  struct timeval tv;
-  gettimeofday(&tv, nullptr);
-  const auto  t   = tv.tv_sec;
-  const auto *now = localtime(&t);
+  // Cross-platform time handling using C++11 chrono
+  auto now_time_point = std::chrono::system_clock::now();
+  auto time_t_now     = std::chrono::system_clock::to_time_t(now_time_point);
+  auto duration_since_epoch = now_time_point.time_since_epoch();
+  auto microseconds = std::chrono::duration_cast<std::chrono::microseconds>(
+                          duration_since_epoch) %
+                      1000000;
+
+  const auto *now = localtime(&time_t_now);
 
   snprintf(new_fmt,
            sizeof(new_fmt),
@@ -36,7 +46,7 @@ void BinanceCPP_logger::write_log(const char *fmt, ...)
            now->tm_hour,
            now->tm_min,
            now->tm_sec,
-           tv.tv_usec,
+           static_cast<long>(microseconds.count()),
            fmt);
 
   va_start(arg, fmt);

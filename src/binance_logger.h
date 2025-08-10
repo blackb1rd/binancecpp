@@ -1,11 +1,20 @@
 #ifndef BINANCE_LOGGER_H
 #define BINANCE_LOGGER_H
+
+// Platform-specific includes
+#ifdef _WIN32
+#include <direct.h>
+#include <io.h>
+#include <windows.h>
+#else
 #include <fcntl.h>
 #include <fnmatch.h>
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <sys/types.h>
+#endif
 
+#include <chrono>
 #include <cstdarg>
 #include <cstdio>
 #include <cstdlib>
@@ -37,16 +46,16 @@ class BinanceCPP_logger
 
   // C++20 format-based logging
   template <typename... Args>
-  static void write_log_format(std::string_view fmt, Args &&...args)
+  static void write_log_format(const std::string &fmt, Args &&...args)
   {
     if constexpr (sizeof...(args) > 0)
     {
-      auto formatted = std::format(fmt, std::forward<Args>(args)...);
+      auto formatted = std::vformat(fmt, std::make_format_args(args...));
       write_log_clean(formatted.c_str());
     }
     else
     {
-      write_log_clean(fmt.data());
+      write_log_clean(fmt.c_str());
     }
   }
 };
