@@ -24,16 +24,17 @@ void BinanceCPP_logger::write_log(const char *fmt, ...) {
   const auto t = tv.tv_sec;
   const auto *now = localtime(&t);
 
-  sprintf(new_fmt,
-          "%04d-%02d-%02d %02d:%02d:%02d %06ld :%s\n",
-          now->tm_year + 1900,
-          now->tm_mon + 1,
-          now->tm_mday,
-          now->tm_hour,
-          now->tm_min,
-          now->tm_sec,
-          tv.tv_usec,
-          fmt);
+  snprintf(new_fmt,
+           sizeof(new_fmt),
+           "%04d-%02d-%02d %02d:%02d:%02d %06ld :%s\n",
+           now->tm_year + 1900,
+           now->tm_mon + 1,
+           now->tm_mday,
+           now->tm_hour,
+           now->tm_min,
+           now->tm_sec,
+           tv.tv_usec,
+           fmt);
 
   va_start(arg, fmt);
 
