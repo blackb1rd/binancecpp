@@ -2,7 +2,6 @@
 // Modern C++20 headers
 #include <json/json.h>
 
-#include <format>
 #include <iostream>
 #include <map>
 #include <ranges>
@@ -50,7 +49,7 @@ void print_depthCache()
          ++it)
     {
       const auto& [price, qty] = *it;
-      std::cout << std::format("{:.08f}          {:.08f}\n", price, qty);
+      printf("%.08f          %.08f\n", price, qty);
     }
   }
 }
@@ -62,13 +61,13 @@ void print_klinesCache()
 
   for (const auto& [start_of_candle, candle_obj] : klinesCache)
   {
-    std::cout << std::format("s:{},o:{},h:{},l:{},c:{},v:{} \n",
-                             start_of_candle,
-                             candle_obj.at("o"),
-                             candle_obj.at("h"),
-                             candle_obj.at("l"),
-                             candle_obj.at("c"),
-                             candle_obj.at("v"));
+    printf("s:%ld,o:%.08f,h:%.08f,l:%.08f,c:%.08f,v:%.08f \n",
+           start_of_candle,
+           candle_obj.at("o"),
+           candle_obj.at("h"),
+           candle_obj.at("l"),
+           candle_obj.at("c"),
+           candle_obj.at("v"));
   }
 }
 
