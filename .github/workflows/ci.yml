@@ -77,14 +77,14 @@ jobs:
       - name: Test library linkage (Unix)
         if: runner.os != 'Windows'
         run: |
-          cd build/${{ env.PRESET_NAME }}/example
+          cd bin/build/${{ env.PRESET_NAME }}/example
           ls -la
           file example* || true
 
       - name: Test library linkage (Windows)
         if: runner.os == 'Windows'
         run: |
-          cd build/${{ env.PRESET_NAME }}/example/${{ matrix.build_type }}
+          cd bin/build/${{ env.PRESET_NAME }}/example/${{ matrix.build_type }}
           dir
 
       - name: Upload build artifacts
