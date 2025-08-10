@@ -38,15 +38,18 @@ inline int lastUpdateId{0};
 //------------------------------
 void print_depthCache()
 {
-  for (const auto &[bid_or_ask, price_map] : depthCache)
+  for (const auto& [bid_or_ask, price_map] : depthCache)
   {
     std::cout << bid_or_ask << std::endl;
     std::cout << "Price             Qty" << std::endl;
 
     // Use reverse iterator with explicit type
-    for (std::map<double, double>::const_reverse_iterator it = price_map.rbegin(); it != price_map.rend(); ++it)
+    for (std::map<double, double>::const_reverse_iterator it =
+             price_map.rbegin();
+         it != price_map.rend();
+         ++it)
     {
-      const auto &[price, qty] = *it;
+      const auto& [price, qty] = *it;
       std::cout << std::format("{:.08f}          {:.08f}\n", price, qty);
     }
   }
@@ -57,7 +60,7 @@ void print_klinesCache()
 {
   std::cout << "==================================" << std::endl;
 
-  for (const auto &[start_of_candle, candle_obj] : klinesCache)
+  for (const auto& [start_of_candle, candle_obj] : klinesCache)
   {
     std::cout << std::format("s:{},o:{},h:{},l:{},c:{},v:{} \n",
                              start_of_candle,
@@ -108,7 +111,7 @@ void print_userBalance()
 }
 
 //-------------
-int ws_depth_onData(Json::Value &json_result)
+int ws_depth_onData(Json::Value& json_result)
 {
   int i;
 
@@ -149,7 +152,7 @@ int ws_depth_onData(Json::Value &json_result)
 }
 
 //-------------
-int ws_klines_onData(Json::Value &json_result)
+int ws_klines_onData(Json::Value& json_result)
 {
   long start_of_candle = json_result["k"]["t"].asInt64();
   klinesCache[start_of_candle]["o"] =
@@ -168,7 +171,7 @@ int ws_klines_onData(Json::Value &json_result)
 }
 
 //-----------
-int ws_aggTrade_OnData(Json::Value &json_result)
+int ws_aggTrade_OnData(Json::Value& json_result)
 {
   long timestamp                = json_result["T"].asInt64();
   aggTradeCache[timestamp]["p"] = atof(json_result["p"].asString().c_str());
@@ -179,7 +182,7 @@ int ws_aggTrade_OnData(Json::Value &json_result)
 }
 
 //---------------
-int ws_userStream_OnData(Json::Value &json_result)
+int ws_userStream_OnData(Json::Value& json_result)
 {
   int         i;
   std::string action = json_result["e"].asString();
