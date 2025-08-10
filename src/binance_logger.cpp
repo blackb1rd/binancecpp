@@ -1,10 +1,10 @@
 
 #include "binance_logger.h"
 
-int BinanceCPP_logger::debug_level = 1;
-std::string BinanceCPP_logger::debug_log_file = "/tmp/binawatch.log";
-int BinanceCPP_logger::debug_log_file_enable = 0;
-FILE *BinanceCPP_logger::log_fp = nullptr;
+int         BinanceCPP_logger::debug_level           = 1;
+std::string BinanceCPP_logger::debug_log_file        = "/tmp/binawatch.log";
+int         BinanceCPP_logger::debug_log_file_enable = 0;
+FILE       *BinanceCPP_logger::log_fp                = nullptr;
 
 //-----------------------------------------------
 void BinanceCPP_logger::write_log(const char *fmt, ...) {
@@ -21,7 +21,7 @@ void BinanceCPP_logger::write_log(const char *fmt, ...) {
 
   struct timeval tv;
   gettimeofday(&tv, nullptr);
-  const auto t = tv.tv_sec;
+  const auto  t   = tv.tv_sec;
   const auto *now = localtime(&t);
 
   snprintf(new_fmt,

@@ -20,26 +20,26 @@
 #include <vector>
 
 constexpr std::string_view BINANCE_WS_HOST = "stream.binance.com";
-constexpr int BINANCE_WS_PORT = 9443;
+constexpr int              BINANCE_WS_PORT = 9443;
 
 // Modern C++20 callback type using std::function
 using CB = std::function<int(Json::Value &json_value)>;
 
 class BinanceCPP_websocket {
-  static struct lws_context *context;
+  static struct lws_context  *context;
   static struct lws_protocols protocols[];
 
   static std::map<struct lws *, CB> handles;
 
  public:
-  [[nodiscard]] static int event_cb(struct lws *wsi,
+  [[nodiscard]] static int event_cb(struct lws               *wsi,
                                     enum lws_callback_reasons reason,
-                                    void *user,
-                                    void *in,
-                                    size_t len);
-  static void connect_endpoint(CB user_cb, std::string_view path);
-  static void init();
-  static void enter_event_loop();
+                                    void                     *user,
+                                    void                     *in,
+                                    size_t                    len);
+  static void              connect_endpoint(CB user_cb, std::string_view path);
+  static void              init();
+  static void              enter_event_loop();
 };
 
 #endif  // BINANCE_WEBSOCKET_H

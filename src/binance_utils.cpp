@@ -2,8 +2,8 @@
 #include "binance_utils.h"
 
 //--------------------------------
-void split_string(std::string_view s,
-                  char delim,
+void split_string(std::string_view          s,
+                  char                      delim,
                   std::vector<std::string>& result) {
   std::stringstream ss;
   ss.str(std::string(s));
@@ -14,10 +14,10 @@ void split_string(std::string_view s,
 }
 
 //--------------------------------
-int replace_string_once(std::string& str,
+int replace_string_once(std::string&     str,
                         std::string_view from,
                         std::string_view to,
-                        int offset) {
+                        int              offset) {
   const auto start_pos = str.find(from, offset);
   if (start_pos == std::string::npos) {
     return 0;
@@ -27,10 +27,10 @@ int replace_string_once(std::string& str,
 }
 
 //--------------------------------
-bool replace_string(std::string& str,
+bool replace_string(std::string&     str,
                     std::string_view from,
                     std::string_view to) {
-  bool found = false;
+  bool   found     = false;
   size_t start_pos = 0;
   while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
     str.replace(start_pos, from.length(), to);
@@ -57,7 +57,7 @@ std::string string_toupper(std::string_view cstr) {
 //--------------------------------------
 std::string b2a_hex(char* byte_arr, int n) {
   constexpr std::string_view HexCodes = "0123456789abcdef";
-  std::string HexString;
+  std::string                HexString;
   HexString.reserve(n * 2);
   for (int i = 0; i < n; ++i) {
     const auto BinValue = static_cast<unsigned char>(byte_arr[i]);
@@ -99,7 +99,7 @@ std::string hmac_sha256(std::string_view key, std::string_view data) {
 //------------------------------
 std::string sha256(std::string_view data) {
   unsigned char digest[32];
-  SHA256_CTX sha256;
+  SHA256_CTX    sha256;
   SHA256_Init(&sha256);
   SHA256_Update(&sha256, data.data(), data.length());
   SHA256_Final(digest, &sha256);

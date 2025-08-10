@@ -25,7 +25,7 @@ void print_userBalance() {
   std::map<std::string, std::map<std::string, double>>::iterator it_i;
   std::cout << "==================================" << std::endl;
   for (it_i = userBalance.begin(); it_i != userBalance.end(); it_i++) {
-    std::string symbol = (*it_i).first;
+    std::string                   symbol  = (*it_i).first;
     std::map<std::string, double> balance = (*it_i).second;
     std::cout << "Symbol :" << symbol << ", ";
     printf("Free   : %.08f, ", balance["f"]);
@@ -35,18 +35,18 @@ void print_userBalance() {
 
 //----------------------------------
 int ws_userStream_OnData(Json::Value &json_result) {
-  int i;
+  int         i;
   std::string action = json_result["e"].asString();
   if (action == "executionReport") {
     std::string executionType = json_result["x"].asString();
-    std::string orderStatus = json_result["X"].asString();
-    std::string reason = json_result["r"].asString();
-    std::string symbol = json_result["s"].asString();
-    std::string side = json_result["S"].asString();
-    std::string orderType = json_result["o"].asString();
-    std::string orderId = json_result["i"].asString();
-    std::string price = json_result["p"].asString();
-    std::string qty = json_result["q"].asString();
+    std::string orderStatus   = json_result["X"].asString();
+    std::string reason        = json_result["r"].asString();
+    std::string symbol        = json_result["s"].asString();
+    std::string side          = json_result["S"].asString();
+    std::string orderType     = json_result["o"].asString();
+    std::string orderId       = json_result["i"].asString();
+    std::string price         = json_result["p"].asString();
+    std::string qty           = json_result["q"].asString();
 
     if (executionType == "NEW") {
       if (orderStatus == "REJECTED") {
@@ -93,7 +93,7 @@ int ws_klines_onData(Json::Value &json_result) {
 }
 
 int main() {
-  std::string api_key = API_KEY;
+  std::string api_key    = API_KEY;
   std::string secret_key = SECRET_KEY;
   BinanceCPP::init(api_key, secret_key);
   Json::Value result;

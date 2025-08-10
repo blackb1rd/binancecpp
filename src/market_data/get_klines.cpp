@@ -18,10 +18,10 @@
 
 void BinanceCPP::get_klines(std::string_view symbol,
                             std::string_view interval,
-                            int limit,
-                            time_t startTime,
-                            time_t endTime,
-                            Json::Value &json_result) {
+                            int              limit,
+                            time_t           startTime,
+                            time_t           endTime,
+                            Json::Value     &json_result) {
   BinanceCPP_logger::write_log("<BinanceCPP::get_klines>");
 
   std::string url(BINANCE_HOST);

@@ -20,10 +20,10 @@
 #include <vector>
 
 class BinanceCPP_logger {
-  static int debug_level;
+  static int         debug_level;
   static std::string debug_log_file;
-  static int debug_log_file_enable;
-  static FILE *log_fp;
+  static int         debug_log_file_enable;
+  static FILE       *log_fp;
 
   static void open_logfp_if_not_opened();
 

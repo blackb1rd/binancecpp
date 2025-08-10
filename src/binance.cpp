@@ -41,9 +41,9 @@
 #include "binance_utils.h"
 
 // Static member variable definitions
-std::string BinanceCPP::api_key = "";
+std::string BinanceCPP::api_key    = "";
 std::string BinanceCPP::secret_key = "";
-CURL *BinanceCPP::curl = nullptr;
+CURL       *BinanceCPP::curl       = nullptr;
 
 // Note: Function implementations are in separate modular files
 // that are compiled separately by CMake and linked together.

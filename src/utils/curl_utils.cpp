@@ -14,9 +14,9 @@
 //============================================================================
 
 // Curl's callback function
-size_t BinanceCPP::curl_cb(void *content,
-                           size_t size,
-                           size_t nmemb,
+size_t BinanceCPP::curl_cb(void        *content,
+                           size_t       size,
+                           size_t       nmemb,
                            std::string *buffer) {
   BinanceCPP_logger::write_log("<BinanceCPP::curl_cb> ");
 
@@ -29,19 +29,19 @@ size_t BinanceCPP::curl_cb(void *content,
 // Simple curl API call without headers
 void BinanceCPP::curl_api(std::string &url, std::string &result_json) {
   std::vector<std::string> v;
-  std::string action = "GET";
-  std::string post_data = "";
+  std::string              action    = "GET";
+  std::string              post_data = "";
   curl_api_with_header(url, result_json, v, post_data, action);
 }
 
 // Main curl API function with headers and HTTP methods
 // Handles GET, POST, PUT, DELETE requests with authentication headers
 void BinanceCPP::curl_api_with_header(
-    std::string &url,
-    std::string &str_result,
+    std::string              &url,
+    std::string              &str_result,
     std::vector<std::string> &extra_http_header,
-    std::string &post_data,
-    std::string &action) {
+    std::string              &post_data,
+    std::string              &action) {
   BinanceCPP_logger::write_log("<BinanceCPP::curl_api>");
 
   CURLcode res;

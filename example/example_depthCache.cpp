@@ -9,7 +9,7 @@
 #include "binance_websocket.h"
 
 std::map<std::string, std::map<double, double>> depthCache;
-int lastUpdateId;
+int                                             lastUpdateId;
 
 //------------------------------
 void print_depthCache() {
@@ -26,7 +26,7 @@ void print_depthCache() {
          it_j != depthCache[bid_or_ask].rend();
          it_j++) {
       double price = (*it_j).first;
-      double qty = (*it_j).second;
+      double qty   = (*it_j).second;
       printf("%.08f          %.08f\n", price, qty);
     }
   }
@@ -41,7 +41,7 @@ int ws_depth_onData(Json::Value &json_result) {
   if (new_updateId > lastUpdateId) {
     for (i = 0; i < json_result["b"].size(); i++) {
       double price = atof(json_result["b"][i][0].asString().c_str());
-      double qty = atof(json_result["b"][i][1].asString().c_str());
+      double qty   = atof(json_result["b"][i][1].asString().c_str());
       if (qty == 0.0) {
         depthCache["bids"].erase(price);
       } else {
@@ -50,7 +50,7 @@ int ws_depth_onData(Json::Value &json_result) {
     }
     for (i = 0; i < json_result["a"].size(); i++) {
       double price = atof(json_result["a"][i][0].asString().c_str());
-      double qty = atof(json_result["a"][i][1].asString().c_str());
+      double qty   = atof(json_result["a"][i][1].asString().c_str());
       if (qty == 0.0) {
         depthCache["asks"].erase(price);
       } else {
@@ -74,10 +74,10 @@ int ws_depth_onData(Json::Value &json_result) {
 
 int main() {
   Json::Value result;
-  long recvWindow = 10000;
+  long        recvWindow = 10000;
 
   // Market Depth
-  int i;
+  int         i;
   std::string symbol = "BNBBTC";
   BinanceCPP::init();
   BinanceCPP::get_depth(symbol.c_str(), 20, result);
@@ -86,13 +86,13 @@ int main() {
   lastUpdateId = result["lastUpdateId"].asInt64();
 
   for (int i = 0; i < result["asks"].size(); i++) {
-    double price = atof(result["asks"][i][0].asString().c_str());
-    double qty = atof(result["asks"][i][1].asString().c_str());
+    double price              = atof(result["asks"][i][0].asString().c_str());
+    double qty                = atof(result["asks"][i][1].asString().c_str());
     depthCache["asks"][price] = qty;
   }
   for (int i = 0; i < result["bids"].size(); i++) {
-    double price = atof(result["bids"][i][0].asString().c_str());
-    double qty = atof(result["bids"][i][1].asString().c_str());
+    double price              = atof(result["bids"][i][0].asString().c_str());
+    double qty                = atof(result["bids"][i][1].asString().c_str());
     depthCache["bids"][price] = qty;
   }
   print_depthCache();

@@ -13,24 +13,24 @@
 #include "binance.h"
 #include "binance_websocket.h"
 
-constexpr auto API_KEY = "api key";
+constexpr auto API_KEY    = "api key";
 constexpr auto SECRET_KEY = "user key";
 
 // Some code to make terminal to have colors
-constexpr auto KGRN = "\033[0;32;32m";
-constexpr auto KCYN = "\033[0;36m";
-constexpr auto KRED = "\033[0;32;31m";
-constexpr auto KYEL = "\033[1;33m";
-constexpr auto KBLU = "\033[0;32;34m";
+constexpr auto KGRN   = "\033[0;32;32m";
+constexpr auto KCYN   = "\033[0;36m";
+constexpr auto KRED   = "\033[0;32;31m";
+constexpr auto KYEL   = "\033[1;33m";
+constexpr auto KBLU   = "\033[0;32;34m";
 constexpr auto KCYN_L = "\033[1;36m";
-constexpr auto KBRN = "\033[0;33m";
-constexpr auto RESET = "\033[0m";
+constexpr auto KBRN   = "\033[0;33m";
+constexpr auto RESET  = "\033[0m";
 
 // Global data structures using modern initialization
-inline std::map<std::string, std::map<double, double>> depthCache{};
-inline std::map<long, std::map<std::string, double>> klinesCache{};
-inline std::map<long, std::map<std::string, double>> aggTradeCache{};
-inline std::map<long, std::map<std::string, double>> userTradeCache{};
+inline std::map<std::string, std::map<double, double>>      depthCache{};
+inline std::map<long, std::map<std::string, double>>        klinesCache{};
+inline std::map<long, std::map<std::string, double>>        aggTradeCache{};
+inline std::map<long, std::map<std::string, double>>        userTradeCache{};
 inline std::map<std::string, std::map<std::string, double>> userBalance{};
 
 inline int lastUpdateId{0};
@@ -71,7 +71,7 @@ void print_aggTradeCache() {
   std::cout << "==================================" << std::endl;
 
   for (it_i = aggTradeCache.begin(); it_i != aggTradeCache.end(); it_i++) {
-    long timestamp = (*it_i).first;
+    long                          timestamp    = (*it_i).first;
     std::map<std::string, double> aggtrade_obj = (*it_i).second;
 
     std::cout << "T:" << timestamp << ", ";
@@ -88,7 +88,7 @@ void print_userBalance() {
   std::cout << "==================================" << std::endl;
 
   for (it_i = userBalance.begin(); it_i != userBalance.end(); it_i++) {
-    std::string symbol = (*it_i).first;
+    std::string                   symbol  = (*it_i).first;
     std::map<std::string, double> balance = (*it_i).second;
 
     std::cout << "Symbol :" << symbol << ", ";
@@ -107,7 +107,7 @@ int ws_depth_onData(Json::Value &json_result) {
   if (new_updateId > lastUpdateId) {
     for (i = 0; i < json_result["b"].size(); i++) {
       double price = atof(json_result["b"][i][0].asString().c_str());
-      double qty = atof(json_result["b"][i][1].asString().c_str());
+      double qty   = atof(json_result["b"][i][1].asString().c_str());
       if (qty == 0.0) {
         depthCache["bids"].erase(price);
       } else {
@@ -116,7 +116,7 @@ int ws_depth_onData(Json::Value &json_result) {
     }
     for (i = 0; i < json_result["a"].size(); i++) {
       double price = atof(json_result["a"][i][0].asString().c_str());
-      double qty = atof(json_result["a"][i][1].asString().c_str());
+      double qty   = atof(json_result["a"][i][1].asString().c_str());
       if (qty == 0.0) {
         depthCache["asks"].erase(price);
       } else {
@@ -149,7 +149,7 @@ int ws_klines_onData(Json::Value &json_result) {
 
 //-----------
 int ws_aggTrade_OnData(Json::Value &json_result) {
-  long timestamp = json_result["T"].asInt64();
+  long timestamp                = json_result["T"].asInt64();
   aggTradeCache[timestamp]["p"] = atof(json_result["p"].asString().c_str());
   aggTradeCache[timestamp]["q"] = atof(json_result["q"].asString().c_str());
 
@@ -159,18 +159,18 @@ int ws_aggTrade_OnData(Json::Value &json_result) {
 
 //---------------
 int ws_userStream_OnData(Json::Value &json_result) {
-  int i;
+  int         i;
   std::string action = json_result["e"].asString();
   if (action == "executionReport") {
     std::string executionType = json_result["x"].asString();
-    std::string orderStatus = json_result["X"].asString();
-    std::string reason = json_result["r"].asString();
-    std::string symbol = json_result["s"].asString();
-    std::string side = json_result["S"].asString();
-    std::string orderType = json_result["o"].asString();
-    std::string orderId = json_result["i"].asString();
-    std::string price = json_result["p"].asString();
-    std::string qty = json_result["q"].asString();
+    std::string orderStatus   = json_result["X"].asString();
+    std::string reason        = json_result["r"].asString();
+    std::string symbol        = json_result["s"].asString();
+    std::string side          = json_result["S"].asString();
+    std::string orderType     = json_result["o"].asString();
+    std::string orderId       = json_result["i"].asString();
+    std::string price         = json_result["p"].asString();
+    std::string qty           = json_result["q"].asString();
 
     if (executionType == "NEW") {
       if (orderStatus == "REJECTED") {
@@ -225,7 +225,7 @@ int ws_userStream_OnData(Json::Value &json_result) {
 //--------------------------
 
 int main() {
-  std::string api_key = API_KEY;
+  std::string api_key    = API_KEY;
   std::string secret_key = SECRET_KEY;
   BinanceCPP::init(api_key, secret_key);
 
@@ -234,7 +234,7 @@ int main() {
           or vector <> if it is Json::array
   */
   Json::Value result;
-  long recvWindow = 10000;
+  long        recvWindow = 10000;
 
   //------------------------------------
   // Example : Get Server Time.
@@ -349,7 +349,7 @@ int main() {
   // Websockets Endpoints
 
   // Market Depth
-  int i;
+  int         i;
   std::string symbol = "BNBBTC";
   BinanceCPP::get_depth(symbol.c_str(), 20, result);
 
@@ -357,13 +357,13 @@ int main() {
   lastUpdateId = result["lastUpdateId"].asInt64();
 
   for (int i = 0; i < result["asks"].size(); i++) {
-    double price = atof(result["asks"][i][0].asString().c_str());
-    double qty = atof(result["asks"][i][1].asString().c_str());
+    double price              = atof(result["asks"][i][0].asString().c_str());
+    double qty                = atof(result["asks"][i][1].asString().c_str());
     depthCache["asks"][price] = qty;
   }
   for (int i = 0; i < result["bids"].size(); i++) {
-    double price = atof(result["bids"][i][0].asString().c_str());
-    double qty = atof(result["bids"][i][1].asString().c_str());
+    double price              = atof(result["bids"][i][0].asString().c_str());
+    double qty                = atof(result["bids"][i][1].asString().c_str());
     depthCache["bids"][price] = qty;
   }
   print_depthCache();
@@ -371,7 +371,7 @@ int main() {
   // Klines/CandleStick
   BinanceCPP::get_klines("ETHBTC", "1h", 10, 0, 0, result);
   for (int i = 0; i < result.size(); i++) {
-    long start_of_candle = result[i][0].asInt64();
+    long start_of_candle              = result[i][0].asInt64();
     klinesCache[start_of_candle]["o"] = atof(result[i][1].asString().c_str());
     klinesCache[start_of_candle]["h"] = atof(result[i][2].asString().c_str());
     klinesCache[start_of_candle]["l"] = atof(result[i][3].asString().c_str());
@@ -383,7 +383,7 @@ int main() {
   //  AggTrades
   BinanceCPP::get_aggTrades("BNBBTC", 0, 0, 0, 10, result);
   for (int i = 0; i < result.size(); i++) {
-    long timestamp = result[i]["T"].asInt64();
+    long timestamp                = result[i]["T"].asInt64();
     aggTradeCache[timestamp]["p"] = atof(result[i]["p"].asString().c_str());
     aggTradeCache[timestamp]["q"] = atof(result[i]["q"].asString().c_str());
   }

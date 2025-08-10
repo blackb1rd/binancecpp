@@ -14,8 +14,8 @@
 #include "binance_logger.h"
 
 void BinanceCPP::get_depth(std::string_view symbol,
-                           int limit,
-                           Json::Value &json_result) {
+                           int              limit,
+                           Json::Value     &json_result) {
   BinanceCPP_logger::write_log("<BinanceCPP::get_depth>");
 
   std::string url(BINANCE_HOST);

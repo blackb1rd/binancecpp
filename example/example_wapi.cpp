@@ -13,12 +13,12 @@
 
 //----------------------
 int main() {
-  std::string api_key = API_KEY;
+  std::string api_key    = API_KEY;
   std::string secret_key = SECRET_KEY;
   BinanceCPP::init(api_key, secret_key);
 
   Json::Value result;
-  long recvWindow = 10000;
+  long        recvWindow = 10000;
 
   BinanceCPP::withdraw("ETH",
                        "0x7bBd854e1CC7A762FFa19DfF07Da7E68D997bFa2",

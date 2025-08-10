@@ -22,7 +22,7 @@ void BinanceCPP::start_userDataStream(Json::Value &json_result) {
   url += "/api/v1/userDataStream";
 
   std::vector<std::string> extra_http_header;
-  std::string header_chunk("X-MBX-APIKEY: ");
+  std::string              header_chunk("X-MBX-APIKEY: ");
 
   header_chunk.append(api_key);
   extra_http_header.push_back(header_chunk);
@@ -30,7 +30,7 @@ void BinanceCPP::start_userDataStream(Json::Value &json_result) {
   BinanceCPP_logger::write_log("<BinanceCPP::start_userDataStream> url = |%s|",
                                url.c_str());
 
-  std::string action = "POST";
+  std::string action    = "POST";
   std::string post_data = "";
 
   std::string str_result;

@@ -15,8 +15,8 @@
 //============================================================================
 
 void BinanceCPP::get_depositAddress(std::string_view asset,
-                                    long recvWindow,
-                                    Json::Value &json_result) {
+                                    long             recvWindow,
+                                    Json::Value     &json_result) {
   BinanceCPP_logger::write_log("<BinanceCPP::get_depositAddress>");
 
   if (api_key.size() == 0 || secret_key.size() == 0) {
@@ -44,7 +44,7 @@ void BinanceCPP::get_depositAddress(std::string_view asset,
   std::vector<std::string> extra_headers;
   extra_headers.emplace_back("X-MBX-APIKEY:" + api_key);
 
-  std::string action = "GET";
+  std::string action    = "GET";
   std::string post_data = "";
 
   std::string result;

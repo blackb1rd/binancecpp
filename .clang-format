@@ -27,3 +27,9 @@ IncludeCategories:
 
 # Braces
 BreakBeforeBraces: Attach
+
+# Good for readability of large parameter lists
+AlignAfterOpenBracket: Align
+AlignOperands: true
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true

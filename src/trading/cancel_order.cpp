@@ -20,11 +20,11 @@
 #include "binance_utils.h"
 
 void BinanceCPP::cancel_order(std::string_view symbol,
-                              long orderId,
+                              long             orderId,
                               std::string_view origClientOrderId,
                               std::string_view newClientOrderId,
-                              long recvWindow,
-                              Json::Value &json_result) {
+                              long             recvWindow,
+                              Json::Value     &json_result) {
   BinanceCPP_logger::write_log("<BinanceCPP::cancel_order>");
 
   if (api_key.size() == 0 || secret_key.size() == 0) {
@@ -69,7 +69,7 @@ void BinanceCPP::cancel_order(std::string_view symbol,
   post_data.append(signature);
 
   std::vector<std::string> extra_http_header;
-  std::string header_chunk("X-MBX-APIKEY: ");
+  std::string              header_chunk("X-MBX-APIKEY: ");
   header_chunk.append(api_key);
   extra_http_header.push_back(header_chunk);
 

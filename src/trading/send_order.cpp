@@ -28,13 +28,13 @@ void BinanceCPP::send_order(std::string_view symbol,
                             std::string_view side,
                             std::string_view type,
                             std::string_view timeInForce,
-                            double quantity,
-                            double price,
+                            double           quantity,
+                            double           price,
                             std::string_view newClientOrderId,
-                            double stopPrice,
-                            double icebergQty,
-                            long recvWindow,
-                            Json::Value &json_result) {
+                            double           stopPrice,
+                            double           icebergQty,
+                            long             recvWindow,
+                            Json::Value     &json_result) {
   BinanceCPP_logger::write_log("<BinanceCPP::send_order>");
 
   if (api_key.size() == 0 || secret_key.size() == 0) {
@@ -94,7 +94,7 @@ void BinanceCPP::send_order(std::string_view symbol,
   post_data.append(signature);
 
   std::vector<std::string> extra_http_header;
-  std::string header_chunk("X-MBX-APIKEY: ");
+  std::string              header_chunk("X-MBX-APIKEY: ");
   header_chunk.append(api_key);
   extra_http_header.push_back(header_chunk);
 

@@ -14,9 +14,9 @@
 double BinanceCPP::get_price(std::string_view symbol) {
   BinanceCPP_logger::write_log("<BinanceCPP::get_price>");
 
-  double ret = 0.0;
+  double      ret = 0.0;
   Json::Value alltickers;
-  const auto str_symbol = string_toupper(symbol);
+  const auto  str_symbol = string_toupper(symbol);
   get_allPrices(alltickers);
 
   for (const auto &ticker : alltickers) {

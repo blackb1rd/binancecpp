@@ -17,8 +17,8 @@ void print_klinesCache() {
   std::cout << "==================================" << std::endl;
 
   for (it_i = klinesCache.begin(); it_i != klinesCache.end(); it_i++) {
-    long start_of_candle = (*it_i).first;
-    std::map<std::string, double> candle_obj = (*it_i).second;
+    long                          start_of_candle = (*it_i).first;
+    std::map<std::string, double> candle_obj      = (*it_i).second;
 
     std::cout << "s:" << start_of_candle << ",";
     std::cout << "o:" << candle_obj["o"] << ",";
@@ -58,13 +58,13 @@ int ws_klines_onData(Json::Value &json_result) {
 
 int main() {
   Json::Value result;
-  long recvWindow = 10000;
+  long        recvWindow = 10000;
   BinanceCPP::init();
 
   // Klines/CandleStick
   BinanceCPP::get_klines("BNBBTC", "1h", 10, 0, 0, result);
   for (int i = 0; i < result.size(); i++) {
-    long start_of_candle = result[i][0].asInt64();
+    long start_of_candle              = result[i][0].asInt64();
     klinesCache[start_of_candle]["o"] = atof(result[i][1].asString().c_str());
     klinesCache[start_of_candle]["h"] = atof(result[i][2].asString().c_str());
     klinesCache[start_of_candle]["l"] = atof(result[i][3].asString().c_str());

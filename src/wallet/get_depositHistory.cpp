@@ -15,11 +15,11 @@
 //============================================================================
 
 void BinanceCPP::get_depositHistory(std::string_view asset,
-                                    int status,
-                                    long startTime,
-                                    long endTime,
-                                    long recvWindow,
-                                    Json::Value &json_result) {
+                                    int              status,
+                                    long             startTime,
+                                    long             endTime,
+                                    long             recvWindow,
+                                    Json::Value     &json_result) {
   BinanceCPP_logger::write_log("<BinanceCPP::get_depositHistory>");
 
   if (api_key.size() == 0 || secret_key.size() == 0) {
@@ -63,7 +63,7 @@ void BinanceCPP::get_depositHistory(std::string_view asset,
   std::vector<std::string> extra_headers;
   extra_headers.emplace_back("X-MBX-APIKEY:" + api_key);
 
-  std::string action = "GET";
+  std::string action    = "GET";
   std::string post_data = "";
 
   std::string result;

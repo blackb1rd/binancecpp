@@ -19,11 +19,11 @@
 #include "binance_logger.h"
 
 void BinanceCPP::get_aggTrades(std::string_view symbol,
-                               int fromId,
-                               time_t startTime,
-                               time_t endTime,
-                               int limit,
-                               Json::Value &json_result) {
+                               int              fromId,
+                               time_t           startTime,
+                               time_t           endTime,
+                               int              limit,
+                               Json::Value     &json_result) {
   BinanceCPP_logger::write_log("<BinanceCPP::get_aggTrades>");
 
   std::string url(BINANCE_HOST);

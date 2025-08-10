@@ -21,10 +21,10 @@
 #include "binance_utils.h"
 
 void BinanceCPP::get_myTrades(std::string_view symbol,
-                              int limit,
-                              long fromId,
-                              long recvWindow,
-                              Json::Value &json_result) {
+                              int              limit,
+                              long             fromId,
+                              long             recvWindow,
+                              Json::Value     &json_result) {
   BinanceCPP_logger::write_log("<BinanceCPP::get_myTrades>");
 
   if (api_key.size() == 0 || secret_key.size() == 0) {
@@ -63,14 +63,14 @@ void BinanceCPP::get_myTrades(std::string_view symbol,
 
   url.append(querystring);
   std::vector<std::string> extra_http_header;
-  std::string header_chunk("X-MBX-APIKEY: ");
+  std::string              header_chunk("X-MBX-APIKEY: ");
   header_chunk.append(api_key);
   extra_http_header.push_back(header_chunk);
 
   BinanceCPP_logger::write_log("<BinanceCPP::get_myTrades> url = |%s|",
                                url.c_str());
 
-  std::string action = "GET";
+  std::string action    = "GET";
   std::string post_data = "";
 
   std::string str_result;

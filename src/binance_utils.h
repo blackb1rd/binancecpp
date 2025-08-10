@@ -15,19 +15,19 @@
 #include <vector>
 
 // C++20 function declarations with modern types
-void split_string(std::string_view s,
-                  char delim,
+void split_string(std::string_view          s,
+                  char                      delim,
                   std::vector<std::string>& result);
-bool replace_string(std::string& str,
+bool replace_string(std::string&     str,
                     std::string_view from,
                     std::string_view to);
-int replace_string_once(std::string& str,
-                        std::string_view from,
-                        std::string_view to,
-                        int offset);
+int  replace_string_once(std::string&     str,
+                         std::string_view from,
+                         std::string_view to,
+                         int              offset);
 
-[[nodiscard]] std::string b2a_hex(char* byte_arr, int n);
-[[nodiscard]] time_t get_current_epoch();
+[[nodiscard]] std::string   b2a_hex(char* byte_arr, int n);
+[[nodiscard]] time_t        get_current_epoch();
 [[nodiscard]] unsigned long get_current_ms_epoch();
 
 //--------------------
@@ -38,7 +38,7 @@ inline bool file_exists(const std::string& name) {
 [[nodiscard]] std::string hmac_sha256(std::string_view key,
                                       std::string_view data);
 [[nodiscard]] std::string sha256(std::string_view data);
-void string_toupper(std::string& src);
+void                      string_toupper(std::string& src);
 [[nodiscard]] std::string string_toupper(std::string_view cstr);
 
 #endif  // BINANCE_UTILS_H

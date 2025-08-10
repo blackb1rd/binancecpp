@@ -41,7 +41,7 @@ void BinanceCPP::get_account(long recvWindow, Json::Value &json_result) {
 
   url.append(querystring);
   std::vector<std::string> extra_http_header;
-  std::string header_chunk("X-MBX-APIKEY: ");
+  std::string              header_chunk("X-MBX-APIKEY: ");
   header_chunk.append(api_key);
   extra_http_header.push_back(header_chunk);
 
