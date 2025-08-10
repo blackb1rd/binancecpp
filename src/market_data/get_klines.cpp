@@ -1,4 +1,4 @@
-// Note: Headers are included in binacpp_modular.cpp
+// Note: Headers are included in binance_modular.cpp
 
 /*
         Author: blackb1rd
@@ -7,7 +7,7 @@
 
         C++ library for Binance API - Klines/Candlestick Data
         GET /api/v1/klines - Get Klines (Candlestick/OHLC data)
-        
+
         Parameters:
         - symbol: STRING (YES)
         - interval: ENUM (YES)
@@ -16,14 +16,13 @@
         - endTime: LONG (NO)
 */
 
-
-void BinaCPP::get_klines(std::string_view symbol,
-                         std::string_view interval,
-                         int limit,
-                         time_t startTime,
-                         time_t endTime,
-                         Json::Value &json_result) {
-  BinaCPP_logger::write_log("<BinaCPP::get_klines>");
+void BinanceCPP::get_klines(std::string_view symbol,
+                            std::string_view interval,
+                            int limit,
+                            time_t startTime,
+                            time_t endTime,
+                            Json::Value &json_result) {
+  BinanceCPP_logger::write_log("<BinanceCPP::get_klines>");
 
   std::string url(BINANCE_HOST);
   url += "/api/v1/klines?";
@@ -47,7 +46,8 @@ void BinaCPP::get_klines(std::string_view symbol,
   }
 
   url.append(querystring);
-  BinaCPP_logger::write_log("<BinaCPP::get_klines> url = |%s|", url.c_str());
+  BinanceCPP_logger::write_log("<BinanceCPP::get_klines> url = |%s|",
+                               url.c_str());
 
   std::string str_result;
   curl_api(url, str_result);
@@ -59,11 +59,13 @@ void BinaCPP::get_klines(std::string_view symbol,
       reader.parse(str_result, json_result);
 
     } catch (std::exception &e) {
-      BinaCPP_logger::write_log("<BinaCPP::get_klines> Error ! %s", e.what());
+      BinanceCPP_logger::write_log("<BinanceCPP::get_klines> Error ! %s",
+                                   e.what());
     }
-    BinaCPP_logger::write_log("<BinaCPP::get_klines> Done.");
+    BinanceCPP_logger::write_log("<BinanceCPP::get_klines> Done.");
 
   } else {
-    BinaCPP_logger::write_log("<BinaCPP::get_klines> Failed to get anything.");
+    BinanceCPP_logger::write_log(
+        "<BinanceCPP::get_klines> Failed to get anything.");
   }
 }

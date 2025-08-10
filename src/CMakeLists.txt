@@ -1,5 +1,5 @@
 # Create binacpp library using modular structure only
-file(GLOB_RECURSE BINACPP_SOURCES
+file(GLOB_RECURSE BINANCE_CPP_SOURCES
     "initialization/*.cpp"
     "market_data/*.cpp"
     "account/*.cpp"
@@ -10,11 +10,11 @@ file(GLOB_RECURSE BINACPP_SOURCES
 )
 
 add_library(binacpp SHARED
-    binacpp_modular.cpp
-    binacpp_utils.cpp
-    binacpp_logger.cpp
-    binacpp_websocket.cpp
-    ${BINACPP_SOURCES}
+    binance.cpp
+    binance_utils.cpp
+    binance_logger.cpp
+    binance_websocket.cpp
+    ${BINANCE_CPP_SOURCES}
 )
 
 # Set target properties

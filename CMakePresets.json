@@ -1,5 +1,10 @@
 {
-    "version": 3,
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 23,
+        "patch": 0
+    },
     "configurePresets": [
         {
             "name": "default",
@@ -14,7 +19,7 @@
         },
         {
             "name": "debug",
-            "displayName": "Debug Config", 
+            "displayName": "Debug Config",
             "description": "Debug build using vcpkg",
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build/${presetName}",
@@ -26,7 +31,7 @@
         {
             "name": "release",
             "displayName": "Release Config",
-            "description": "Release build using vcpkg", 
+            "description": "Release build using vcpkg",
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build/${presetName}",
             "cacheVariables": {
@@ -67,8 +72,8 @@
         },
         {
             "name": "macos-default",
-            "displayName": "macOS Default", 
-            "description": "Default macOS build using vcpkg",
+            "displayName": "macOS Default",
+            "description": "Default macOS build using vcpkg with Clang",
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build/${presetName}",
             "condition": {
@@ -78,7 +83,9 @@
             },
             "cacheVariables": {
                 "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
-                "CMAKE_BUILD_TYPE": "Release"
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++"
             }
         }
     ],
@@ -105,7 +112,7 @@
         },
         {
             "name": "linux-default",
-            "displayName": "Linux Build", 
+            "displayName": "Linux Build",
             "configurePreset": "linux-default"
         },
         {

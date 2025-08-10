@@ -1,4 +1,4 @@
-// Note: Headers are included in binacpp_modular.cpp
+// Note: Headers are included in binance_modular.cpp
 
 /*
         Author: blackb1rd
@@ -9,26 +9,25 @@
         Internal HTTP/CURL operations
 */
 
-
 //============================================================================
 // CURL UTILITY FUNCTIONS
 //============================================================================
 
 // Curl's callback function
-size_t BinaCPP::curl_cb(void *content,
-                        size_t size,
-                        size_t nmemb,
-                        std::string *buffer) {
-  BinaCPP_logger::write_log("<BinaCPP::curl_cb> ");
+size_t BinanceCPP::curl_cb(void *content,
+                           size_t size,
+                           size_t nmemb,
+                           std::string *buffer) {
+  BinanceCPP_logger::write_log("<BinanceCPP::curl_cb> ");
 
   buffer->append((char *)content, size * nmemb);
 
-  BinaCPP_logger::write_log("<BinaCPP::curl_cb> done");
+  BinanceCPP_logger::write_log("<BinanceCPP::curl_cb> done");
   return size * nmemb;
 }
 
 // Simple curl API call without headers
-void BinaCPP::curl_api(std::string &url, std::string &result_json) {
+void BinanceCPP::curl_api(std::string &url, std::string &result_json) {
   std::vector<std::string> v;
   std::string action = "GET";
   std::string post_data = "";
@@ -37,47 +36,50 @@ void BinaCPP::curl_api(std::string &url, std::string &result_json) {
 
 // Main curl API function with headers and HTTP methods
 // Handles GET, POST, PUT, DELETE requests with authentication headers
-void BinaCPP::curl_api_with_header(std::string &url,
-                                   std::string &str_result,
-                                   std::vector<std::string> &extra_http_header,
-                                   std::string &post_data,
-                                   std::string &action) {
-  BinaCPP_logger::write_log("<BinaCPP::curl_api>");
+void BinanceCPP::curl_api_with_header(
+    std::string &url,
+    std::string &str_result,
+    std::vector<std::string> &extra_http_header,
+    std::string &post_data,
+    std::string &action) {
+  BinanceCPP_logger::write_log("<BinanceCPP::curl_api>");
 
   CURLcode res;
 
-  if (BinaCPP::curl) {
-    curl_easy_setopt(BinaCPP::curl, CURLOPT_URL, url.c_str());
-    curl_easy_setopt(BinaCPP::curl, CURLOPT_WRITEFUNCTION, BinaCPP::curl_cb);
-    curl_easy_setopt(BinaCPP::curl, CURLOPT_WRITEDATA, &str_result);
-    curl_easy_setopt(BinaCPP::curl, CURLOPT_SSL_VERIFYPEER, false);
-    curl_easy_setopt(BinaCPP::curl, CURLOPT_ENCODING, "gzip");
+  if (BinanceCPP::curl) {
+    curl_easy_setopt(BinanceCPP::curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(
+        BinanceCPP::curl, CURLOPT_WRITEFUNCTION, BinanceCPP::curl_cb);
+    curl_easy_setopt(BinanceCPP::curl, CURLOPT_WRITEDATA, &str_result);
+    curl_easy_setopt(BinanceCPP::curl, CURLOPT_SSL_VERIFYPEER, false);
+    curl_easy_setopt(BinanceCPP::curl, CURLOPT_ENCODING, "gzip");
 
     if (extra_http_header.size() > 0) {
       struct curl_slist *chunk = NULL;
       for (int i = 0; i < extra_http_header.size(); i++) {
         chunk = curl_slist_append(chunk, extra_http_header[i].c_str());
       }
-      curl_easy_setopt(BinaCPP::curl, CURLOPT_HTTPHEADER, chunk);
+      curl_easy_setopt(BinanceCPP::curl, CURLOPT_HTTPHEADER, chunk);
     }
 
     if (post_data.size() > 0 || action == "POST" || action == "PUT" ||
         action == "DELETE") {
       if (action == "PUT" || action == "DELETE") {
-        curl_easy_setopt(BinaCPP::curl, CURLOPT_CUSTOMREQUEST, action.c_str());
+        curl_easy_setopt(
+            BinanceCPP::curl, CURLOPT_CUSTOMREQUEST, action.c_str());
       }
-      curl_easy_setopt(BinaCPP::curl, CURLOPT_POSTFIELDS, post_data.c_str());
+      curl_easy_setopt(BinanceCPP::curl, CURLOPT_POSTFIELDS, post_data.c_str());
     }
 
-    res = curl_easy_perform(BinaCPP::curl);
+    res = curl_easy_perform(BinanceCPP::curl);
 
     /* Check for errors */
     if (res != CURLE_OK) {
-      BinaCPP_logger::write_log(
-          "<BinaCPP::curl_api> curl_easy_perform() failed: %s",
+      BinanceCPP_logger::write_log(
+          "<BinanceCPP::curl_api> curl_easy_perform() failed: %s",
           curl_easy_strerror(res));
     }
   }
 
-  BinaCPP_logger::write_log("<BinaCPP::curl_api> done");
+  BinanceCPP_logger::write_log("<BinanceCPP::curl_api> done");
 }

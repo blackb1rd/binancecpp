@@ -1,4 +1,4 @@
-// Note: Headers are included in binacpp_modular.cpp
+// Note: Headers are included in binance_modular.cpp
 
 /*
         Author: blackb1rd
@@ -7,17 +7,16 @@
 
         C++ library for Binance API - Market Depth
         GET /api/v1/depth - Get market depth (order book)
-        
+
         Parameters:
         - symbol: STRING (YES)
         - limit: INT (NO) - Default 100; max 100
 */
 
-
-void BinaCPP::get_depth(std::string_view symbol,
-                        int limit,
-                        Json::Value &json_result) {
-  BinaCPP_logger::write_log("<BinaCPP::get_depth>");
+void BinanceCPP::get_depth(std::string_view symbol,
+                           int limit,
+                           Json::Value &json_result) {
+  BinanceCPP_logger::write_log("<BinanceCPP::get_depth>");
 
   std::string url(BINANCE_HOST);
   url += "/api/v1/depth?";
@@ -28,7 +27,8 @@ void BinaCPP::get_depth(std::string_view symbol,
   querystring.append(std::to_string(limit));
 
   url.append(querystring);
-  BinaCPP_logger::write_log("<BinaCPP::get_depth> url = |%s|", url.c_str());
+  BinanceCPP_logger::write_log("<BinanceCPP::get_depth> url = |%s|",
+                               url.c_str());
 
   std::string str_result;
   curl_api(url, str_result);
@@ -40,11 +40,13 @@ void BinaCPP::get_depth(std::string_view symbol,
       reader.parse(str_result, json_result);
 
     } catch (std::exception &e) {
-      BinaCPP_logger::write_log("<BinaCPP::get_depth> Error ! %s", e.what());
+      BinanceCPP_logger::write_log("<BinanceCPP::get_depth> Error ! %s",
+                                   e.what());
     }
-    BinaCPP_logger::write_log("<BinaCPP::get_depth> Done.");
+    BinanceCPP_logger::write_log("<BinanceCPP::get_depth> Done.");
 
   } else {
-    BinaCPP_logger::write_log("<BinaCPP::get_depth> Failed to get anything.");
+    BinanceCPP_logger::write_log(
+        "<BinanceCPP::get_depth> Failed to get anything.");
   }
 }

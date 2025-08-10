@@ -7,8 +7,8 @@
         Updated for C++20 support
 */
 
-#ifndef BINACPP_H
-#define BINACPP_H
+#ifndef BINANCE_CPP_H
+#define BINANCE_CPP_H
 
 // Modern C++20 headers
 #include <curl/curl.h>
@@ -38,7 +38,7 @@ concept StringLike = std::convertible_to<T, std::string_view>;
 template <typename T>
 concept Numeric = std::integral<T> || std::floating_point<T>;
 
-class BinaCPP {
+class BinanceCPP {
   static std::string api_key;
   static std::string secret_key;
   static CURL *curl;

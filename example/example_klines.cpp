@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "src/binacpp.h"
-#include "src/binacpp_websocket.h"
+#include "src/binance_websocket.h"
 
 std::map<long, std::map<std::string, double>> klinesCache;
 
@@ -59,10 +59,10 @@ int ws_klines_onData(Json::Value &json_result) {
 int main() {
   Json::Value result;
   long recvWindow = 10000;
-  BinaCPP::init();
+  BinanceCPP::init();
 
   // Klines/CandleStick
-  BinaCPP::get_klines("BNBBTC", "1h", 10, 0, 0, result);
+  BinanceCPP::get_klines("BNBBTC", "1h", 10, 0, 0, result);
   for (int i = 0; i < result.size(); i++) {
     long start_of_candle = result[i][0].asInt64();
     klinesCache[start_of_candle]["o"] = atof(result[i][1].asString().c_str());
@@ -74,9 +74,10 @@ int main() {
   print_klinesCache();
 
   // Klines/Candlestick update via websocket
-  BinaCPP_websocket::init();
-  BinaCPP_websocket::connect_endpoint(ws_klines_onData, "/ws/bnbbtc@kline_1m");
-  BinaCPP_websocket::enter_event_loop();
+  BinanceCPP_websocket::init();
+  BinanceCPP_websocket::connect_endpoint(ws_klines_onData,
+                                         "/ws/bnbbtc@kline_1m");
+  BinanceCPP_websocket::enter_event_loop();
 
   return 0;
 }

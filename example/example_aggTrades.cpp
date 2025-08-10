@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "src/binacpp.h"
-#include "src/binacpp_websocket.h"
+#include "src/binance_websocket.h"
 
 std::map<long, std::map<std::string, double>> aggTradeCache;
 
@@ -49,10 +49,10 @@ int main() {
   Json::Value result;
   long recvWindow = 10000;
 
-  BinaCPP::init();
+  BinanceCPP::init();
 
   //  AggTrades
-  BinaCPP::get_aggTrades("BNBBTC", 0, 0, 0, 10, result);
+  BinanceCPP::get_aggTrades("BNBBTC", 0, 0, 0, 10, result);
 
   for (int i = 0; i < result.size(); i++) {
     long aggTradeId = result[i]["a"].asInt64();
@@ -61,10 +61,10 @@ int main() {
   }
   print_aggTradeCache();
 
-  BinaCPP_websocket::init();
-  BinaCPP_websocket::connect_endpoint(ws_aggTrade_OnData,
-                                      "/ws/bnbbtc@aggTrade");
-  BinaCPP_websocket::enter_event_loop();
+  BinanceCPP_websocket::init();
+  BinanceCPP_websocket::connect_endpoint(ws_aggTrade_OnData,
+                                         "/ws/bnbbtc@aggTrade");
+  BinanceCPP_websocket::enter_event_loop();
 
   return 0;
 }

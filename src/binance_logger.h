@@ -20,7 +20,7 @@
 #include <string_view>
 #include <vector>
 
-class BinaCPP_logger {
+class BinanceCPP_logger {
   static int debug_level;
   static std::string debug_log_file;
   static int debug_log_file_enable;

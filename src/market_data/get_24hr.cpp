@@ -1,4 +1,4 @@
-// Note: Headers are included in binacpp_modular.cpp
+// Note: Headers are included in binance_modular.cpp
 
 /*
         Author: blackb1rd
@@ -7,14 +7,13 @@
 
         C++ library for Binance API - 24hr Ticker
         GET /api/v1/ticker/24hr - Get 24hr ticker price change statistics
-        
+
         Parameters:
         - symbol: STRING (YES)
 */
 
-
-void BinaCPP::get_24hr(std::string_view symbol, Json::Value &json_result) {
-  BinaCPP_logger::write_log("<BinaCPP::get_24hr>");
+void BinanceCPP::get_24hr(std::string_view symbol, Json::Value &json_result) {
+  BinanceCPP_logger::write_log("<BinanceCPP::get_24hr>");
 
   std::string url(BINANCE_HOST);
   url += "/api/v1/ticker/24hr?";
@@ -23,7 +22,8 @@ void BinaCPP::get_24hr(std::string_view symbol, Json::Value &json_result) {
   querystring.append(symbol);
 
   url.append(querystring);
-  BinaCPP_logger::write_log("<BinaCPP::get_24hr> url = |%s|", url.c_str());
+  BinanceCPP_logger::write_log("<BinanceCPP::get_24hr> url = |%s|",
+                               url.c_str());
 
   std::string str_result;
   curl_api(url, str_result);
@@ -35,11 +35,13 @@ void BinaCPP::get_24hr(std::string_view symbol, Json::Value &json_result) {
       reader.parse(str_result, json_result);
 
     } catch (std::exception &e) {
-      BinaCPP_logger::write_log("<BinaCPP::get_24hr> Error ! %s", e.what());
+      BinanceCPP_logger::write_log("<BinanceCPP::get_24hr> Error ! %s",
+                                   e.what());
     }
-    BinaCPP_logger::write_log("<BinaCPP::get_24hr> Done.");
+    BinanceCPP_logger::write_log("<BinanceCPP::get_24hr> Done.");
 
   } else {
-    BinaCPP_logger::write_log("<BinaCPP::get_24hr> Failed to get anything.");
+    BinanceCPP_logger::write_log(
+        "<BinanceCPP::get_24hr> Failed to get anything.");
   }
 }

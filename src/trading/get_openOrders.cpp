@@ -1,4 +1,4 @@
-// Note: Headers are included in binacpp_modular.cpp
+// Note: Headers are included in binance_modular.cpp
 
 /*
         Author: blackb1rd
@@ -7,22 +7,22 @@
 
         C++ library for Binance API - Open Orders
         GET /api/v3/openOrders - Get open orders (SIGNED)
-        
+
         Parameters:
         - symbol: STRING (YES)
         - recvWindow: LONG (NO)
         - timestamp: LONG (YES)
 */
 
-
-void BinaCPP::get_openOrders(std::string_view symbol,
-                             long recvWindow,
-                             Json::Value &json_result) {
-  BinaCPP_logger::write_log("<BinaCPP::get_openOrders>");
+void BinanceCPP::get_openOrders(std::string_view symbol,
+                                long recvWindow,
+                                Json::Value &json_result) {
+  BinanceCPP_logger::write_log("<BinanceCPP::get_openOrders>");
 
   if (api_key.size() == 0 || secret_key.size() == 0) {
-    BinaCPP_logger::write_log(
-        "<BinaCPP::get_openOrders> API Key and Secret Key has not been set.");
+    BinanceCPP_logger::write_log(
+        "<BinanceCPP::get_openOrders> API Key and Secret Key has not been "
+        "set.");
     return;
   }
 
@@ -53,8 +53,8 @@ void BinaCPP::get_openOrders(std::string_view symbol,
   std::string action = "GET";
   std::string post_data = "";
 
-  BinaCPP_logger::write_log("<BinaCPP::get_openOrders> url = |%s|",
-                            url.c_str());
+  BinanceCPP_logger::write_log("<BinanceCPP::get_openOrders> url = |%s|",
+                               url.c_str());
 
   std::string str_result;
   curl_api_with_header(url, str_result, extra_http_header, post_data, action);
@@ -66,15 +66,15 @@ void BinaCPP::get_openOrders(std::string_view symbol,
       reader.parse(str_result, json_result);
 
     } catch (std::exception &e) {
-      BinaCPP_logger::write_log("<BinaCPP::get_openOrders> Error ! %s",
-                                e.what());
+      BinanceCPP_logger::write_log("<BinanceCPP::get_openOrders> Error ! %s",
+                                   e.what());
     }
-    BinaCPP_logger::write_log("<BinaCPP::get_openOrders> Done.");
+    BinanceCPP_logger::write_log("<BinanceCPP::get_openOrders> Done.");
 
   } else {
-    BinaCPP_logger::write_log(
-        "<BinaCPP::get_openOrders> Failed to get anything.");
+    BinanceCPP_logger::write_log(
+        "<BinanceCPP::get_openOrders> Failed to get anything.");
   }
 
-  BinaCPP_logger::write_log("<BinaCPP::get_openOrders> Done.\n");
+  BinanceCPP_logger::write_log("<BinanceCPP::get_openOrders> Done.\n");
 }

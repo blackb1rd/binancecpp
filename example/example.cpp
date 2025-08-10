@@ -11,7 +11,7 @@
 #include <vector>
 
 #include "src/binacpp.h"
-#include "src/binacpp_websocket.h"
+#include "src/binance_websocket.h"
 
 constexpr auto API_KEY = "api key";
 constexpr auto SECRET_KEY = "user key";
@@ -212,7 +212,7 @@ int ws_userStream_OnData(Json::Value &json_result) {
 
 //---------------------------
 /*
-        Examples of how to use BinaCPP Binance API library
+        Examples of how to use BinanceCPP Binance API library
         Simply uncomment out the code and compile with :
 
         make example
@@ -227,7 +227,7 @@ int ws_userStream_OnData(Json::Value &json_result) {
 int main() {
   std::string api_key = API_KEY;
   std::string secret_key = SECRET_KEY;
-  BinaCPP::init(api_key, secret_key);
+  BinanceCPP::init(api_key, secret_key);
 
   /*
           The Json::value object each element can be access like hash map <>,
@@ -238,110 +238,110 @@ int main() {
 
   //------------------------------------
   // Example : Get Server Time.
-  BinaCPP::get_serverTime(result);
+  BinanceCPP::get_serverTime(result);
   std::cout << result << std::endl;
   //*/
 
   /*-------------------------------------------------------------
   // Example : Get all Prices
-     BinaCPP::get_allPrices( result );
+     BinanceCPP::get_allPrices( result );
     cout << result << endl;
   */
 
   /*-------------------------------------------------------------
   //Example: Get price of single pair. Eg: BNBETH
-  double bnbeth_price = BinaCPP::get_price( "BNBETH");
+  double bnbeth_price = BinanceCPP::get_price( "BNBETH");
   cout << bnbeth_price << endl;
   //*/
 
   /*
   // -------------------------------------------------------------
   // Example: Get Account
-  BinaCPP::get_account( recvWindow , result );
+  BinanceCPP::get_account( recvWindow , result );
   cout << result << endl;
   //*/
 
   /*-------------------------------------------------------------
   // Example : Get all bid/ask prices
-  BinaCPP::get_allBookTickers( result );
+  BinanceCPP::get_allBookTickers( result );
   cout << result << endl;
   */
 
   /*-------------------------------------------------------------
   // Example: Get bid/ask for single pair
   /*
-  BinaCPP::get_bookTicker("bnbeth", result );
+  BinanceCPP::get_bookTicker("bnbeth", result );
   cout << result << endl;
   */
 
   /*-------------------------------------------------------------
   // Example: Get Depth of single pair
-  BinaCPP::get_depth( "ETHBTC", 5, result ) ;
+  BinanceCPP::get_depth( "ETHBTC", 5, result ) ;
   cout << result << endl;
   */
 
   //-------------------------------------------------------------
   // Example: Placing a LIMIT order
-  // BinaCPP::send_order( "BNBETH", "BUY", "LIMIT", "GTC", 20 , 0.00380000,
+  // BinanceCPP::send_order( "BNBETH", "BUY", "LIMIT", "GTC", 20 , 0.00380000,
   // "",0,0, recvWindow, result ); cout << result << endl;
   //*/
 
   /*-------------------------------------------------------------
   // Example: Placing a MARKET order
-  BinaCPP::send_order( "BNBETH", "BUY", "MARKET", "GTC", 20 , 0,   "",0,0,
+  BinanceCPP::send_order( "BNBETH", "BUY", "MARKET", "GTC", 20 , 0,   "",0,0,
   recvWindow, result ); cout << result << endl;
   */
 
   /*-------------------------------------------------------------
   // Example: Placing an ICEBERG order
-  //BinaCPP::send_order( "BNBETH", "BUY", "MARKET", "GTC", 1 , 0,   "",0,20,
+  //BinanceCPP::send_order( "BNBETH", "BUY", "MARKET", "GTC", 1 , 0,   "",0,20,
   recvWindow , result );
   //cout << result << endl;
 
 
   /*-------------------------------------------------------------
   // Example: Check an order's status
-  BinaCPP::get_order( "BNBETH", 12345678, "", recvWindow, result );
+  BinanceCPP::get_order( "BNBETH", 12345678, "", recvWindow, result );
   cout << result << endl;
   */
 
   /*-------------------------------------------------------------
   // Example: Cancel an order
-  BinaCPP::cancel_order("BNBETH", 12345678, "","", recvWindow, result);
+  BinanceCPP::cancel_order("BNBETH", 12345678, "","", recvWindow, result);
   cout << result << endl;
   */
 
   /*-------------------------------------------------------------
   // Example: Getting list of open orders for specific pair
   /*
-  BinaCPP::get_openOrders( "BNBETH", recvWindow, result ) ;
+  BinanceCPP::get_openOrders( "BNBETH", recvWindow, result ) ;
   cout << result << endl;
   */
 
   /*-------------------------------------------------------------
   // Example: Get all account orders; active, canceled, or filled.
-  BinaCPP::get_allOrders( "BNBETH", 0,0, recvWindow, result )
+  BinanceCPP::get_allOrders( "BNBETH", 0,0, recvWindow, result )
   cout << result << endl;
   */
 
   /*-------------------------------------------------------------
   // Example : Get all trades history
   /*
-  BinaCPP::get_myTrades( "BNBETH", 0,0, recvWindow , result );
+  BinanceCPP::get_myTrades( "BNBETH", 0,0, recvWindow , result );
   cout << result << endl;
   */
 
   /*-------------------------------------------------------------
   /*
   // Example: Getting 24hr ticker price change statistics for a symbol
-     BinaCPP::get_24hr( "ETHBTC", result ) ;
+     BinanceCPP::get_24hr( "ETHBTC", result ) ;
      cout << result << endl;
   */
 
   /*-------------------------------------------------------------
   /*
   // Example: Get Kline/candlestick data for a symbol
-    BinaCPP::get_klines( "ETHBTC", "1h", 10 , 0, 0, result );
+    BinanceCPP::get_klines( "ETHBTC", "1h", 10 , 0, 0, result );
     cout << result << endl;
   */
 
@@ -351,7 +351,7 @@ int main() {
   // Market Depth
   int i;
   std::string symbol = "BNBBTC";
-  BinaCPP::get_depth(symbol.c_str(), 20, result);
+  BinanceCPP::get_depth(symbol.c_str(), 20, result);
 
   // Initialize the lastUpdateId
   lastUpdateId = result["lastUpdateId"].asInt64();
@@ -369,7 +369,7 @@ int main() {
   print_depthCache();
 
   // Klines/CandleStick
-  BinaCPP::get_klines("ETHBTC", "1h", 10, 0, 0, result);
+  BinanceCPP::get_klines("ETHBTC", "1h", 10, 0, 0, result);
   for (int i = 0; i < result.size(); i++) {
     long start_of_candle = result[i][0].asInt64();
     klinesCache[start_of_candle]["o"] = atof(result[i][1].asString().c_str());
@@ -381,7 +381,7 @@ int main() {
   print_klinesCache();
 
   //  AggTrades
-  BinaCPP::get_aggTrades("BNBBTC", 0, 0, 0, 10, result);
+  BinanceCPP::get_aggTrades("BNBBTC", 0, 0, 0, 10, result);
   for (int i = 0; i < result.size(); i++) {
     long timestamp = result[i]["T"].asInt64();
     aggTradeCache[timestamp]["p"] = atof(result[i]["p"].asString().c_str());
@@ -390,7 +390,7 @@ int main() {
   print_aggTradeCache();
 
   // User Balance
-  BinaCPP::get_account(recvWindow, result);
+  BinanceCPP::get_account(recvWindow, result);
   for (int i = 0; i < result["balances"].size(); i++) {
     std::string symbol = result["balances"][i]["asset"].asString();
     userBalance[symbol]["f"] =
@@ -401,22 +401,23 @@ int main() {
   print_userBalance();
 
   // User data stream
-  BinaCPP::start_userDataStream(result);
+  BinanceCPP::start_userDataStream(result);
 
   std::cout << result << std::endl;
 
   std::string ws_path = std::string("/ws/");
   ws_path.append(result["listenKey"].asString());
 
-  BinaCPP_websocket::init();
+  BinanceCPP_websocket::init();
 
-  BinaCPP_websocket::connect_endpoint(ws_aggTrade_OnData,
-                                      "/ws/bnbbtc@aggTrade");
-  BinaCPP_websocket::connect_endpoint(ws_userStream_OnData, ws_path.c_str());
-  BinaCPP_websocket::connect_endpoint(ws_klines_onData, "/ws/bnbbtc@kline_1m");
-  BinaCPP_websocket::connect_endpoint(ws_depth_onData, "/ws/bnbbtc@depth");
+  BinanceCPP_websocket::connect_endpoint(ws_aggTrade_OnData,
+                                         "/ws/bnbbtc@aggTrade");
+  BinanceCPP_websocket::connect_endpoint(ws_userStream_OnData, ws_path.c_str());
+  BinanceCPP_websocket::connect_endpoint(ws_klines_onData,
+                                         "/ws/bnbbtc@kline_1m");
+  BinanceCPP_websocket::connect_endpoint(ws_depth_onData, "/ws/bnbbtc@depth");
 
-  BinaCPP_websocket::enter_event_loop();
+  BinanceCPP_websocket::enter_event_loop();
 
   return 0;
 }

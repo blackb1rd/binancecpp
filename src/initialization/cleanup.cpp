@@ -1,4 +1,4 @@
-// Note: Headers are included in binacpp_modular.cpp
+// Note: Headers are included in binance_modular.cpp
 
 /*
         Author: blackb1rd
@@ -9,15 +9,14 @@
         Updated for C++20 support
 */
 
-
 //============================================================================
 // CLEANUP FUNCTIONS
 //============================================================================
 
-void BinaCPP::cleanup() noexcept {
-  if (BinaCPP::curl != nullptr) {
-    curl_easy_cleanup(BinaCPP::curl);
-    BinaCPP::curl = nullptr;
+void BinanceCPP::cleanup() noexcept {
+  if (BinanceCPP::curl != nullptr) {
+    curl_easy_cleanup(BinanceCPP::curl);
+    BinanceCPP::curl = nullptr;
   }
   curl_global_cleanup();
 }

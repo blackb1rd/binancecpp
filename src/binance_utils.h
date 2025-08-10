@@ -1,7 +1,7 @@
 
 
-#ifndef BINACPP_UTILS
-#define BINACPP_UTILS
+#ifndef BINANCE_CPP_UTILS
+#define BINANCE_CPP_UTILS
 
 // Modern C++20 headers
 #include <openssl/hmac.h>
@@ -18,12 +18,16 @@
 #include <vector>
 
 // C++20 function declarations with modern types
-void split_string(std::string_view s, char delim,
+void split_string(std::string_view s,
+                  char delim,
                   std::vector<std::string>& result);
-bool replace_string(std::string& str, std::string_view from,
+bool replace_string(std::string& str,
+                    std::string_view from,
                     std::string_view to);
-int replace_string_once(std::string& str, std::string_view from,
-                        std::string_view to, int offset);
+int replace_string_once(std::string& str,
+                        std::string_view from,
+                        std::string_view to,
+                        int offset);
 
 [[nodiscard]] std::string b2a_hex(char* byte_arr, int n);
 [[nodiscard]] time_t get_current_epoch();

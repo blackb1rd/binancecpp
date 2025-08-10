@@ -1,4 +1,4 @@
-// Note: Headers are included in binacpp_modular.cpp
+// Note: Headers are included in binance_modular.cpp
 
 /*
         Author: blackb1rd
@@ -9,13 +9,12 @@
         POST /api/v1/userDataStream - Start user data stream (API-KEY)
 */
 
-
-void BinaCPP::start_userDataStream(Json::Value &json_result) {
-  BinaCPP_logger::write_log("<BinaCPP::start_userDataStream>");
+void BinanceCPP::start_userDataStream(Json::Value &json_result) {
+  BinanceCPP_logger::write_log("<BinanceCPP::start_userDataStream>");
 
   if (api_key.size() == 0) {
-    BinaCPP_logger::write_log(
-        "<BinaCPP::start_userDataStream> API Key has not been set.");
+    BinanceCPP_logger::write_log(
+        "<BinanceCPP::start_userDataStream> API Key has not been set.");
     return;
   }
 
@@ -28,8 +27,8 @@ void BinaCPP::start_userDataStream(Json::Value &json_result) {
   header_chunk.append(api_key);
   extra_http_header.push_back(header_chunk);
 
-  BinaCPP_logger::write_log("<BinaCPP::start_userDataStream> url = |%s|",
-                            url.c_str());
+  BinanceCPP_logger::write_log("<BinanceCPP::start_userDataStream> url = |%s|",
+                               url.c_str());
 
   std::string action = "POST";
   std::string post_data = "";
@@ -44,15 +43,15 @@ void BinaCPP::start_userDataStream(Json::Value &json_result) {
       reader.parse(str_result, json_result);
 
     } catch (std::exception &e) {
-      BinaCPP_logger::write_log("<BinaCPP::start_userDataStream> Error ! %s",
-                                e.what());
+      BinanceCPP_logger::write_log(
+          "<BinanceCPP::start_userDataStream> Error ! %s", e.what());
     }
-    BinaCPP_logger::write_log("<BinaCPP::start_userDataStream> Done.");
+    BinanceCPP_logger::write_log("<BinanceCPP::start_userDataStream> Done.");
 
   } else {
-    BinaCPP_logger::write_log(
-        "<BinaCPP::start_userDataStream> Failed to get anything.");
+    BinanceCPP_logger::write_log(
+        "<BinanceCPP::start_userDataStream> Failed to get anything.");
   }
 
-  BinaCPP_logger::write_log("<BinaCPP::start_userDataStream> Done.\n");
+  BinanceCPP_logger::write_log("<BinanceCPP::start_userDataStream> Done.\n");
 }

@@ -1,8 +1,9 @@
 
-#include "binacpp_utils.h"
+#include "binance_utils.h"
 
 //--------------------------------
-void split_string(std::string_view s, char delim,
+void split_string(std::string_view s,
+                  char delim,
                   std::vector<std::string>& result) {
   std::stringstream ss;
   ss.str(std::string(s));
@@ -13,8 +14,10 @@ void split_string(std::string_view s, char delim,
 }
 
 //--------------------------------
-int replace_string_once(std::string& str, std::string_view from,
-                        std::string_view to, int offset) {
+int replace_string_once(std::string& str,
+                        std::string_view from,
+                        std::string_view to,
+                        int offset) {
   const auto start_pos = str.find(from, offset);
   if (start_pos == std::string::npos) {
     return 0;
@@ -24,7 +27,8 @@ int replace_string_once(std::string& str, std::string_view from,
 }
 
 //--------------------------------
-bool replace_string(std::string& str, std::string_view from,
+bool replace_string(std::string& str,
+                    std::string_view from,
                     std::string_view to) {
   bool found = false;
   size_t start_pos = 0;
@@ -82,9 +86,13 @@ unsigned long get_current_ms_epoch() {
 //---------------------------
 std::string hmac_sha256(std::string_view key, std::string_view data) {
   const unsigned char* digest;
-  digest = HMAC(EVP_sha256(), key.data(), static_cast<int>(key.length()),
+  digest = HMAC(EVP_sha256(),
+                key.data(),
+                static_cast<int>(key.length()),
                 reinterpret_cast<const unsigned char*>(data.data()),
-                static_cast<int>(data.length()), nullptr, nullptr);
+                static_cast<int>(data.length()),
+                nullptr,
+                nullptr);
   return b2a_hex(const_cast<char*>(reinterpret_cast<const char*>(digest)), 32);
 }
 

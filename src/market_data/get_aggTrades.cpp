@@ -1,4 +1,4 @@
-// Note: Headers are included in binacpp_modular.cpp
+// Note: Headers are included in binance_modular.cpp
 
 /*
         Author: blackb1rd
@@ -7,23 +7,24 @@
 
         C++ library for Binance API - Aggregated Trades
         GET /api/v1/aggTrades - Get aggregated trades list
-        
+
         Parameters:
         - symbol: STRING (YES)
         - fromId: LONG (NO) - ID to get aggregate trades from INCLUSIVE
-        - startTime: LONG (NO) - Timestamp in ms to get aggregate trades from INCLUSIVE
-        - endTime: LONG (NO) - Timestamp in ms to get aggregate trades until INCLUSIVE
+        - startTime: LONG (NO) - Timestamp in ms to get aggregate trades from
+   INCLUSIVE
+        - endTime: LONG (NO) - Timestamp in ms to get aggregate trades until
+   INCLUSIVE
         - limit: INT (NO) - Default 500; max 500
 */
 
-
-void BinaCPP::get_aggTrades(std::string_view symbol,
-                            int fromId,
-                            time_t startTime,
-                            time_t endTime,
-                            int limit,
-                            Json::Value &json_result) {
-  BinaCPP_logger::write_log("<BinaCPP::get_aggTrades>");
+void BinanceCPP::get_aggTrades(std::string_view symbol,
+                               int fromId,
+                               time_t startTime,
+                               time_t endTime,
+                               int limit,
+                               Json::Value &json_result) {
+  BinanceCPP_logger::write_log("<BinanceCPP::get_aggTrades>");
 
   std::string url(BINANCE_HOST);
   url += "/api/v1/aggTrades?";
@@ -47,7 +48,8 @@ void BinaCPP::get_aggTrades(std::string_view symbol,
   }
 
   url.append(querystring);
-  BinaCPP_logger::write_log("<BinaCPP::get_aggTrades> url = |%s|", url.c_str());
+  BinanceCPP_logger::write_log("<BinanceCPP::get_aggTrades> url = |%s|",
+                               url.c_str());
 
   std::string str_result;
   curl_api(url, str_result);
@@ -59,13 +61,13 @@ void BinaCPP::get_aggTrades(std::string_view symbol,
       reader.parse(str_result, json_result);
 
     } catch (std::exception &e) {
-      BinaCPP_logger::write_log("<BinaCPP::get_aggTrades> Error ! %s",
-                                e.what());
+      BinanceCPP_logger::write_log("<BinanceCPP::get_aggTrades> Error ! %s",
+                                   e.what());
     }
-    BinaCPP_logger::write_log("<BinaCPP::get_aggTrades> Done.");
+    BinanceCPP_logger::write_log("<BinanceCPP::get_aggTrades> Done.");
 
   } else {
-    BinaCPP_logger::write_log(
-        "<BinaCPP::get_aggTrades> Failed to get anything.");
+    BinanceCPP_logger::write_log(
+        "<BinanceCPP::get_aggTrades> Failed to get anything.");
   }
 }

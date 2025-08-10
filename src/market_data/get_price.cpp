@@ -1,4 +1,4 @@
-// Note: Headers are included in binacpp_modular.cpp
+// Note: Headers are included in binance_modular.cpp
 
 /*
         Author: blackb1rd
@@ -6,12 +6,12 @@
         Based on original work by tensaix2j (2017/10/15)
 
         C++ library for Binance API - Single Price
-        Helper function that uses get_allPrices internally to get single pair's price
+        Helper function that uses get_allPrices internally to get single pair's
+   price
 */
 
-
-double BinaCPP::get_price(std::string_view symbol) {
-  BinaCPP_logger::write_log("<BinaCPP::get_price>");
+double BinanceCPP::get_price(std::string_view symbol) {
+  BinanceCPP_logger::write_log("<BinanceCPP::get_price>");
 
   double ret = 0.0;
   Json::Value alltickers;

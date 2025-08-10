@@ -1,8 +1,8 @@
-# BinaCPP - Modular Structure
+# BinanceCPP - Modular Structure
 
 ## Overview
 
-The BinaCPP library has been reorganized into a modular structure for better maintainability and clarity. Each function is now in its own file, organized by API category.
+The BinanceCPP library has been reorganized into a modular structure for better maintainability and clarity. Each function is now in its own file, organized by API category.
 
 ## Author Information
 
@@ -15,10 +15,10 @@ The BinaCPP library has been reorganized into a modular structure for better mai
 src/
 ├── binacpp.h                    # Main header file
 ├── binacpp.cpp                  # Original single-file implementation
-├── binacpp_modular.cpp          # New modular implementation entry point
-├── binacpp_utils.h/.cpp         # Utility functions
-├── binacpp_logger.h/.cpp        # Logging functions
-├── binacpp_websocket.h/.cpp     # WebSocket functionality
+├── binance_modular.cpp          # New modular implementation entry point
+├── binance_utils.h/.cpp         # Utility functions
+├── binance_logger.h/.cpp        # Logging functions
+├── binance_websocket.h/.cpp     # WebSocket functionality
 ├── initialization/              # Library initialization and cleanup
 │   ├── init.cpp                 # Library initialization functions
 │   └── cleanup.cpp              # Library cleanup functions
@@ -102,14 +102,14 @@ The API remains the same regardless of which build approach you use. All functio
 
 int main() {
     // Initialize library
-    BinaCPP::init("your_api_key", "your_secret_key");
-    
+    BinanceCPP::init("your_api_key", "your_secret_key");
+
     // Use any function
     Json::Value result;
-    BinaCPP::get_serverTime(result);
-    
+    BinanceCPP::get_serverTime(result);
+
     // Cleanup
-    BinaCPP::cleanup();
+    BinanceCPP::cleanup();
     return 0;
 }
 ```

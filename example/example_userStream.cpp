@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "src/binacpp.h"
-#include "src/binacpp_websocket.h"
+#include "src/binance_websocket.h"
 
 #define API_KEY "api key"
 #define SECRET_KEY "secret_key"
@@ -52,12 +52,25 @@ int ws_userStream_OnData(Json::Value &json_result) {
       if (orderStatus == "REJECTED") {
         printf("%sOrder Failed! Reason: %s\n%s", KRED, reason.c_str(), RESET);
       }
-      printf("%s\n\n%s %s %s %s(%s) %s %s\n\n%s", KGRN, symbol.c_str(),
-             side.c_str(), orderType.c_str(), orderId.c_str(),
-             orderStatus.c_str(), price.c_str(), qty.c_str(), RESET);
+      printf("%s\n\n%s %s %s %s(%s) %s %s\n\n%s",
+             KGRN,
+             symbol.c_str(),
+             side.c_str(),
+             orderType.c_str(),
+             orderId.c_str(),
+             orderStatus.c_str(),
+             price.c_str(),
+             qty.c_str(),
+             RESET);
     } else {
-      printf("%s\n\n%s %s %s %s %s\n\n%s", KBLU, symbol.c_str(), side.c_str(),
-             executionType.c_str(), orderType.c_str(), orderId.c_str(), RESET);
+      printf("%s\n\n%s %s %s %s %s\n\n%s",
+             KBLU,
+             symbol.c_str(),
+             side.c_str(),
+             executionType.c_str(),
+             orderType.c_str(),
+             orderId.c_str(),
+             RESET);
     }
   } else if (action == "outboundAccountInfo") {
     for (i = 0; i < json_result["B"].size(); i++) {
@@ -73,7 +86,8 @@ int ws_userStream_OnData(Json::Value &json_result) {
 }
 
 int ws_klines_onData(Json::Value &json_result) {
-  printf("Event type:%s symbol:%s\n", json_result["e"].asString().c_str(),
+  printf("Event type:%s symbol:%s\n",
+         json_result["e"].asString().c_str(),
          json_result["s"].asString().c_str());
   return 0;
 }
@@ -81,9 +95,9 @@ int ws_klines_onData(Json::Value &json_result) {
 int main() {
   std::string api_key = API_KEY;
   std::string secret_key = SECRET_KEY;
-  BinaCPP::init(api_key, secret_key);
+  BinanceCPP::init(api_key, secret_key);
   Json::Value result;
-  BinaCPP::get_account(5000, result);
+  BinanceCPP::get_account(5000, result);
   for (int i = 0; i < result["balances"].size(); i++) {
     std::string symbol = result["balances"][i]["asset"].asString();
     userBalance[symbol]["f"] =
@@ -92,11 +106,11 @@ int main() {
         atof(result["balances"][i]["locked"].asString().c_str());
   }
   print_userBalance();
-  BinaCPP::start_userDataStream(result);
+  BinanceCPP::start_userDataStream(result);
   std::cout << result << std::endl;
   std::string ws_path = std::string("/ws/");
   ws_path.append(result["listenKey"].asString());
-  BinaCPP_websocket::connect_endpoint(ws_userStream_OnData, ws_path.c_str());
-  BinaCPP_websocket::enter_event_loop();
+  BinanceCPP_websocket::connect_endpoint(ws_userStream_OnData, ws_path.c_str());
+  BinanceCPP_websocket::enter_event_loop();
   return 0;
 }

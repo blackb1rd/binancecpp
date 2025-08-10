@@ -1,4 +1,4 @@
-// Note: Headers are included in binacpp_modular.cpp
+// Note: Headers are included in binance_modular.cpp
 
 /*
         Author: blackb1rd
@@ -6,11 +6,12 @@
         Based on original work by tensaix2j (2017/10/15)
 
         C++ library for Binance API - Exchange Info
-        GET /api/v1/exchangeInfo - Get current exchange trading rules and symbol information
+        GET /api/v1/exchangeInfo - Get current exchange trading rules and symbol
+   information
 */
 
-void BinaCPP::get_exchangeInfo(Json::Value &json_result) {
-  BinaCPP_logger::write_log("<BinaCPP::get_exchangeInfo>");
+void BinanceCPP::get_exchangeInfo(Json::Value &json_result) {
+  BinanceCPP_logger::write_log("<BinanceCPP::get_exchangeInfo>");
 
   std::string url(BINANCE_HOST);
   url += "/api/v1/exchangeInfo";
@@ -25,13 +26,13 @@ void BinaCPP::get_exchangeInfo(Json::Value &json_result) {
       reader.parse(str_result, json_result);
 
     } catch (std::exception &e) {
-      BinaCPP_logger::write_log("<BinaCPP::get_exchangeInfo> Error ! %s",
-                                e.what());
+      BinanceCPP_logger::write_log("<BinanceCPP::get_exchangeInfo> Error ! %s",
+                                   e.what());
     }
-    BinaCPP_logger::write_log("<BinaCPP::get_exchangeInfo> Done.");
+    BinanceCPP_logger::write_log("<BinanceCPP::get_exchangeInfo> Done.");
 
   } else {
-    BinaCPP_logger::write_log(
-        "<BinaCPP::get_exchangeInfo> Failed to get anything.");
+    BinanceCPP_logger::write_log(
+        "<BinanceCPP::get_exchangeInfo> Failed to get anything.");
   }
 }

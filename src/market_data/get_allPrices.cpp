@@ -1,4 +1,4 @@
-// Note: Headers are included in binacpp_modular.cpp
+// Note: Headers are included in binance_modular.cpp
 
 /*
         Author: blackb1rd
@@ -9,9 +9,8 @@
         GET /api/v1/ticker/allPrices - Get latest price for all symbols
 */
 
-
-void BinaCPP::get_allPrices(Json::Value &json_result) {
-  BinaCPP_logger::write_log("<BinaCPP::get_allPrices>");
+void BinanceCPP::get_allPrices(Json::Value &json_result) {
+  BinanceCPP_logger::write_log("<BinanceCPP::get_allPrices>");
 
   std::string url(BINANCE_HOST);
   url += "/api/v1/ticker/allPrices";
@@ -26,13 +25,13 @@ void BinaCPP::get_allPrices(Json::Value &json_result) {
       reader.parse(str_result, json_result);
 
     } catch (std::exception &e) {
-      BinaCPP_logger::write_log("<BinaCPP::get_allPrices> Error ! %s",
-                                e.what());
+      BinanceCPP_logger::write_log("<BinanceCPP::get_allPrices> Error ! %s",
+                                   e.what());
     }
-    BinaCPP_logger::write_log("<BinaCPP::get_allPrices> Done.");
+    BinanceCPP_logger::write_log("<BinanceCPP::get_allPrices> Done.");
 
   } else {
-    BinaCPP_logger::write_log(
-        "<BinaCPP::get_allPrices> Failed to get anything.");
+    BinanceCPP_logger::write_log(
+        "<BinanceCPP::get_allPrices> Failed to get anything.");
   }
 }

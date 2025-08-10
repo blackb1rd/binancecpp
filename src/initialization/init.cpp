@@ -1,4 +1,4 @@
-// Note: Headers are included in binacpp_modular.cpp
+// Note: Headers are included in binance_modular.cpp
 
 /*
         Author: blackb1rd
@@ -13,14 +13,14 @@
 // INITIALIZATION FUNCTIONS
 //============================================================================
 
-void BinaCPP::init() {
+void BinanceCPP::init() {
   curl_global_init(CURL_GLOBAL_DEFAULT);
-  BinaCPP::curl = curl_easy_init();
+  BinanceCPP::curl = curl_easy_init();
 }
 
-void BinaCPP::init(std::string_view api_key, std::string_view secret_key) {
+void BinanceCPP::init(std::string_view api_key, std::string_view secret_key) {
   curl_global_init(CURL_GLOBAL_DEFAULT);
-  BinaCPP::curl = curl_easy_init();
-  BinaCPP::api_key = api_key;
-  BinaCPP::secret_key = secret_key;
+  BinanceCPP::curl = curl_easy_init();
+  BinanceCPP::api_key = api_key;
+  BinanceCPP::secret_key = secret_key;
 }

@@ -1,4 +1,4 @@
-// Note: Headers are included in binacpp_modular.cpp
+// Note: Headers are included in binance_modular.cpp
 
 /*
         Author: blackb1rd
@@ -9,11 +9,10 @@
         GET /api/v1/time - Get server time
 */
 
-// Note: Headers are included in binacpp_modular.cpp
+// Note: Headers are included in binance_modular.cpp
 
-
-void BinaCPP::get_serverTime(Json::Value &json_result) {
-  BinaCPP_logger::write_log("<BinaCPP::get_serverTime>");
+void BinanceCPP::get_serverTime(Json::Value &json_result) {
+  BinanceCPP_logger::write_log("<BinanceCPP::get_serverTime>");
 
   std::string url(BINANCE_HOST);
   url += "/api/v1/time";
@@ -28,13 +27,13 @@ void BinaCPP::get_serverTime(Json::Value &json_result) {
       reader.parse(str_result, json_result);
 
     } catch (std::exception &e) {
-      BinaCPP_logger::write_log("<BinaCPP::get_serverTime> Error ! %s",
-                                e.what());
+      BinanceCPP_logger::write_log("<BinanceCPP::get_serverTime> Error ! %s",
+                                   e.what());
     }
-    BinaCPP_logger::write_log("<BinaCPP::get_serverTime> Done.");
+    BinanceCPP_logger::write_log("<BinanceCPP::get_serverTime> Done.");
 
   } else {
-    BinaCPP_logger::write_log(
-        "<BinaCPP::get_serverTime> Failed to get anything.");
+    BinanceCPP_logger::write_log(
+        "<BinanceCPP::get_serverTime> Failed to get anything.");
   }
 }

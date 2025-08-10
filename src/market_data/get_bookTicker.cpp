@@ -1,4 +1,4 @@
-// Note: Headers are included in binacpp_modular.cpp
+// Note: Headers are included in binance_modular.cpp
 
 /*
         Author: blackb1rd
@@ -6,13 +6,13 @@
         Based on original work by tensaix2j (2017/10/15)
 
         C++ library for Binance API - Book Ticker
-        Helper function that uses get_allBookTickers internally to get book ticker for specific symbol
+        Helper function that uses get_allBookTickers internally to get book
+   ticker for specific symbol
 */
 
-
-void BinaCPP::get_bookTicker(std::string_view symbol,
-                             Json::Value &json_result) {
-  BinaCPP_logger::write_log("<BinaCPP::get_BookTickers>");
+void BinanceCPP::get_bookTicker(std::string_view symbol,
+                                Json::Value &json_result) {
+  BinanceCPP_logger::write_log("<BinanceCPP::get_BookTickers>");
 
   Json::Value alltickers;
   std::string str_symbol = string_toupper(std::string(symbol));

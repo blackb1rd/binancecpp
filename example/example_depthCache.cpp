@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "src/binacpp.h"
-#include "src/binacpp_websocket.h"
+#include "src/binance_websocket.h"
 
 std::map<std::string, std::map<double, double>> depthCache;
 int lastUpdateId;
@@ -79,8 +79,8 @@ int main() {
   // Market Depth
   int i;
   std::string symbol = "BNBBTC";
-  BinaCPP::init();
-  BinaCPP::get_depth(symbol.c_str(), 20, result);
+  BinanceCPP::init();
+  BinanceCPP::get_depth(symbol.c_str(), 20, result);
 
   // Initialize the lastUpdateId
   lastUpdateId = result["lastUpdateId"].asInt64();
@@ -97,7 +97,7 @@ int main() {
   }
   print_depthCache();
 
-  BinaCPP_websocket::init();
-  BinaCPP_websocket::connect_endpoint(ws_depth_onData, "/ws/bnbbtc@depth");
-  BinaCPP_websocket::enter_event_loop();
+  BinanceCPP_websocket::init();
+  BinanceCPP_websocket::connect_endpoint(ws_depth_onData, "/ws/bnbbtc@depth");
+  BinanceCPP_websocket::enter_event_loop();
 }

@@ -1,4 +1,4 @@
-// Note: Headers are included in binacpp_modular.cpp
+// Note: Headers are included in binance_modular.cpp
 
 /*
         Author: blackb1rd
@@ -7,19 +7,18 @@
 
         C++ library for Binance API - Account Information
         GET /api/v3/account - Get current account information (SIGNED)
-        
+
         Parameters:
         - recvWindow: LONG (NO)
         - timestamp: LONG (YES)
 */
 
-
-void BinaCPP::get_account(long recvWindow, Json::Value &json_result) {
-  BinaCPP_logger::write_log("<BinaCPP::get_account>");
+void BinanceCPP::get_account(long recvWindow, Json::Value &json_result) {
+  BinanceCPP_logger::write_log("<BinanceCPP::get_account>");
 
   if (api_key.size() == 0 || secret_key.size() == 0) {
-    BinaCPP_logger::write_log(
-        "<BinaCPP::get_account> API Key and Secret Key has not been set.");
+    BinanceCPP_logger::write_log(
+        "<BinanceCPP::get_account> API Key and Secret Key has not been set.");
     return;
   }
 
@@ -45,7 +44,8 @@ void BinaCPP::get_account(long recvWindow, Json::Value &json_result) {
   header_chunk.append(api_key);
   extra_http_header.push_back(header_chunk);
 
-  BinaCPP_logger::write_log("<BinaCPP::get_account> url = |%s|", url.c_str());
+  BinanceCPP_logger::write_log("<BinanceCPP::get_account> url = |%s|",
+                               url.c_str());
 
   std::string post_data = "";
 
@@ -59,13 +59,15 @@ void BinaCPP::get_account(long recvWindow, Json::Value &json_result) {
       reader.parse(str_result, json_result);
 
     } catch (std::exception &e) {
-      BinaCPP_logger::write_log("<BinaCPP::get_account> Error ! %s", e.what());
+      BinanceCPP_logger::write_log("<BinanceCPP::get_account> Error ! %s",
+                                   e.what());
     }
-    BinaCPP_logger::write_log("<BinaCPP::get_account> Done.");
+    BinanceCPP_logger::write_log("<BinanceCPP::get_account> Done.");
 
   } else {
-    BinaCPP_logger::write_log("<BinaCPP::get_account> Failed to get anything.");
+    BinanceCPP_logger::write_log(
+        "<BinanceCPP::get_account> Failed to get anything.");
   }
 
-  BinaCPP_logger::write_log("<BinaCPP::get_account> Done.\n");
+  BinanceCPP_logger::write_log("<BinanceCPP::get_account> Done.\n");
 }

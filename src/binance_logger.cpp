@@ -1,13 +1,13 @@
 
-#include "binacpp_logger.h"
+#include "binance_logger.h"
 
-int BinaCPP_logger::debug_level = 1;
-std::string BinaCPP_logger::debug_log_file = "/tmp/binawatch.log";
-int BinaCPP_logger::debug_log_file_enable = 0;
-FILE *BinaCPP_logger::log_fp = nullptr;
+int BinanceCPP_logger::debug_level = 1;
+std::string BinanceCPP_logger::debug_log_file = "/tmp/binawatch.log";
+int BinanceCPP_logger::debug_log_file_enable = 0;
+FILE *BinanceCPP_logger::log_fp = nullptr;
 
 //-----------------------------------------------
-void BinaCPP_logger::write_log(const char *fmt, ...) {
+void BinanceCPP_logger::write_log(const char *fmt, ...) {
   if (debug_level == 0) {
     return;
   }
@@ -24,9 +24,16 @@ void BinaCPP_logger::write_log(const char *fmt, ...) {
   const auto t = tv.tv_sec;
   const auto *now = localtime(&t);
 
-  sprintf(new_fmt, "%04d-%02d-%02d %02d:%02d:%02d %06ld :%s\n",
-          now->tm_year + 1900, now->tm_mon + 1, now->tm_mday, now->tm_hour,
-          now->tm_min, now->tm_sec, tv.tv_usec, fmt);
+  sprintf(new_fmt,
+          "%04d-%02d-%02d %02d:%02d:%02d %06ld :%s\n",
+          now->tm_year + 1900,
+          now->tm_mon + 1,
+          now->tm_mday,
+          now->tm_hour,
+          now->tm_min,
+          now->tm_sec,
+          tv.tv_usec,
+          fmt);
 
   va_start(arg, fmt);
 
@@ -43,7 +50,7 @@ void BinaCPP_logger::write_log(const char *fmt, ...) {
 
 //-----------------------------------------------
 // Write log to channel without any timestamp nor new line
-void BinaCPP_logger::write_log_clean(const char *fmt, ...) {
+void BinanceCPP_logger::write_log_clean(const char *fmt, ...) {
   if (debug_level == 0) {
     return;
   }
@@ -65,7 +72,7 @@ void BinaCPP_logger::write_log_clean(const char *fmt, ...) {
 }
 
 //---------------------
-void BinaCPP_logger::open_logfp_if_not_opened() {
+void BinanceCPP_logger::open_logfp_if_not_opened() {
   if (debug_log_file_enable && log_fp == nullptr) {
     log_fp = fopen(debug_log_file.c_str(), "a");
 
@@ -78,16 +85,16 @@ void BinaCPP_logger::open_logfp_if_not_opened() {
 }
 
 //---------------------
-void BinaCPP_logger::set_debug_level(int level) noexcept {
+void BinanceCPP_logger::set_debug_level(int level) noexcept {
   debug_level = level;
 }
 
 //--------------------
-void BinaCPP_logger::set_debug_logfile(std::string_view pDebug_log_file) {
+void BinanceCPP_logger::set_debug_logfile(std::string_view pDebug_log_file) {
   debug_log_file = pDebug_log_file;
 }
 
 //--------------------
-void BinaCPP_logger::enable_logfile(int pDebug_log_file_enable) noexcept {
+void BinanceCPP_logger::enable_logfile(int pDebug_log_file_enable) noexcept {
   debug_log_file_enable = pDebug_log_file_enable;
 }
