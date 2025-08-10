@@ -21,7 +21,8 @@ void BinanceCPP::get_klines(std::string_view symbol,
                             int              limit,
                             time_t           startTime,
                             time_t           endTime,
-                            Json::Value     &json_result) {
+                            Json::Value     &json_result)
+{
   BinanceCPP_logger::write_log("<BinanceCPP::get_klines>");
 
   std::string url(BINANCE_HOST);
@@ -33,14 +34,16 @@ void BinanceCPP::get_klines(std::string_view symbol,
   querystring.append("&interval=");
   querystring.append(interval);
 
-  if (startTime > 0 && endTime > 0) {
+  if (startTime > 0 && endTime > 0)
+  {
     querystring.append("&startTime=");
     querystring.append(std::to_string(startTime));
 
     querystring.append("&endTime=");
     querystring.append(std::to_string(endTime));
-
-  } else if (limit > 0) {
+  }
+  else if (limit > 0)
+  {
     querystring.append("&limit=");
     querystring.append(std::to_string(limit));
   }
@@ -52,19 +55,23 @@ void BinanceCPP::get_klines(std::string_view symbol,
   std::string str_result;
   curl_api(url, str_result);
 
-  if (str_result.size() > 0) {
-    try {
+  if (str_result.size() > 0)
+  {
+    try
+    {
       Json::Reader reader;
       json_result.clear();
       reader.parse(str_result, json_result);
-
-    } catch (std::exception &e) {
+    }
+    catch (std::exception &e)
+    {
       BinanceCPP_logger::write_log("<BinanceCPP::get_klines> Error ! %s",
                                    e.what());
     }
     BinanceCPP_logger::write_log("<BinanceCPP::get_klines> Done.");
-
-  } else {
+  }
+  else
+  {
     BinanceCPP_logger::write_log(
         "<BinanceCPP::get_klines> Failed to get anything.");
   }

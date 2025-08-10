@@ -11,13 +11,15 @@
 #define SECRET_KEY "mysecretkey"
 
 //-----------------------------
-int ws_klines_onData(Json::Value &json_result) {
+int ws_klines_onData(Json::Value &json_result)
+{
   std::cout << json_result << std::endl;
   return 0;
 }
 
 //-------------------------
-int main() {
+int main()
+{
   std::string api_key    = API_KEY;
   std::string secret_key = SECRET_KEY;
 

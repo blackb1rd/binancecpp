@@ -11,12 +11,14 @@
 std::map<long, std::map<std::string, double>> aggTradeCache;
 
 //---------------
-void print_aggTradeCache() {
+void print_aggTradeCache()
+{
   std::map<long, std::map<std::string, double>>::iterator it_i;
 
   std::cout << "==================================" << std::endl;
 
-  for (it_i = aggTradeCache.begin(); it_i != aggTradeCache.end(); it_i++) {
+  for (it_i = aggTradeCache.begin(); it_i != aggTradeCache.end(); it_i++)
+  {
     long                          aggTradeId   = (*it_i).first;
     std::map<std::string, double> aggtrade_obj = (*it_i).second;
 
@@ -28,7 +30,8 @@ void print_aggTradeCache() {
 }
 
 //-----------
-int ws_aggTrade_OnData(Json::Value &json_result) {
+int ws_aggTrade_OnData(Json::Value &json_result)
+{
   long aggTradeId                = json_result["a"].asInt64();
   aggTradeCache[aggTradeId]["p"] = atof(json_result["p"].asString().c_str());
   aggTradeCache[aggTradeId]["q"] = atof(json_result["q"].asString().c_str());
@@ -45,7 +48,8 @@ int ws_aggTrade_OnData(Json::Value &json_result) {
 
 //--------------------------
 
-int main() {
+int main()
+{
   Json::Value result;
   long        recvWindow = 10000;
 
@@ -54,7 +58,8 @@ int main() {
   //  AggTrades
   BinanceCPP::get_aggTrades("BNBBTC", 0, 0, 0, 10, result);
 
-  for (int i = 0; i < result.size(); i++) {
+  for (int i = 0; i < result.size(); i++)
+  {
     long aggTradeId                = result[i]["a"].asInt64();
     aggTradeCache[aggTradeId]["p"] = atof(result[i]["p"].asString().c_str());
     aggTradeCache[aggTradeId]["q"] = atof(result[i]["q"].asString().c_str());

@@ -19,7 +19,8 @@
 #include <string_view>
 #include <vector>
 
-class BinanceCPP_logger {
+class BinanceCPP_logger
+{
   static int         debug_level;
   static std::string debug_log_file;
   static int         debug_log_file_enable;
@@ -36,11 +37,15 @@ class BinanceCPP_logger {
 
   // C++20 format-based logging
   template <typename... Args>
-  static void write_log_format(std::string_view fmt, Args &&...args) {
-    if constexpr (sizeof...(args) > 0) {
+  static void write_log_format(std::string_view fmt, Args &&...args)
+  {
+    if constexpr (sizeof...(args) > 0)
+    {
       auto formatted = std::format(fmt, std::forward<Args>(args)...);
       write_log_clean(formatted.c_str());
-    } else {
+    }
+    else
+    {
       write_log_clean(fmt.data());
     }
   }

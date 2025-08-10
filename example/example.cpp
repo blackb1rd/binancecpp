@@ -36,13 +36,16 @@ inline std::map<std::string, std::map<std::string, double>> userBalance{};
 inline int lastUpdateId{0};
 
 //------------------------------
-void print_depthCache() {
-  for (const auto &[bid_or_ask, price_map] : depthCache) {
+void print_depthCache()
+{
+  for (const auto &[bid_or_ask, price_map] : depthCache)
+  {
     std::cout << bid_or_ask << std::endl;
     std::cout << "Price             Qty" << std::endl;
 
     // Use reverse iterator with modern auto
-    for (auto it = price_map.rbegin(); it != price_map.rend(); ++it) {
+    for (auto it = price_map.rbegin(); it != price_map.rend(); ++it)
+    {
       const auto &[price, qty] = *it;
       std::cout << std::format("{:.08f}          {:.08f}\n", price, qty);
     }
@@ -50,10 +53,12 @@ void print_depthCache() {
 }
 
 //------------------
-void print_klinesCache() {
+void print_klinesCache()
+{
   std::cout << "==================================" << std::endl;
 
-  for (const auto &[start_of_candle, candle_obj] : klinesCache) {
+  for (const auto &[start_of_candle, candle_obj] : klinesCache)
+  {
     std::cout << std::format("s:{},o:{},h:{},l:{},c:{},v:{} \n",
                              start_of_candle,
                              candle_obj.at("o"),
@@ -65,12 +70,14 @@ void print_klinesCache() {
 }
 
 //---------------
-void print_aggTradeCache() {
+void print_aggTradeCache()
+{
   std::map<long, std::map<std::string, double>>::iterator it_i;
 
   std::cout << "==================================" << std::endl;
 
-  for (it_i = aggTradeCache.begin(); it_i != aggTradeCache.end(); it_i++) {
+  for (it_i = aggTradeCache.begin(); it_i != aggTradeCache.end(); it_i++)
+  {
     long                          timestamp    = (*it_i).first;
     std::map<std::string, double> aggtrade_obj = (*it_i).second;
 
@@ -82,12 +89,14 @@ void print_aggTradeCache() {
 }
 
 //---------------
-void print_userBalance() {
+void print_userBalance()
+{
   std::map<std::string, std::map<std::string, double>>::iterator it_i;
 
   std::cout << "==================================" << std::endl;
 
-  for (it_i = userBalance.begin(); it_i != userBalance.end(); it_i++) {
+  for (it_i = userBalance.begin(); it_i != userBalance.end(); it_i++)
+  {
     std::string                   symbol  = (*it_i).first;
     std::map<std::string, double> balance = (*it_i).second;
 
@@ -99,27 +108,37 @@ void print_userBalance() {
 }
 
 //-------------
-int ws_depth_onData(Json::Value &json_result) {
+int ws_depth_onData(Json::Value &json_result)
+{
   int i;
 
   int new_updateId = json_result["u"].asInt();
 
-  if (new_updateId > lastUpdateId) {
-    for (i = 0; i < json_result["b"].size(); i++) {
+  if (new_updateId > lastUpdateId)
+  {
+    for (i = 0; i < json_result["b"].size(); i++)
+    {
       double price = atof(json_result["b"][i][0].asString().c_str());
       double qty   = atof(json_result["b"][i][1].asString().c_str());
-      if (qty == 0.0) {
+      if (qty == 0.0)
+      {
         depthCache["bids"].erase(price);
-      } else {
+      }
+      else
+      {
         depthCache["bids"][price] = qty;
       }
     }
-    for (i = 0; i < json_result["a"].size(); i++) {
+    for (i = 0; i < json_result["a"].size(); i++)
+    {
       double price = atof(json_result["a"][i][0].asString().c_str());
       double qty   = atof(json_result["a"][i][1].asString().c_str());
-      if (qty == 0.0) {
+      if (qty == 0.0)
+      {
         depthCache["asks"].erase(price);
-      } else {
+      }
+      else
+      {
         depthCache["asks"][price] = qty;
       }
     }
@@ -130,7 +149,8 @@ int ws_depth_onData(Json::Value &json_result) {
 }
 
 //-------------
-int ws_klines_onData(Json::Value &json_result) {
+int ws_klines_onData(Json::Value &json_result)
+{
   long start_of_candle = json_result["k"]["t"].asInt64();
   klinesCache[start_of_candle]["o"] =
       atof(json_result["k"]["o"].asString().c_str());
@@ -148,7 +168,8 @@ int ws_klines_onData(Json::Value &json_result) {
 }
 
 //-----------
-int ws_aggTrade_OnData(Json::Value &json_result) {
+int ws_aggTrade_OnData(Json::Value &json_result)
+{
   long timestamp                = json_result["T"].asInt64();
   aggTradeCache[timestamp]["p"] = atof(json_result["p"].asString().c_str());
   aggTradeCache[timestamp]["q"] = atof(json_result["q"].asString().c_str());
@@ -158,10 +179,12 @@ int ws_aggTrade_OnData(Json::Value &json_result) {
 }
 
 //---------------
-int ws_userStream_OnData(Json::Value &json_result) {
+int ws_userStream_OnData(Json::Value &json_result)
+{
   int         i;
   std::string action = json_result["e"].asString();
-  if (action == "executionReport") {
+  if (action == "executionReport")
+  {
     std::string executionType = json_result["x"].asString();
     std::string orderStatus   = json_result["X"].asString();
     std::string reason        = json_result["r"].asString();
@@ -172,8 +195,10 @@ int ws_userStream_OnData(Json::Value &json_result) {
     std::string price         = json_result["p"].asString();
     std::string qty           = json_result["q"].asString();
 
-    if (executionType == "NEW") {
-      if (orderStatus == "REJECTED") {
+    if (executionType == "NEW")
+    {
+      if (orderStatus == "REJECTED")
+      {
         printf("%sOrder Failed! Reason: %s\n%s", KRED, reason.c_str(), RESET);
       }
       printf("%s\n\n%s %s %s %s(%s) %s %s\n\n%s",
@@ -196,9 +221,12 @@ int ws_userStream_OnData(Json::Value &json_result) {
            orderType.c_str(),
            orderId.c_str(),
            RESET);
-  } else if (action == "outboundAccountInfo") {
+  }
+  else if (action == "outboundAccountInfo")
+  {
     // Update user balance
-    for (i = 0; i < json_result["B"].size(); i++) {
+    for (i = 0; i < json_result["B"].size(); i++)
+    {
       std::string symbol = json_result["B"][i]["a"].asString();
       userBalance[symbol]["f"] =
           atof(json_result["B"][i]["f"].asString().c_str());
@@ -224,7 +252,8 @@ int ws_userStream_OnData(Json::Value &json_result) {
 
 //--------------------------
 
-int main() {
+int main()
+{
   std::string api_key    = API_KEY;
   std::string secret_key = SECRET_KEY;
   BinanceCPP::init(api_key, secret_key);
@@ -356,12 +385,14 @@ int main() {
   // Initialize the lastUpdateId
   lastUpdateId = result["lastUpdateId"].asInt64();
 
-  for (int i = 0; i < result["asks"].size(); i++) {
+  for (int i = 0; i < result["asks"].size(); i++)
+  {
     double price              = atof(result["asks"][i][0].asString().c_str());
     double qty                = atof(result["asks"][i][1].asString().c_str());
     depthCache["asks"][price] = qty;
   }
-  for (int i = 0; i < result["bids"].size(); i++) {
+  for (int i = 0; i < result["bids"].size(); i++)
+  {
     double price              = atof(result["bids"][i][0].asString().c_str());
     double qty                = atof(result["bids"][i][1].asString().c_str());
     depthCache["bids"][price] = qty;
@@ -370,7 +401,8 @@ int main() {
 
   // Klines/CandleStick
   BinanceCPP::get_klines("ETHBTC", "1h", 10, 0, 0, result);
-  for (int i = 0; i < result.size(); i++) {
+  for (int i = 0; i < result.size(); i++)
+  {
     long start_of_candle              = result[i][0].asInt64();
     klinesCache[start_of_candle]["o"] = atof(result[i][1].asString().c_str());
     klinesCache[start_of_candle]["h"] = atof(result[i][2].asString().c_str());
@@ -382,7 +414,8 @@ int main() {
 
   //  AggTrades
   BinanceCPP::get_aggTrades("BNBBTC", 0, 0, 0, 10, result);
-  for (int i = 0; i < result.size(); i++) {
+  for (int i = 0; i < result.size(); i++)
+  {
     long timestamp                = result[i]["T"].asInt64();
     aggTradeCache[timestamp]["p"] = atof(result[i]["p"].asString().c_str());
     aggTradeCache[timestamp]["q"] = atof(result[i]["q"].asString().c_str());
@@ -391,7 +424,8 @@ int main() {
 
   // User Balance
   BinanceCPP::get_account(recvWindow, result);
-  for (int i = 0; i < result["balances"].size(); i++) {
+  for (int i = 0; i < result["balances"].size(); i++)
+  {
     std::string symbol = result["balances"][i]["asset"].asString();
     userBalance[symbol]["f"] =
         atof(result["balances"][i]["free"].asString().c_str());

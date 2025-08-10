@@ -19,10 +19,12 @@ void BinanceCPP::get_withdrawHistory(std::string_view asset,
                                      long             startTime,
                                      long             endTime,
                                      long             recvWindow,
-                                     Json::Value     &json_result) {
+                                     Json::Value     &json_result)
+{
   BinanceCPP_logger::write_log("<BinanceCPP::get_withdrawHistory>");
 
-  if (api_key.size() == 0 || secret_key.size() == 0) {
+  if (api_key.size() == 0 || secret_key.size() == 0)
+  {
     BinanceCPP_logger::write_log(
         "<BinanceCPP::get_withdrawHistory> API Key and Secret Key has not been "
         "set.");
@@ -33,26 +35,36 @@ void BinanceCPP::get_withdrawHistory(std::string_view asset,
   url += "/wapi/v3/withdrawHistory.html?";
 
   std::string querystring;
-  if (!asset.empty()) {
+  if (!asset.empty())
+  {
     querystring += "asset=" + std::string(asset);
   }
-  if (status >= 0) {
-    if (!querystring.empty()) querystring += "&";
+  if (status >= 0)
+  {
+    if (!querystring.empty())
+      querystring += "&";
     querystring += "status=" + std::to_string(status);
   }
-  if (startTime > 0) {
-    if (!querystring.empty()) querystring += "&";
+  if (startTime > 0)
+  {
+    if (!querystring.empty())
+      querystring += "&";
     querystring += "startTime=" + std::to_string(startTime);
   }
-  if (endTime > 0) {
-    if (!querystring.empty()) querystring += "&";
+  if (endTime > 0)
+  {
+    if (!querystring.empty())
+      querystring += "&";
     querystring += "endTime=" + std::to_string(endTime);
   }
-  if (recvWindow > 0) {
-    if (!querystring.empty()) querystring += "&";
+  if (recvWindow > 0)
+  {
+    if (!querystring.empty())
+      querystring += "&";
     querystring += "recvWindow=" + std::to_string(recvWindow);
   }
-  if (!querystring.empty()) querystring += "&";
+  if (!querystring.empty())
+    querystring += "&";
   querystring += "timestamp=" + std::to_string(get_current_ms_epoch());
 
   std::string signature = hmac_sha256(secret_key, querystring);
@@ -69,11 +81,15 @@ void BinanceCPP::get_withdrawHistory(std::string_view asset,
   std::string result;
   curl_api_with_header(url, result, extra_headers, action, post_data);
 
-  if (!result.empty()) {
-    try {
+  if (!result.empty())
+  {
+    try
+    {
       Json::Reader reader;
       reader.parse(result, json_result);
-    } catch (const std::exception &e) {
+    }
+    catch (const std::exception &e)
+    {
       BinanceCPP_logger::write_log(
           "<BinanceCPP::get_withdrawHistory> Error parsing JSON: %s", e.what());
     }

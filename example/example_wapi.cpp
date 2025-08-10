@@ -12,7 +12,8 @@
 #define SECRET_KEY "secret key"
 
 //----------------------
-int main() {
+int main()
+{
   std::string api_key    = API_KEY;
   std::string secret_key = SECRET_KEY;
   BinanceCPP::init(api_key, secret_key);

@@ -11,7 +11,8 @@
 #include "binance_logger.h"
 #include "binance_utils.h"
 
-double BinanceCPP::get_price(std::string_view symbol) {
+double BinanceCPP::get_price(std::string_view symbol)
+{
   BinanceCPP_logger::write_log("<BinanceCPP::get_price>");
 
   double      ret = 0.0;
@@ -19,8 +20,10 @@ double BinanceCPP::get_price(std::string_view symbol) {
   const auto  str_symbol = string_toupper(symbol);
   get_allPrices(alltickers);
 
-  for (const auto &ticker : alltickers) {
-    if (ticker["symbol"].asString() == str_symbol) {
+  for (const auto &ticker : alltickers)
+  {
+    if (ticker["symbol"].asString() == str_symbol)
+    {
       ret = std::stod(ticker["price"].asString());
       break;
     }

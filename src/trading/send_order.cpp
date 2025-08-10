@@ -34,10 +34,12 @@ void BinanceCPP::send_order(std::string_view symbol,
                             double           stopPrice,
                             double           icebergQty,
                             long             recvWindow,
-                            Json::Value     &json_result) {
+                            Json::Value     &json_result)
+{
   BinanceCPP_logger::write_log("<BinanceCPP::send_order>");
 
-  if (api_key.size() == 0 || secret_key.size() == 0) {
+  if (api_key.size() == 0 || secret_key.size() == 0)
+  {
     BinanceCPP_logger::write_log(
         "<BinanceCPP::send_order> API Key and Secret Key has not been set.");
     return;
@@ -66,22 +68,26 @@ void BinanceCPP::send_order(std::string_view symbol,
   post_data.append("&quantity=");
   post_data.append(std::to_string(quantity));
 
-  if (!newClientOrderId.empty()) {
+  if (!newClientOrderId.empty())
+  {
     post_data.append("&newClientOrderId=");
     post_data.append(newClientOrderId);
   }
 
-  if (stopPrice > 0.0) {
+  if (stopPrice > 0.0)
+  {
     post_data.append("&stopPrice=");
     post_data.append(std::to_string(stopPrice));
   }
 
-  if (icebergQty > 0.0) {
+  if (icebergQty > 0.0)
+  {
     post_data.append("&icebergQty=");
     post_data.append(std::to_string(icebergQty));
   }
 
-  if (recvWindow > 0) {
+  if (recvWindow > 0)
+  {
     post_data.append("&recvWindow=");
     post_data.append(std::to_string(recvWindow));
   }
@@ -106,19 +112,23 @@ void BinanceCPP::send_order(std::string_view symbol,
   std::string str_result;
   curl_api_with_header(url, str_result, extra_http_header, post_data, action);
 
-  if (str_result.size() > 0) {
-    try {
+  if (str_result.size() > 0)
+  {
+    try
+    {
       Json::Reader reader;
       json_result.clear();
       reader.parse(str_result, json_result);
-
-    } catch (std::exception &e) {
+    }
+    catch (std::exception &e)
+    {
       BinanceCPP_logger::write_log("<BinanceCPP::send_order> Error ! %s",
                                    e.what());
     }
     BinanceCPP_logger::write_log("<BinanceCPP::send_order> Done.");
-
-  } else {
+  }
+  else
+  {
     BinanceCPP_logger::write_log(
         "<BinanceCPP::send_order> Failed to get anything.");
   }

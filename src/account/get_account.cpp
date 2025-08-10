@@ -14,10 +14,12 @@
 #include "binance_logger.h"
 #include "binance_utils.h"
 
-void BinanceCPP::get_account(long recvWindow, Json::Value &json_result) {
+void BinanceCPP::get_account(long recvWindow, Json::Value &json_result)
+{
   BinanceCPP_logger::write_log("<BinanceCPP::get_account>");
 
-  if (api_key.size() == 0 || secret_key.size() == 0) {
+  if (api_key.size() == 0 || secret_key.size() == 0)
+  {
     BinanceCPP_logger::write_log(
         "<BinanceCPP::get_account> API Key and Secret Key has not been set.");
     return;
@@ -30,7 +32,8 @@ void BinanceCPP::get_account(long recvWindow, Json::Value &json_result) {
   std::string querystring("timestamp=");
   querystring.append(std::to_string(get_current_ms_epoch()));
 
-  if (recvWindow > 0) {
+  if (recvWindow > 0)
+  {
     querystring.append("&recvWindow=");
     querystring.append(std::to_string(recvWindow));
   }
@@ -53,19 +56,23 @@ void BinanceCPP::get_account(long recvWindow, Json::Value &json_result) {
   std::string str_result;
   curl_api_with_header(url, str_result, extra_http_header, post_data, action);
 
-  if (str_result.size() > 0) {
-    try {
+  if (str_result.size() > 0)
+  {
+    try
+    {
       Json::Reader reader;
       json_result.clear();
       reader.parse(str_result, json_result);
-
-    } catch (std::exception &e) {
+    }
+    catch (std::exception &e)
+    {
       BinanceCPP_logger::write_log("<BinanceCPP::get_account> Error ! %s",
                                    e.what());
     }
     BinanceCPP_logger::write_log("<BinanceCPP::get_account> Done.");
-
-  } else {
+  }
+  else
+  {
     BinanceCPP_logger::write_log(
         "<BinanceCPP::get_account> Failed to get anything.");
   }

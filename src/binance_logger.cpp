@@ -7,11 +7,14 @@ int         BinanceCPP_logger::debug_log_file_enable = 0;
 FILE       *BinanceCPP_logger::log_fp                = nullptr;
 
 //-----------------------------------------------
-void BinanceCPP_logger::write_log(const char *fmt, ...) {
-  if (debug_level == 0) {
+void BinanceCPP_logger::write_log(const char *fmt, ...)
+{
+  if (debug_level == 0)
+  {
     return;
   }
-  if (debug_log_file_enable == 1) {
+  if (debug_log_file_enable == 1)
+  {
     open_logfp_if_not_opened();
   }
 
@@ -38,10 +41,13 @@ void BinanceCPP_logger::write_log(const char *fmt, ...) {
 
   va_start(arg, fmt);
 
-  if (debug_log_file_enable && log_fp) {
+  if (debug_log_file_enable && log_fp)
+  {
     vfprintf(log_fp, new_fmt, arg);
     fflush(log_fp);
-  } else {
+  }
+  else
+  {
     vfprintf(stdout, new_fmt, arg);
     fflush(stdout);
   }
@@ -51,21 +57,27 @@ void BinanceCPP_logger::write_log(const char *fmt, ...) {
 
 //-----------------------------------------------
 // Write log to channel without any timestamp nor new line
-void BinanceCPP_logger::write_log_clean(const char *fmt, ...) {
-  if (debug_level == 0) {
+void BinanceCPP_logger::write_log_clean(const char *fmt, ...)
+{
+  if (debug_level == 0)
+  {
     return;
   }
-  if (debug_log_file_enable == 1) {
+  if (debug_log_file_enable == 1)
+  {
     open_logfp_if_not_opened();
   }
 
   va_list arg;
   va_start(arg, fmt);
 
-  if (debug_log_file_enable && log_fp) {
+  if (debug_log_file_enable && log_fp)
+  {
     vfprintf(log_fp, fmt, arg);
     fflush(log_fp);
-  } else {
+  }
+  else
+  {
     vfprintf(stdout, fmt, arg);
     fflush(stdout);
   }
@@ -73,29 +85,37 @@ void BinanceCPP_logger::write_log_clean(const char *fmt, ...) {
 }
 
 //---------------------
-void BinanceCPP_logger::open_logfp_if_not_opened() {
-  if (debug_log_file_enable && log_fp == nullptr) {
+void BinanceCPP_logger::open_logfp_if_not_opened()
+{
+  if (debug_log_file_enable && log_fp == nullptr)
+  {
     log_fp = fopen(debug_log_file.c_str(), "a");
 
-    if (log_fp) {
+    if (log_fp)
+    {
       printf("log file in %s\n", debug_log_file.c_str());
-    } else {
+    }
+    else
+    {
       printf("Failed to open log file.\n");
     }
   }
 }
 
 //---------------------
-void BinanceCPP_logger::set_debug_level(int level) noexcept {
+void BinanceCPP_logger::set_debug_level(int level) noexcept
+{
   debug_level = level;
 }
 
 //--------------------
-void BinanceCPP_logger::set_debug_logfile(std::string_view pDebug_log_file) {
+void BinanceCPP_logger::set_debug_logfile(std::string_view pDebug_log_file)
+{
   debug_log_file = pDebug_log_file;
 }
 
 //--------------------
-void BinanceCPP_logger::enable_logfile(int pDebug_log_file_enable) noexcept {
+void BinanceCPP_logger::enable_logfile(int pDebug_log_file_enable) noexcept
+{
   debug_log_file_enable = pDebug_log_file_enable;
 }

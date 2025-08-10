@@ -12,12 +12,14 @@
 // INITIALIZATION FUNCTIONS
 //============================================================================
 
-void BinanceCPP::init() {
+void BinanceCPP::init()
+{
   curl_global_init(CURL_GLOBAL_DEFAULT);
   BinanceCPP::curl = curl_easy_init();
 }
 
-void BinanceCPP::init(std::string_view api_key, std::string_view secret_key) {
+void BinanceCPP::init(std::string_view api_key, std::string_view secret_key)
+{
   curl_global_init(CURL_GLOBAL_DEFAULT);
   BinanceCPP::curl       = curl_easy_init();
   BinanceCPP::api_key    = api_key;

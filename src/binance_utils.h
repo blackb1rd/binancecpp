@@ -31,7 +31,8 @@ int  replace_string_once(std::string&     str,
 [[nodiscard]] unsigned long get_current_ms_epoch();
 
 //--------------------
-inline bool file_exists(const std::string& name) {
+inline bool file_exists(const std::string& name)
+{
   return (access(name.c_str(), F_OK) != -1);
 }
 

@@ -17,10 +17,12 @@
 
 void BinanceCPP::get_openOrders(std::string_view symbol,
                                 long             recvWindow,
-                                Json::Value     &json_result) {
+                                Json::Value     &json_result)
+{
   BinanceCPP_logger::write_log("<BinanceCPP::get_openOrders>");
 
-  if (api_key.size() == 0 || secret_key.size() == 0) {
+  if (api_key.size() == 0 || secret_key.size() == 0)
+  {
     BinanceCPP_logger::write_log(
         "<BinanceCPP::get_openOrders> API Key and Secret Key has not been "
         "set.");
@@ -33,7 +35,8 @@ void BinanceCPP::get_openOrders(std::string_view symbol,
   std::string querystring("symbol=");
   querystring.append(symbol);
 
-  if (recvWindow > 0) {
+  if (recvWindow > 0)
+  {
     querystring.append("&recvWindow=");
     querystring.append(std::to_string(recvWindow));
   }
@@ -60,19 +63,23 @@ void BinanceCPP::get_openOrders(std::string_view symbol,
   std::string str_result;
   curl_api_with_header(url, str_result, extra_http_header, post_data, action);
 
-  if (str_result.size() > 0) {
-    try {
+  if (str_result.size() > 0)
+  {
+    try
+    {
       Json::Reader reader;
       json_result.clear();
       reader.parse(str_result, json_result);
-
-    } catch (std::exception &e) {
+    }
+    catch (std::exception &e)
+    {
       BinanceCPP_logger::write_log("<BinanceCPP::get_openOrders> Error ! %s",
                                    e.what());
     }
     BinanceCPP_logger::write_log("<BinanceCPP::get_openOrders> Done.");
-
-  } else {
+  }
+  else
+  {
     BinanceCPP_logger::write_log(
         "<BinanceCPP::get_openOrders> Failed to get anything.");
   }

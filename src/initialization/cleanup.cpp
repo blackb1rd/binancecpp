@@ -12,8 +12,10 @@
 // CLEANUP FUNCTIONS
 //============================================================================
 
-void BinanceCPP::cleanup() noexcept {
-  if (BinanceCPP::curl != nullptr) {
+void BinanceCPP::cleanup() noexcept
+{
+  if (BinanceCPP::curl != nullptr)
+  {
     curl_easy_cleanup(BinanceCPP::curl);
     BinanceCPP::curl = nullptr;
   }

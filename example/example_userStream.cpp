@@ -21,10 +21,12 @@
 std::map<std::string, std::map<std::string, double>> userBalance;
 
 //---------------------------
-void print_userBalance() {
+void print_userBalance()
+{
   std::map<std::string, std::map<std::string, double>>::iterator it_i;
   std::cout << "==================================" << std::endl;
-  for (it_i = userBalance.begin(); it_i != userBalance.end(); it_i++) {
+  for (it_i = userBalance.begin(); it_i != userBalance.end(); it_i++)
+  {
     std::string                   symbol  = (*it_i).first;
     std::map<std::string, double> balance = (*it_i).second;
     std::cout << "Symbol :" << symbol << ", ";
@@ -34,10 +36,12 @@ void print_userBalance() {
 }
 
 //----------------------------------
-int ws_userStream_OnData(Json::Value &json_result) {
+int ws_userStream_OnData(Json::Value &json_result)
+{
   int         i;
   std::string action = json_result["e"].asString();
-  if (action == "executionReport") {
+  if (action == "executionReport")
+  {
     std::string executionType = json_result["x"].asString();
     std::string orderStatus   = json_result["X"].asString();
     std::string reason        = json_result["r"].asString();
@@ -48,8 +52,10 @@ int ws_userStream_OnData(Json::Value &json_result) {
     std::string price         = json_result["p"].asString();
     std::string qty           = json_result["q"].asString();
 
-    if (executionType == "NEW") {
-      if (orderStatus == "REJECTED") {
+    if (executionType == "NEW")
+    {
+      if (orderStatus == "REJECTED")
+      {
         printf("%sOrder Failed! Reason: %s\n%s", KRED, reason.c_str(), RESET);
       }
       printf("%s\n\n%s %s %s %s(%s) %s %s\n\n%s",
@@ -62,7 +68,9 @@ int ws_userStream_OnData(Json::Value &json_result) {
              price.c_str(),
              qty.c_str(),
              RESET);
-    } else {
+    }
+    else
+    {
       printf("%s\n\n%s %s %s %s %s\n\n%s",
              KBLU,
              symbol.c_str(),
@@ -72,8 +80,11 @@ int ws_userStream_OnData(Json::Value &json_result) {
              orderId.c_str(),
              RESET);
     }
-  } else if (action == "outboundAccountInfo") {
-    for (i = 0; i < json_result["B"].size(); i++) {
+  }
+  else if (action == "outboundAccountInfo")
+  {
+    for (i = 0; i < json_result["B"].size(); i++)
+    {
       std::string symbol = json_result["B"][i]["a"].asString();
       userBalance[symbol]["f"] =
           atof(json_result["B"][i]["f"].asString().c_str());
@@ -85,20 +96,23 @@ int ws_userStream_OnData(Json::Value &json_result) {
   return 0;
 }
 
-int ws_klines_onData(Json::Value &json_result) {
+int ws_klines_onData(Json::Value &json_result)
+{
   printf("Event type:%s symbol:%s\n",
          json_result["e"].asString().c_str(),
          json_result["s"].asString().c_str());
   return 0;
 }
 
-int main() {
+int main()
+{
   std::string api_key    = API_KEY;
   std::string secret_key = SECRET_KEY;
   BinanceCPP::init(api_key, secret_key);
   Json::Value result;
   BinanceCPP::get_account(5000, result);
-  for (int i = 0; i < result["balances"].size(); i++) {
+  for (int i = 0; i < result["balances"].size(); i++)
+  {
     std::string symbol = result["balances"][i]["asset"].asString();
     userBalance[symbol]["f"] =
         atof(result["balances"][i]["free"].asString().c_str());

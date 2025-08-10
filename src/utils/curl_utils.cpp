@@ -17,7 +17,8 @@
 size_t BinanceCPP::curl_cb(void        *content,
                            size_t       size,
                            size_t       nmemb,
-                           std::string *buffer) {
+                           std::string *buffer)
+{
   BinanceCPP_logger::write_log("<BinanceCPP::curl_cb> ");
 
   buffer->append((char *)content, size * nmemb);
@@ -27,7 +28,8 @@ size_t BinanceCPP::curl_cb(void        *content,
 }
 
 // Simple curl API call without headers
-void BinanceCPP::curl_api(std::string &url, std::string &result_json) {
+void BinanceCPP::curl_api(std::string &url, std::string &result_json)
+{
   std::vector<std::string> v;
   std::string              action    = "GET";
   std::string              post_data = "";
@@ -41,12 +43,14 @@ void BinanceCPP::curl_api_with_header(
     std::string              &str_result,
     std::vector<std::string> &extra_http_header,
     std::string              &post_data,
-    std::string              &action) {
+    std::string              &action)
+{
   BinanceCPP_logger::write_log("<BinanceCPP::curl_api>");
 
   CURLcode res;
 
-  if (BinanceCPP::curl) {
+  if (BinanceCPP::curl)
+  {
     curl_easy_setopt(BinanceCPP::curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(
         BinanceCPP::curl, CURLOPT_WRITEFUNCTION, BinanceCPP::curl_cb);
@@ -54,17 +58,21 @@ void BinanceCPP::curl_api_with_header(
     curl_easy_setopt(BinanceCPP::curl, CURLOPT_SSL_VERIFYPEER, false);
     curl_easy_setopt(BinanceCPP::curl, CURLOPT_ENCODING, "gzip");
 
-    if (extra_http_header.size() > 0) {
+    if (extra_http_header.size() > 0)
+    {
       struct curl_slist *chunk = NULL;
-      for (int i = 0; i < extra_http_header.size(); i++) {
+      for (int i = 0; i < extra_http_header.size(); i++)
+      {
         chunk = curl_slist_append(chunk, extra_http_header[i].c_str());
       }
       curl_easy_setopt(BinanceCPP::curl, CURLOPT_HTTPHEADER, chunk);
     }
 
     if (post_data.size() > 0 || action == "POST" || action == "PUT" ||
-        action == "DELETE") {
-      if (action == "PUT" || action == "DELETE") {
+        action == "DELETE")
+    {
+      if (action == "PUT" || action == "DELETE")
+      {
         curl_easy_setopt(
             BinanceCPP::curl, CURLOPT_CUSTOMREQUEST, action.c_str());
       }
@@ -74,7 +82,8 @@ void BinanceCPP::curl_api_with_header(
     res = curl_easy_perform(BinanceCPP::curl);
 
     /* Check for errors */
-    if (res != CURLE_OK) {
+    if (res != CURLE_OK)
+    {
       BinanceCPP_logger::write_log(
           "<BinanceCPP::curl_api> curl_easy_perform() failed: %s",
           curl_easy_strerror(res));

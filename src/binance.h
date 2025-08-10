@@ -38,7 +38,8 @@ concept StringLike = std::convertible_to<T, std::string_view>;
 template <typename T>
 concept Numeric = std::integral<T> || std::floating_point<T>;
 
-class BinanceCPP {
+class BinanceCPP
+{
   static std::string api_key;
   static std::string secret_key;
   static CURL       *curl;

@@ -25,7 +25,8 @@ constexpr int              BINANCE_WS_PORT = 9443;
 // Modern C++20 callback type using std::function
 using CB = std::function<int(Json::Value &json_value)>;
 
-class BinanceCPP_websocket {
+class BinanceCPP_websocket
+{
   static struct lws_context  *context;
   static struct lws_protocols protocols[];
 

@@ -24,10 +24,12 @@ void BinanceCPP::cancel_order(std::string_view symbol,
                               std::string_view origClientOrderId,
                               std::string_view newClientOrderId,
                               long             recvWindow,
-                              Json::Value     &json_result) {
+                              Json::Value     &json_result)
+{
   BinanceCPP_logger::write_log("<BinanceCPP::cancel_order>");
 
-  if (api_key.size() == 0 || secret_key.size() == 0) {
+  if (api_key.size() == 0 || secret_key.size() == 0)
+  {
     BinanceCPP_logger::write_log(
         "<BinanceCPP::cancel_order> API Key and Secret Key has not been set.");
     return;
@@ -41,22 +43,26 @@ void BinanceCPP::cancel_order(std::string_view symbol,
   std::string post_data("symbol=");
   post_data.append(symbol);
 
-  if (orderId > 0) {
+  if (orderId > 0)
+  {
     post_data.append("&orderId=");
     post_data.append(std::to_string(orderId));
   }
 
-  if (!origClientOrderId.empty()) {
+  if (!origClientOrderId.empty())
+  {
     post_data.append("&origClientOrderId=");
     post_data.append(origClientOrderId);
   }
 
-  if (!newClientOrderId.empty()) {
+  if (!newClientOrderId.empty())
+  {
     post_data.append("&newClientOrderId=");
     post_data.append(newClientOrderId);
   }
 
-  if (recvWindow > 0) {
+  if (recvWindow > 0)
+  {
     post_data.append("&recvWindow=");
     post_data.append(std::to_string(recvWindow));
   }
@@ -81,19 +87,23 @@ void BinanceCPP::cancel_order(std::string_view symbol,
   std::string str_result;
   curl_api_with_header(url, str_result, extra_http_header, post_data, action);
 
-  if (str_result.size() > 0) {
-    try {
+  if (str_result.size() > 0)
+  {
+    try
+    {
       Json::Reader reader;
       json_result.clear();
       reader.parse(str_result, json_result);
-
-    } catch (std::exception &e) {
+    }
+    catch (std::exception &e)
+    {
       BinanceCPP_logger::write_log("<BinanceCPP::cancel_order> Error ! %s",
                                    e.what());
     }
     BinanceCPP_logger::write_log("<BinanceCPP::cancel_order> Done.");
-
-  } else {
+  }
+  else
+  {
     BinanceCPP_logger::write_log(
         "<BinanceCPP::cancel_order> Failed to get anything.");
   }

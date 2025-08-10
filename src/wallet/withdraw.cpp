@@ -20,10 +20,12 @@ void BinanceCPP::withdraw(std::string_view asset,
                           double           amount,
                           std::string_view name,
                           long             recvWindow,
-                          Json::Value     &json_result) {
+                          Json::Value     &json_result)
+{
   BinanceCPP_logger::write_log("<BinanceCPP::withdraw>");
 
-  if (api_key.size() == 0 || secret_key.size() == 0) {
+  if (api_key.size() == 0 || secret_key.size() == 0)
+  {
     BinanceCPP_logger::write_log(
         "<BinanceCPP::withdraw> API Key and Secret Key has not been set.");
     return;
@@ -35,14 +37,17 @@ void BinanceCPP::withdraw(std::string_view asset,
   std::string querystring;
   querystring += "asset=" + std::string(asset);
   querystring += "&address=" + std::string(address);
-  if (!addressTag.empty()) {
+  if (!addressTag.empty())
+  {
     querystring += "&addressTag=" + std::string(addressTag);
   }
   querystring += "&amount=" + std::to_string(amount);
-  if (!name.empty()) {
+  if (!name.empty())
+  {
     querystring += "&name=" + std::string(name);
   }
-  if (recvWindow > 0) {
+  if (recvWindow > 0)
+  {
     querystring += "&recvWindow=" + std::to_string(recvWindow);
   }
   querystring += "&timestamp=" + std::to_string(get_current_ms_epoch());
@@ -61,11 +66,15 @@ void BinanceCPP::withdraw(std::string_view asset,
   std::string result;
   curl_api_with_header(url, result, extra_headers, action, post_data);
 
-  if (!result.empty()) {
-    try {
+  if (!result.empty())
+  {
+    try
+    {
       Json::Reader reader;
       reader.parse(result, json_result);
-    } catch (const std::exception &e) {
+    }
+    catch (const std::exception &e)
+    {
       BinanceCPP_logger::write_log(
           "<BinanceCPP::withdraw> Error parsing JSON: %s", e.what());
     }

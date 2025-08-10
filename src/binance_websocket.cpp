@@ -20,8 +20,10 @@ int BinanceCPP_websocket::event_cb(struct lws               *wsi,
                                    enum lws_callback_reasons reason,
                                    void                     *user,
                                    void                     *in,
-                                   size_t                    len) {
-  switch (reason) {
+                                   size_t                    len)
+{
+  switch (reason)
+  {
     case LWS_CALLBACK_CLIENT_ESTABLISHED:
       lws_callback_on_writable(wsi);
       break;
@@ -29,7 +31,8 @@ int BinanceCPP_websocket::event_cb(struct lws               *wsi,
     case LWS_CALLBACK_CLIENT_RECEIVE:
 
       /* Handle incomming messages here. */
-      try {
+      try
+      {
         // BinanceCPP_logger::write_log("%p %s",  wsi, (char *)in );
 
         const std::string str_result = std::string((char *)in);
@@ -37,22 +40,26 @@ int BinanceCPP_websocket::event_cb(struct lws               *wsi,
         Json::Value       json_result;
         reader.parse(str_result, json_result);
 
-        if (const auto it = handles.find(wsi); it != handles.end()) {
+        if (const auto it = handles.find(wsi); it != handles.end())
+        {
           it->second(json_result);
         }
-
-      } catch (const std::exception &e) {
+      }
+      catch (const std::exception &e)
+      {
         BinanceCPP_logger::write_log(
             "<BinanceCPP_websocket::event_cb> Error ! %s", e.what());
       }
       break;
-    case LWS_CALLBACK_CLIENT_WRITEABLE: {
+    case LWS_CALLBACK_CLIENT_WRITEABLE:
+    {
       break;
     }
 
     case LWS_CALLBACK_CLOSED:
     case LWS_CALLBACK_CLIENT_CONNECTION_ERROR:
-      if (handles.find(wsi) != handles.end()) {
+      if (handles.find(wsi) != handles.end())
+      {
         handles.erase(wsi);
       }
       break;
@@ -65,7 +72,8 @@ int BinanceCPP_websocket::event_cb(struct lws               *wsi,
 }
 
 //-------------------
-void BinanceCPP_websocket::init() {
+void BinanceCPP_websocket::init()
+{
   struct lws_context_creation_info info;
   memset(&info, 0, sizeof(info));
 
@@ -79,7 +87,8 @@ void BinanceCPP_websocket::init() {
 }
 
 // Register call backs
-void BinanceCPP_websocket::connect_endpoint(CB cb, std::string_view path) {
+void BinanceCPP_websocket::connect_endpoint(CB cb, std::string_view path)
+{
   char ws_path[1024];
   strcpy(ws_path, path.data());
 
@@ -101,11 +110,16 @@ void BinanceCPP_websocket::connect_endpoint(CB cb, std::string_view path) {
 
 //----------------------------
 // Entering event loop
-void BinanceCPP_websocket::enter_event_loop() {
-  while (true) {
-    try {
+void BinanceCPP_websocket::enter_event_loop()
+{
+  while (true)
+  {
+    try
+    {
       lws_service(context, 500);
-    } catch (const std::exception &e) {
+    }
+    catch (const std::exception &e)
+    {
       BinanceCPP_logger::write_log(
           "<BinanceCPP_websocket::enter_event_loop> Error ! %s", e.what());
       break;

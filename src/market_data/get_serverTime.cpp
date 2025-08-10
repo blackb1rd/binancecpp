@@ -9,7 +9,8 @@
 #include "binance.h"
 #include "binance_logger.h"
 
-void BinanceCPP::get_serverTime(Json::Value &json_result) {
+void BinanceCPP::get_serverTime(Json::Value &json_result)
+{
   BinanceCPP_logger::write_log("<BinanceCPP::get_serverTime>");
 
   std::string url(BINANCE_HOST);
@@ -18,19 +19,23 @@ void BinanceCPP::get_serverTime(Json::Value &json_result) {
   std::string str_result;
   curl_api(url, str_result);
 
-  if (str_result.size() > 0) {
-    try {
+  if (str_result.size() > 0)
+  {
+    try
+    {
       Json::Reader reader;
       json_result.clear();
       reader.parse(str_result, json_result);
-
-    } catch (std::exception &e) {
+    }
+    catch (std::exception &e)
+    {
       BinanceCPP_logger::write_log("<BinanceCPP::get_serverTime> Error ! %s",
                                    e.what());
     }
     BinanceCPP_logger::write_log("<BinanceCPP::get_serverTime> Done.");
-
-  } else {
+  }
+  else
+  {
     BinanceCPP_logger::write_log(
         "<BinanceCPP::get_serverTime> Failed to get anything.");
   }
