@@ -1,7 +1,9 @@
 # Binance C++ API
 
+> **Note:** This is a fork project from [binacpp](https://github.com/binance/binacpp).
+
 #### Installation
-    git clone https://github.com/blackb1rd/binacpp
+    git clone https://github.com/blackb1rd/binance-cpp
 
 #### Dependencies
 
