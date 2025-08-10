@@ -51,22 +51,8 @@ install(DIRECTORY src/
 
 # Install examples if built and not in deploy mode
 if(BINANCECPP_BUILD_EXAMPLES)
-    install(DIRECTORY example/
-        DESTINATION ${CMAKE_INSTALL_DATADIR}/binancecpp/examples
-        FILES_MATCHING PATTERN "*.cpp"
-        PATTERN "CMakeLists.txt"
-    )
-
-    # Create a standalone CMakeLists.txt for examples
-    configure_file(
-        ${CMAKE_CURRENT_SOURCE_DIR}/cmake/ExamplesCMakeLists.txt.in
-        ${CMAKE_CURRENT_BINARY_DIR}/examples/CMakeLists.txt
-        @ONLY
-    )
-
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/examples/CMakeLists.txt
-        DESTINATION ${CMAKE_INSTALL_DATADIR}/binancecpp/examples
-    )
+    # Example binaries are installed by the example/CMakeLists.txt
+    message(STATUS "Example binaries will be installed to bin/examples")
 endif()# Generate and install package config files
 set(BINANCECPP_CMAKE_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/binancecpp)
 

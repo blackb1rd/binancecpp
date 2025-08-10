@@ -35,5 +35,10 @@ foreach(EXAMPLE_NAME ${EXAMPLES})
             $<$<CXX_COMPILER_ID:GNU>:-fconcepts>
             $<$<CXX_COMPILER_ID:Clang>:-fconcepts-ts>
         )
+
+        # Install example binaries
+        install(TARGETS ${EXAMPLE_NAME}
+            RUNTIME DESTINATION bin/examples
+        )
     endif()
 endforeach()

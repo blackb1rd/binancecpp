@@ -49,7 +49,7 @@ cmake --build --preset=deploy
 # Platform-specific builds
 cmake --preset=macos-debug      # macOS debug with examples
 cmake --preset=macos-release    # macOS release for deployment
-cmake --preset=linux-debug      # Linux debug with examples  
+cmake --preset=linux-debug      # Linux debug with examples
 cmake --preset=linux-release    # Linux release for deployment
 cmake --preset=windows-debug    # Windows debug with examples
 cmake --preset=windows-release  # Windows release for deployment
@@ -80,23 +80,22 @@ add_executable(my_app main.cpp)
 target_link_libraries(my_app PRIVATE binancecpp::binancecpp)
 ```
 
-### Building the Installed Examples
+### Running the Installed Examples
 
-If you installed with examples, you can build them separately:
+If you installed with examples, the example binaries are installed and ready to run:
 
 ```bash
-# Navigate to the examples directory (usually /usr/local/share/binancecpp/examples)
-cd /usr/local/share/binancecpp/examples
+# Example binaries are installed to /usr/local/bin/examples/ (or your install prefix)
+# Run examples directly
+/usr/local/bin/examples/example
+/usr/local/bin/examples/example_aggTrades
+/usr/local/bin/examples/example_klines
 
-# Create build directory
-mkdir build && cd build
-
-# Configure and build
-cmake ..
-make
-
-# Run an example
-./example
+# Or if you add the examples directory to your PATH
+export PATH="$PATH:/usr/local/bin/examples"
+example
+example_aggTrades
+example_klines
 ```
 
 ## CMake Options
@@ -117,4 +116,4 @@ make
 - **Library**: `${CMAKE_INSTALL_PREFIX}/lib/`
 - **Headers**: `${CMAKE_INSTALL_PREFIX}/include/binancecpp/`
 - **CMake files**: `${CMAKE_INSTALL_PREFIX}/lib/cmake/binancecpp/`
-- **Examples**: `${CMAKE_INSTALL_PREFIX}/share/binancecpp/examples/` (if enabled)
+- **Example binaries**: `${CMAKE_INSTALL_PREFIX}/bin/examples/` (if examples are enabled)
