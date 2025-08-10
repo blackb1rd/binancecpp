@@ -56,14 +56,14 @@ if(BINANCECPP_INSTALL_EXAMPLES)
         FILES_MATCHING PATTERN "*.cpp"
         PATTERN "CMakeLists.txt"
     )
-    
+
     # Create a standalone CMakeLists.txt for examples
     configure_file(
         ${CMAKE_CURRENT_SOURCE_DIR}/cmake/ExamplesCMakeLists.txt.in
         ${CMAKE_CURRENT_BINARY_DIR}/examples/CMakeLists.txt
         @ONLY
     )
-    
+
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/examples/CMakeLists.txt
         DESTINATION ${CMAKE_INSTALL_DATADIR}/binancecpp/examples
     )
