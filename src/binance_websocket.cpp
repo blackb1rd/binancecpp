@@ -40,7 +40,7 @@ int BinanceCPP_websocket::event_cb(struct lws               *wsi,
         Json::Value       json_result;
         reader.parse(str_result, json_result);
 
-        if (const auto it = handles.find(wsi); it != handles.end())
+        if (const std::map<struct lws *, CB>::iterator it = handles.find(wsi); it != handles.end())
         {
           it->second(json_result);
         }

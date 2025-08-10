@@ -17,10 +17,10 @@ double BinanceCPP::get_price(std::string_view symbol)
 
   double      ret = 0.0;
   Json::Value alltickers;
-  const auto  str_symbol = string_toupper(symbol);
+  const std::string str_symbol = string_toupper(symbol);
   get_allPrices(alltickers);
 
-  for (const auto &ticker : alltickers)
+  for (const Json::Value &ticker : alltickers)
   {
     if (ticker["symbol"].asString() == str_symbol)
     {

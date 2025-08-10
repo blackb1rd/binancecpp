@@ -50,7 +50,7 @@ class BinanceCPP_logger
   {
     if constexpr (sizeof...(args) > 0)
     {
-      auto formatted = std::vformat(fmt, std::make_format_args(args...));
+      std::string formatted = std::vformat(fmt, std::make_format_args(args...));
       write_log_clean(formatted.c_str());
     }
     else

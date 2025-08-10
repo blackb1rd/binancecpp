@@ -21,7 +21,7 @@ int replace_string_once(std::string&     str,
                         std::string_view to,
                         int              offset)
 {
-  const auto start_pos = str.find(from, offset);
+  const size_t start_pos = str.find(from, offset);
   if (start_pos == std::string::npos)
   {
     return 0;
@@ -49,7 +49,7 @@ bool replace_string(std::string&     str,
 //-----------------------
 void string_toupper(std::string& src)
 {
-  for (auto& c : src)
+  for (char& c : src)
   {
     c = static_cast<char>(toupper(c));
   }
@@ -71,7 +71,7 @@ std::string b2a_hex(char* byte_arr, int n)
   HexString.reserve(n * 2);
   for (int i = 0; i < n; ++i)
   {
-    const auto BinValue = static_cast<unsigned char>(byte_arr[i]);
+    const unsigned char BinValue = static_cast<unsigned char>(byte_arr[i]);
     HexString += HexCodes[(BinValue >> 4) & 0x0F];
     HexString += HexCodes[BinValue & 0x0F];
   }

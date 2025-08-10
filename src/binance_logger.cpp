@@ -28,14 +28,14 @@ void BinanceCPP_logger::write_log(const char *fmt, ...)
   char new_fmt[1024];
 
   // Cross-platform time handling using C++11 chrono
-  auto now_time_point = std::chrono::system_clock::now();
-  auto time_t_now     = std::chrono::system_clock::to_time_t(now_time_point);
-  auto duration_since_epoch = now_time_point.time_since_epoch();
-  auto microseconds = std::chrono::duration_cast<std::chrono::microseconds>(
+  std::chrono::system_clock::time_point now_time_point = std::chrono::system_clock::now();
+  std::time_t time_t_now     = std::chrono::system_clock::to_time_t(now_time_point);
+  std::chrono::system_clock::duration duration_since_epoch = now_time_point.time_since_epoch();
+  std::chrono::microseconds microseconds = std::chrono::duration_cast<std::chrono::microseconds>(
                           duration_since_epoch) %
                       1000000;
 
-  const auto *now = localtime(&time_t_now);
+  const struct tm *now = localtime(&time_t_now);
 
   snprintf(new_fmt,
            sizeof(new_fmt),

@@ -13,18 +13,18 @@
 #include "binance.h"
 #include "binance_websocket.h"
 
-constexpr auto API_KEY    = "api key";
-constexpr auto SECRET_KEY = "user key";
+constexpr const char* API_KEY    = "api key";
+constexpr const char* SECRET_KEY = "user key";
 
 // Some code to make terminal to have colors
-constexpr auto KGRN   = "\033[0;32;32m";
-constexpr auto KCYN   = "\033[0;36m";
-constexpr auto KRED   = "\033[0;32;31m";
-constexpr auto KYEL   = "\033[1;33m";
-constexpr auto KBLU   = "\033[0;32;34m";
-constexpr auto KCYN_L = "\033[1;36m";
-constexpr auto KBRN   = "\033[0;33m";
-constexpr auto RESET  = "\033[0m";
+constexpr const char* KGRN   = "\033[0;32;32m";
+constexpr const char* KCYN   = "\033[0;36m";
+constexpr const char* KRED   = "\033[0;32;31m";
+constexpr const char* KYEL   = "\033[1;33m";
+constexpr const char* KBLU   = "\033[0;32;34m";
+constexpr const char* KCYN_L = "\033[1;36m";
+constexpr const char* KBRN   = "\033[0;33m";
+constexpr const char* RESET  = "\033[0m";
 
 // Global data structures using modern initialization
 inline std::map<std::string, std::map<double, double>>      depthCache{};
@@ -43,8 +43,8 @@ void print_depthCache()
     std::cout << bid_or_ask << std::endl;
     std::cout << "Price             Qty" << std::endl;
 
-    // Use reverse iterator with modern auto
-    for (auto it = price_map.rbegin(); it != price_map.rend(); ++it)
+    // Use reverse iterator with explicit type
+    for (std::map<double, double>::const_reverse_iterator it = price_map.rbegin(); it != price_map.rend(); ++it)
     {
       const auto &[price, qty] = *it;
       std::cout << std::format("{:.08f}          {:.08f}\n", price, qty);

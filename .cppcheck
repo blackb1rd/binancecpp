@@ -5,7 +5,7 @@
         <dir name="example/"/>
     </paths>
     <exclude>
-        <path name="build/"/>
+        <path name="bin/"/>
         <path name="vcpkg_installed/"/>
     </exclude>
 </project>
