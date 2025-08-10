@@ -50,8 +50,9 @@
             "name": "windows-debug",
             "inherits": "debug",
             "displayName": "Windows Debug",
-            "description": "Debug Windows build using vcpkg with Ninja",
-            "generator": "Ninja",
+            "description": "Debug Windows build using vcpkg with Visual Studio",
+            "generator": "Visual Studio 17 2022",
+            "architecture": "x64",
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
@@ -62,8 +63,9 @@
             "name": "windows-release",
             "inherits": "release",
             "displayName": "Windows Release",
-            "description": "Release Windows build using vcpkg with Ninja",
-            "generator": "Ninja",
+            "description": "Release Windows build using vcpkg with Visual Studio",
+            "generator": "Visual Studio 17 2022",
+            "architecture": "x64",
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
@@ -135,7 +137,8 @@
             "inherits": "deploy",
             "displayName": "Windows Deploy",
             "description": "Production Windows deployment build without examples",
-            "generator": "Ninja",
+            "generator": "Visual Studio 17 2022",
+            "architecture": "x64",
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
