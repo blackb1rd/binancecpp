@@ -1,5 +1,3 @@
-// Note: Headers are included in binance_modular.cpp
-
 /*
         Author: blackb1rd
         Date  : 2025/08/07
@@ -8,6 +6,7 @@
         C++ library for Binance API - Cleanup Functions
         Updated for C++20 support
 */
+#include "binance.h"
 
 //============================================================================
 // CLEANUP FUNCTIONS

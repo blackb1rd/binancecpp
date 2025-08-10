@@ -1,5 +1,3 @@
-// Note: Headers are included in binance_modular.cpp
-
 /*
         Author: blackb1rd
         Date  : 2025/08/07
@@ -17,6 +15,8 @@
    INCLUSIVE
         - limit: INT (NO) - Default 500; max 500
 */
+#include "binance.h"
+#include "binance_logger.h"
 
 void BinanceCPP::get_aggTrades(std::string_view symbol,
                                int fromId,

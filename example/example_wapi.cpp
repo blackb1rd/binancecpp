@@ -5,8 +5,8 @@
 #include <string>
 #include <vector>
 
-#include "src/binacpp.h"
-#include "src/binance_websocket.h"
+#include "binance.h"
+#include "binance_websocket.h"
 
 #define API_KEY "api key"
 #define SECRET_KEY "secret key"

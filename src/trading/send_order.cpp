@@ -1,5 +1,3 @@
-// Note: Headers are included in binance_modular.cpp
-
 /*
         Author: blackb1rd
         Date  : 2025/08/07
@@ -22,8 +20,9 @@
         - recvWindow: LONG (NO)
         - timestamp: LONG (YES)
 */
-
-// Note: Headers are included in binance_modular.cpp
+#include "binance.h"
+#include "binance_logger.h"
+#include "binance_utils.h"
 
 void BinanceCPP::send_order(std::string_view symbol,
                             std::string_view side,

@@ -10,8 +10,8 @@
 #include <string_view>
 #include <vector>
 
-#include "src/binacpp.h"
-#include "src/binance_websocket.h"
+#include "binance.h"
+#include "binance_websocket.h"
 
 constexpr auto API_KEY = "api key";
 constexpr auto SECRET_KEY = "user key";

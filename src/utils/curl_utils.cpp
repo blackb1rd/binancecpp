@@ -1,5 +1,3 @@
-// Note: Headers are included in binance_modular.cpp
-
 /*
         Author: blackb1rd
         Date  : 2025/08/07
@@ -8,6 +6,8 @@
         C++ library for Binance API - CURL Utilities
         Internal HTTP/CURL operations
 */
+#include "binance.h"
+#include "binance_logger.h"
 
 //============================================================================
 // CURL UTILITY FUNCTIONS

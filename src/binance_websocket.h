@@ -1,6 +1,6 @@
 
-#ifndef BINANCE_CPP_WEBSOCKET_H
-#define BINANCE_CPP_WEBSOCKET_H
+#ifndef BINANCE_WEBSOCKET_H
+#define BINANCE_WEBSOCKET_H
 
 // Modern C++20 headers
 #include <json/json.h>
@@ -42,4 +42,4 @@ class BinanceCPP_websocket {
   static void enter_event_loop();
 };
 
-#endif
+#endif  // BINANCE_WEBSOCKET_H

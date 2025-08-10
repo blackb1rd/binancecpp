@@ -1,9 +1,6 @@
+#ifndef BINANCE_UTILS_H
+#define BINANCE_UTILS_H
 
-
-#ifndef BINANCE_CPP_UTILS
-#define BINANCE_CPP_UTILS
-
-// Modern C++20 headers
 #include <openssl/hmac.h>
 #include <openssl/sha.h>
 #include <sys/time.h>
@@ -44,4 +41,4 @@ inline bool file_exists(const std::string& name) {
 void string_toupper(std::string& src);
 [[nodiscard]] std::string string_toupper(std::string_view cstr);
 
-#endif
+#endif  // BINANCE_UTILS_H

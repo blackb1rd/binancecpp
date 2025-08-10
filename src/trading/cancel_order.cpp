@@ -1,5 +1,3 @@
-// Note: Headers are included in binance_modular.cpp
-
 /*
         Author: blackb1rd
         Date  : 2025/08/07
@@ -17,6 +15,9 @@
         - recvWindow: LONG (NO)
         - timestamp: LONG (YES)
 */
+#include "binance.h"
+#include "binance_logger.h"
+#include "binance_utils.h"
 
 void BinanceCPP::cancel_order(std::string_view symbol,
                               long orderId,

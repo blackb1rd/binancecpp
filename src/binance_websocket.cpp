@@ -1,5 +1,3 @@
-
-
 #include "binance_websocket.h"
 
 #include "binance_logger.h"

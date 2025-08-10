@@ -1,5 +1,3 @@
-// Note: Headers are included in binance_modular.cpp
-
 /*
         Author: blackb1rd
         Date  : 2025/08/07
@@ -8,8 +6,8 @@
         C++ library for Binance API - Server Time
         GET /api/v1/time - Get server time
 */
-
-// Note: Headers are included in binance_modular.cpp
+#include "binance.h"
+#include "binance_logger.h"
 
 void BinanceCPP::get_serverTime(Json::Value &json_result) {
   BinanceCPP_logger::write_log("<BinanceCPP::get_serverTime>");

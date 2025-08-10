@@ -1,5 +1,3 @@
-// Note: Headers are included in binance_modular.cpp
-
 /*
         Author: blackb1rd
         Date  : 2025/08/07
@@ -9,6 +7,8 @@
         GET /api/v1/ticker/allBookTickers - Get best price/qty on the order book
    for all symbols
 */
+#include "binance.h"
+#include "binance_logger.h"
 
 void BinanceCPP::get_allBookTickers(Json::Value &json_result) {
   BinanceCPP_logger::write_log("<BinanceCPP::get_allBookTickers>");

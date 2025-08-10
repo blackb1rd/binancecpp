@@ -1,5 +1,3 @@
-// Note: Headers are included in binance_modular.cpp
-
 /*
         Author: blackb1rd
         Date  : 2025/08/07
@@ -12,6 +10,8 @@
         - symbol: STRING (YES)
         - limit: INT (NO) - Default 100; max 100
 */
+#include "binance.h"
+#include "binance_logger.h"
 
 void BinanceCPP::get_depth(std::string_view symbol,
                            int limit,

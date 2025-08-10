@@ -1,5 +1,3 @@
-// Note: Headers are included in binance_modular.cpp
-
 /*
         Author: blackb1rd
         Date  : 2025/08/07
@@ -9,6 +7,9 @@
         Helper function that uses get_allBookTickers internally to get book
    ticker for specific symbol
 */
+#include "binance.h"
+#include "binance_logger.h"
+#include "binance_utils.h"
 
 void BinanceCPP::get_bookTicker(std::string_view symbol,
                                 Json::Value &json_result) {

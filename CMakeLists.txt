@@ -14,12 +14,13 @@ find_package(jsoncpp CONFIG REQUIRED)
 find_package(CURL REQUIRED)
 find_package(libwebsockets CONFIG REQUIRED)
 
+# Add src/ as include directory for the entire project
+include_directories(src)
+
 # Add subdirectories
 add_subdirectory(src)
 add_subdirectory(example)
 
-# Add src/ as include directory for the entire project
-include_directories(src)
 
 # Installation
 include(GNUInstallDirs)

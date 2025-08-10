@@ -14,8 +14,7 @@ The BinanceCPP library has been reorganized into a modular structure for better 
 ```
 src/
 ├── binacpp.h                    # Main header file
-├── binacpp.cpp                  # Original single-file implementation
-├── binance_modular.cpp          # New modular implementation entry point
+├── binacpp.cpp                  # New modular implementation entry point
 ├── binance_utils.h/.cpp         # Utility functions
 ├── binance_logger.h/.cpp        # Logging functions
 ├── binance_websocket.h/.cpp     # WebSocket functionality

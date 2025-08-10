@@ -1,5 +1,3 @@
-// Note: Headers are included in binance_modular.cpp
-
 /*
         Author: blackb1rd
         Date  : 2025/08/07
@@ -12,6 +10,9 @@
         - recvWindow: LONG (NO)
         - timestamp: LONG (YES)
 */
+#include "binance.h"
+#include "binance_logger.h"
+#include "binance_utils.h"
 
 void BinanceCPP::get_account(long recvWindow, Json::Value &json_result) {
   BinanceCPP_logger::write_log("<BinanceCPP::get_account>");

@@ -1,5 +1,3 @@
-// Note: Headers are included in binance_modular.cpp
-
 /*
         Author: blackb1rd
         Date  : 2025/08/07
@@ -8,6 +6,8 @@
         C++ library for Binance API - Start User Data Stream
         POST /api/v1/userDataStream - Start user data stream (API-KEY)
 */
+#include "binance.h"
+#include "binance_logger.h"
 
 void BinanceCPP::start_userDataStream(Json::Value &json_result) {
   BinanceCPP_logger::write_log("<BinanceCPP::start_userDataStream>");

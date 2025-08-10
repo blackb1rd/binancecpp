@@ -1,5 +1,3 @@
-// Note: Headers are included in binance_modular.cpp
-
 /*
         Author: blackb1rd
         Date  : 2025/08/07
@@ -9,6 +7,9 @@
         Helper function that uses get_allPrices internally to get single pair's
    price
 */
+#include "binance.h"
+#include "binance_logger.h"
+#include "binance_utils.h"
 
 double BinanceCPP::get_price(std::string_view symbol) {
   BinanceCPP_logger::write_log("<BinanceCPP::get_price>");

@@ -1,6 +1,5 @@
-
-
-// Modern C++20 headers
+#ifndef BINANCE_LOGGER_H
+#define BINANCE_LOGGER_H
 #include <fcntl.h>
 #include <fnmatch.h>
 #include <sys/stat.h>
@@ -46,3 +45,5 @@ class BinanceCPP_logger {
     }
   }
 };
+
+#endif  // BINANCE_LOGGER_H

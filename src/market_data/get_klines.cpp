@@ -1,5 +1,3 @@
-// Note: Headers are included in binance_modular.cpp
-
 /*
         Author: blackb1rd
         Date  : 2025/08/07
@@ -15,6 +13,8 @@
         - startTime: LONG (NO)
         - endTime: LONG (NO)
 */
+#include "binance.h"
+#include "binance_logger.h"
 
 void BinanceCPP::get_klines(std::string_view symbol,
                             std::string_view interval,
