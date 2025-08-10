@@ -299,7 +299,6 @@ int main() {
   //cout << result << endl;
   */
 
-
   /*-------------------------------------------------------------
   // Example: Check an order's status
   BinanceCPP::get_order( "BNBETH", 12345678, "", recvWindow, result );

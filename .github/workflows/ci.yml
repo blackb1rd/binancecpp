@@ -13,16 +13,31 @@ jobs:
       matrix:
         # os: [ubuntu-latest, windows-latest, macos-latest]
         os: [ubuntu-latest]
-        build_type: [Debug, Release]
+        build_type: [debug, release]
         include:
           - os: ubuntu-latest
-            preset: linux-default
+            build_type: debug
+            preset: linux-debug
+            vcpkg_triplet: x64-linux
+          - os: ubuntu-latest
+            build_type: release
+            preset: linux-release
             vcpkg_triplet: x64-linux
           - os: windows-latest
-            preset: windows-default
+            build_type: debug
+            preset: windows-debug
+            vcpkg_triplet: x64-windows
+          - os: windows-latest
+            build_type: release
+            preset: windows-release
             vcpkg_triplet: x64-windows
           - os: macos-latest
-            preset: macos-default
+            build_type: debug
+            preset: macos-debug
+            vcpkg_triplet: x64-osx
+          - os: macos-latest
+            build_type: release
+            preset: macos-release
             vcpkg_triplet: x64-osx
 
     runs-on: ${{ matrix.os }}
@@ -53,8 +68,7 @@ jobs:
       - name: Configure CMake (Linux/macOS)
         if: matrix.os != 'windows-latest'
         run: |
-          cmake --preset=${{ matrix.preset }} \
-            -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          cmake --preset=${{ matrix.preset }}
 
       - name: Configure CMake (Windows)
         if: matrix.os == 'windows-latest'
@@ -62,7 +76,7 @@ jobs:
           cmake --preset=${{ matrix.preset }}
 
       - name: Build
-        run: cmake --build --preset=${{ matrix.preset }} --config ${{ matrix.build_type }}
+        run: cmake --build --preset=${{ matrix.preset }}
 
       - name: Test library linkage (Linux/macOS)
         if: matrix.os != 'windows-latest'
