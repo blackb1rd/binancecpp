@@ -129,6 +129,48 @@
                 "CMAKE_C_COMPILER": "clang",
                 "CMAKE_CXX_COMPILER": "clang++"
             }
+        },
+        {
+            "name": "windows-deploy",
+            "inherits": "deploy",
+            "displayName": "Windows Deploy",
+            "description": "Production Windows deployment build without examples",
+            "generator": "Ninja",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {
+            "name": "linux-deploy",
+            "inherits": "deploy",
+            "displayName": "Linux Deploy",
+            "description": "Production Linux deployment build without examples",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            },
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++"
+            }
+        },
+        {
+            "name": "macos-deploy",
+            "inherits": "deploy",
+            "displayName": "macOS Deploy",
+            "description": "Production macOS deployment build without examples",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Darwin"
+            },
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++"
+            }
         }
     ],
     "buildPresets": [
@@ -161,6 +203,21 @@
             "name": "macos-release",
             "displayName": "macOS Release Build",
             "configurePreset": "macos-release"
+        },
+        {
+            "name": "windows-deploy",
+            "displayName": "Windows Deploy Build",
+            "configurePreset": "windows-deploy"
+        },
+        {
+            "name": "linux-deploy",
+            "displayName": "Linux Deploy Build",
+            "configurePreset": "linux-deploy"
+        },
+        {
+            "name": "macos-deploy",
+            "displayName": "macOS Deploy Build",
+            "configurePreset": "macos-deploy"
         }
     ]
 }

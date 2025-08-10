@@ -1,6 +1,17 @@
 # Installation Guide
 
-## Building and Installing binancecpp
+## Building and Installing# Platform-specific builds
+cmake --preset=macos-debug      # macOS debug with examples
+cmake --preset=macos-release    # macOS release with examples
+cmake --preset=linux-debug      # Linux debug with examples
+cmake --preset=linux-release    # Linux release with examples
+cmake --preset=windows-debug    # Windows debug with examples
+cmake --preset=windows-release  # Windows release with examples
+
+# Platform-specific deployment builds (no examples)
+cmake --preset=macos-deploy     # macOS production deployment
+cmake --preset=linux-deploy     # Linux production deployment
+cmake --preset=windows-deploy   # Windows production deploymentecpp
 
 ### Development Build (with examples)
 
@@ -36,6 +47,8 @@ cmake .. -DBINANCECPP_DEPLOY_MODE=ON
 
 ```bash
 # List available presets
+```bash
+# List available presets
 cmake --list-presets=all
 
 # Development build with examples
@@ -48,11 +61,16 @@ cmake --build --preset=deploy
 
 # Platform-specific builds
 cmake --preset=macos-debug      # macOS debug with examples
-cmake --preset=macos-release    # macOS release for deployment
+cmake --preset=macos-release    # macOS release with examples
 cmake --preset=linux-debug      # Linux debug with examples
-cmake --preset=linux-release    # Linux release for deployment
+cmake --preset=linux-release    # Linux release with examples
 cmake --preset=windows-debug    # Windows debug with examples
-cmake --preset=windows-release  # Windows release for deployment
+cmake --preset=windows-release  # Windows release with examples
+
+# Platform-specific deployment builds (no examples)
+cmake --preset=macos-deploy     # macOS production deployment
+cmake --preset=linux-deploy     # Linux production deployment
+cmake --preset=windows-deploy   # Windows production deployment
 ```
 
 ### Custom Installation Prefix
