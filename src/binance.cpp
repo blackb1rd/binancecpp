@@ -45,26 +45,6 @@ std::string BinanceCPP::api_key = "";
 std::string BinanceCPP::secret_key = "";
 CURL *BinanceCPP::curl = nullptr;
 
-// Include all modular function implementations
-#include "account/get_account.cpp"
-#include "account/get_myTrades.cpp"
-#include "initialization/cleanup.cpp"
-#include "initialization/init.cpp"
-#include "market_data/get_24hr.cpp"
-#include "market_data/get_aggTrades.cpp"
-#include "market_data/get_allBookTickers.cpp"
-#include "market_data/get_allPrices.cpp"
-#include "market_data/get_bookTicker.cpp"
-#include "market_data/get_depth.cpp"
-#include "market_data/get_exchangeInfo.cpp"
-#include "market_data/get_klines.cpp"
-#include "market_data/get_price.cpp"
-#include "market_data/get_serverTime.cpp"
-#include "trading/cancel_order.cpp"
-#include "trading/get_openOrders.cpp"
-#include "trading/send_order.cpp"
-#include "user_stream/start_userDataStream.cpp"
-#include "utils/curl_utils.cpp"
-
-// Note: Additional function files can be added here as they are created
-// This modular approach allows for easy maintenance and organization
+// Note: Function implementations are in separate modular files
+// that are compiled separately by CMake and linked together.
+// This modular approach allows for easy maintenance and organization.
