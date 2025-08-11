@@ -26,66 +26,29 @@ int main()
               << std::endl;
   }
 
-  // Test 2: Legacy API initialization
-  std::cout << "\n2. Testing Legacy API initialization..." << std::endl;
-  try
-  {
-    BinanceCPP::init();
-    std::cout << "✅ Legacy API initialization successful" << std::endl;
-  }
-  catch (const std::exception& e)
-  {
-    std::cout << "❌ Legacy API initialization failed: " << e.what()
-              << std::endl;
-  }
-
-  // Test 3: Modern API - Get Server Time
-  std::cout << "\n3. Testing Modern API - Server Time..." << std::endl;
+  // Test 2: API Server Time
+  std::cout << "\n2. Testing API Server Time..." << std::endl;
   try
   {
     Json::Value result;
-    binance_cpp::financial_trading::spot_trading::general_endpoints::
-        ServerTime::GetServerTime(result);
+    binance_cpp::financial_trading::spot_trading::general_endpoints::ServerTime::GetServerTime(result);
     if (!result.empty())
     {
-      std::cout << "✅ Modern API server time: "
+      std::cout << "✅ API server time: "
                 << result["serverTime"].asUInt64() << std::endl;
     }
     else
     {
-      std::cout << "⚠️  Modern API server time returned empty result"
-                << std::endl;
+      std::cout << "⚠️  API server time returned empty result" << std::endl;
     }
   }
   catch (const std::exception& e)
   {
-    std::cout << "❌ Modern API server time failed: " << e.what() << std::endl;
+    std::cout << "❌ API server time failed: " << e.what() << std::endl;
   }
 
-  // Test 4: Legacy API - Get Server Time
-  std::cout << "\n4. Testing Legacy API - Server Time..." << std::endl;
-  try
-  {
-    Json::Value result;
-    BinanceCPP::get_serverTime(result);
-    if (!result.empty())
-    {
-      std::cout << "✅ Legacy API server time: "
-                << result["serverTime"].asUInt64() << std::endl;
-    }
-    else
-    {
-      std::cout << "⚠️  Legacy API server time returned empty result"
-                << std::endl;
-    }
-  }
-  catch (const std::exception& e)
-  {
-    std::cout << "❌ Legacy API server time failed: " << e.what() << std::endl;
-  }
-
-  // Test 5: Modern API - Test Connectivity
-  std::cout << "\n5. Testing Modern API - Test Connectivity..." << std::endl;
+  // Test 3: Test Connectivity
+  std::cout << "\n3. Testing API - Test Connectivity..." << std::endl;
   try
   {
     Json::Value result;
@@ -143,18 +106,18 @@ int main()
     std::cout << "❌ Modern API BTC price failed: " << e.what() << std::endl;
   }
 
-  // Test 8: Legacy API - Get Price (BTC)
-  std::cout << "\n8. Testing Legacy API - Get BTC Price..." << std::endl;
+  // Test 4: Get Price (BTC)
+  std::cout << "\n4. Testing API - Get BTC Price..." << std::endl;
   try
   {
-    double price = BinanceCPP::get_price("BTCUSDT");
+    double price = binance_cpp::financial_trading::spot_trading::market_data_endpoints::CurrentPrices::GetPrice("BTCUSDT");
     if (price > 0)
     {
-      std::cout << "✅ Legacy API BTC price: $" << price << std::endl;
+      std::cout << "✅ API BTC price: $" << price << std::endl;
     }
     else
     {
-      std::cout << "⚠️  Legacy API BTC price returned 0" << std::endl;
+      std::cout << "⚠️  API BTC price returned 0" << std::endl;
     }
   }
   catch (const std::exception& e)

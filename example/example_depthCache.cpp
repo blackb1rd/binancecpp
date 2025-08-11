@@ -93,8 +93,8 @@ int main()
   // Market Depth
   int         i;
   std::string symbol = "BNBBTC";
-  BinanceCPP::init();
-  BinanceCPP::get_depth(symbol.c_str(), 20, result);
+  binance_cpp::core::BinanceAPI::Init();
+  binance_cpp::financial_trading::spot_trading::market_data_endpoints::OrderBook::GetOrderBook(symbol.c_str(), 20, result);
 
   // Initialize the lastUpdateId
   lastUpdateId = result["lastUpdateId"].asInt64();

@@ -83,7 +83,6 @@
                 "rhs": "Linux"
             },
             "cacheVariables": {
-                "CMAKE_C_COMPILER": "gcc",
                 "CMAKE_CXX_COMPILER": "g++"
             }
         },
@@ -98,7 +97,6 @@
                 "rhs": "Linux"
             },
             "cacheVariables": {
-                "CMAKE_C_COMPILER": "gcc",
                 "CMAKE_CXX_COMPILER": "g++"
             }
         },
@@ -113,7 +111,6 @@
                 "rhs": "Darwin"
             },
             "cacheVariables": {
-                "CMAKE_C_COMPILER": "clang",
                 "CMAKE_CXX_COMPILER": "clang++"
             }
         },
@@ -128,7 +125,6 @@
                 "rhs": "Darwin"
             },
             "cacheVariables": {
-                "CMAKE_C_COMPILER": "clang",
                 "CMAKE_CXX_COMPILER": "clang++"
             }
         },
@@ -156,7 +152,6 @@
                 "rhs": "Linux"
             },
             "cacheVariables": {
-                "CMAKE_C_COMPILER": "gcc",
                 "CMAKE_CXX_COMPILER": "g++"
             }
         },
@@ -171,7 +166,6 @@
                 "rhs": "Darwin"
             },
             "cacheVariables": {
-                "CMAKE_C_COMPILER": "clang",
                 "CMAKE_CXX_COMPILER": "clang++"
             }
         }

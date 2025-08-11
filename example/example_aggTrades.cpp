@@ -53,10 +53,10 @@ int main()
   Json::Value result;
   long        recvWindow = 10000;
 
-  BinanceCPP::init();
+  binance_cpp::core::BinanceAPI::Init();
 
   //  AggTrades
-  BinanceCPP::get_aggTrades("BNBBTC", 0, 0, 0, 10, result);
+  binance_cpp::financial_trading::spot_trading::market_data_endpoints::TradeData::GetAggregateTradesList("BNBBTC", 0, 0, 0, 10, result);
 
   for (int i = 0; i < result.size(); i++)
   {

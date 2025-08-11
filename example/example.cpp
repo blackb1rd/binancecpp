@@ -258,7 +258,7 @@ int main()
 {
   std::string api_key    = API_KEY;
   std::string secret_key = SECRET_KEY;
-  BinanceCPP::init(api_key, secret_key);
+  binance_cpp::core::BinanceAPI::Init(api_key, secret_key);
 
   /*
           The Json::value object each element can be access like hash map <>,
@@ -269,7 +269,7 @@ int main()
 
   //------------------------------------
   // Example : Get Server Time.
-  BinanceCPP::get_serverTime(result);
+  binance_cpp::financial_trading::spot_trading::general_endpoints::ServerTime::GetServerTime(result);
   std::cout << result << std::endl;
   //*/
 
@@ -382,7 +382,7 @@ int main()
   // Market Depth
   int         i;
   std::string symbol = "BNBBTC";
-  BinanceCPP::get_depth(symbol.c_str(), 20, result);
+  binance_cpp::financial_trading::spot_trading::market_data_endpoints::OrderBook::GetOrderBook(symbol.c_str(), 20, result);
 
   // Initialize the lastUpdateId
   lastUpdateId = result["lastUpdateId"].asInt64();
@@ -402,7 +402,7 @@ int main()
   print_depthCache();
 
   // Klines/CandleStick
-  BinanceCPP::get_klines("ETHBTC", "1h", 10, 0, 0, result);
+  binance_cpp::financial_trading::spot_trading::market_data_endpoints::TradeData::GetKlinesCandlestickData("ETHBTC", "1h", 10, 0, 0, result);
   for (int i = 0; i < result.size(); i++)
   {
     long start_of_candle              = result[i][0].asInt64();
@@ -415,7 +415,7 @@ int main()
   print_klinesCache();
 
   //  AggTrades
-  BinanceCPP::get_aggTrades("BNBBTC", 0, 0, 0, 10, result);
+  binance_cpp::financial_trading::spot_trading::market_data_endpoints::TradeData::GetAggregateTradesList("BNBBTC", 0, 0, 0, 10, result);
   for (int i = 0; i < result.size(); i++)
   {
     long timestamp                = result[i]["T"].asInt64();
@@ -425,7 +425,7 @@ int main()
   print_aggTradeCache();
 
   // User Balance
-  BinanceCPP::get_account(recvWindow, result);
+  binance_cpp::financial_trading::spot_trading::account_endpoints::AccountInformation::GetAccountInformation(recvWindow, result);
   for (int i = 0; i < result["balances"].size(); i++)
   {
     std::string symbol = result["balances"][i]["asset"].asString();
@@ -437,7 +437,7 @@ int main()
   print_userBalance();
 
   // User data stream
-  BinanceCPP::start_userDataStream(result);
+  binance_cpp::financial_trading::spot_trading::user_data_stream_endpoints::UserDataStream::CreateListenKey(result);
 
   std::cout << result << std::endl;
 
