@@ -1,16 +1,12 @@
-# Create binancecpp library using modular structure only
+# Create binancecpp library using new categorized structure
 file(GLOB_RECURSE BINANCE_CPP_SOURCES
-    "initialization/*.cpp"
-    "market_data/*.cpp"
-    "account/*.cpp"
-    "trading/*.cpp"
-    "user_stream/*.cpp"
-    "wallet/*.cpp"
-    "utils/*.cpp"
+    "core/*.cpp"
+    "financial_trading/*.cpp"
+    "wallet_endpoints/*.cpp"
+    "investment_service/*.cpp"
 )
 
 add_library(binancecpp SHARED
-    binance.cpp
     binance_utils.cpp
     binance_logger.cpp
     binance_websocket.cpp

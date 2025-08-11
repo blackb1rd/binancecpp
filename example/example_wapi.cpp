@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "binance.h"
+#include "binance_cpp.h"
 #include "binance_websocket.h"
 
 #define API_KEY "api key"

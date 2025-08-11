@@ -1,7 +1,5 @@
 #include "binance_logger.h"
 
-#include <chrono>
-
 int BinanceCPP_logger::debug_level = 1;
 #ifdef _WIN32
 std::string BinanceCPP_logger::debug_log_file = "C:\\temp\\binawatch.log";

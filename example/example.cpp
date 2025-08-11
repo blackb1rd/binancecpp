@@ -9,7 +9,7 @@
 #include <string_view>
 #include <vector>
 
-#include "binance.h"
+#include "binance_cpp.h"
 #include "binance_websocket.h"
 
 constexpr const char* API_KEY    = "api key";
