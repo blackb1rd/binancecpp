@@ -110,7 +110,8 @@ int main()
   std::string secret_key = SECRET_KEY;
   binance_cpp::core::BinanceAPI::Init(api_key, secret_key);
   Json::Value result;
-  binance_cpp::financial_trading::spot_trading::account_endpoints::AccountInformation::GetAccountInformation(5000, result);
+  binance_cpp::financial_trading::spot_trading::account_endpoints::
+      AccountInformation::GetAccountInformation(5000, result);
   for (int i = 0; i < result["balances"].size(); i++)
   {
     std::string symbol = result["balances"][i]["asset"].asString();
@@ -120,7 +121,8 @@ int main()
         atof(result["balances"][i]["locked"].asString().c_str());
   }
   print_userBalance();
-  binance_cpp::financial_trading::spot_trading::user_data_stream_endpoints::UserDataStream::CreateListenKey(result);
+  binance_cpp::financial_trading::spot_trading::user_data_stream_endpoints::
+      UserDataStream::CreateListenKey(result);
   std::cout << result << std::endl;
   std::string ws_path = std::string("/ws/");
   ws_path.append(result["listenKey"].asString());

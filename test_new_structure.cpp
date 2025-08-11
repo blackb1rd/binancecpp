@@ -67,7 +67,8 @@ int main()
   try
   {
     Json::Value result;
-    binance_cpp::financial_trading::spot_trading::general_endpoints::ServerTime::GetServerTime(result);
+    binance_cpp::financial_trading::spot_trading::general_endpoints::
+        ServerTime::GetServerTime(result);
     if (!result.empty())
     {
       std::cout << "✅ Legacy API server time: "
@@ -147,7 +148,8 @@ int main()
   std::cout << "\n8. Testing Legacy API - Get BTC Price..." << std::endl;
   try
   {
-    double price = binance_cpp::financial_trading::spot_trading::market_data_endpoints::CurrentPrices::GetPrice("BTCUSDT");
+    double price = binance_cpp::financial_trading::spot_trading::
+        market_data_endpoints::CurrentPrices::GetPrice("BTCUSDT");
     if (price > 0)
     {
       std::cout << "✅ Legacy API BTC price: $" << price << std::endl;

@@ -21,24 +21,28 @@ int main()
   Json::Value result;
   long        recvWindow = 10000;
 
-  binance_cpp::financial_trading::wallet::withdraw::WithdrawOperations::Withdraw("ETH",
-                       "0x7bBd854e1CC7A762FFa19DfF07Da7E68D997bFa2",
-                       10.0,
-                       "",
-                       "",
-                       "",
-                       "",
-                       recvWindow,
-                       result);
+  binance_cpp::financial_trading::wallet::withdraw::WithdrawOperations::
+      Withdraw("ETH",
+               "0x7bBd854e1CC7A762FFa19DfF07Da7E68D997bFa2",
+               10.0,
+               "",
+               "",
+               "",
+               "",
+               recvWindow,
+               result);
   std::cout << result << std::endl;
 
-  binance_cpp::financial_trading::wallet::deposit::DepositOperations::GetDepositHistory("ETH", 0, 0, 0, 0, 1000, "", recvWindow, result);
+  binance_cpp::financial_trading::wallet::deposit::DepositOperations::
+      GetDepositHistory("ETH", 0, 0, 0, 0, 1000, "", recvWindow, result);
   std::cout << result << std::endl;
 
-  binance_cpp::financial_trading::wallet::withdraw::WithdrawOperations::GetWithdrawHistory("ETH", "", 0, 0, 0, 0, 1000, recvWindow, result);
+  binance_cpp::financial_trading::wallet::withdraw::WithdrawOperations::
+      GetWithdrawHistory("ETH", "", 0, 0, 0, 0, 1000, recvWindow, result);
   std::cout << result << std::endl;
 
-  binance_cpp::financial_trading::wallet::deposit::DepositOperations::GetDepositAddress("ETH", "", recvWindow, result);
+  binance_cpp::financial_trading::wallet::deposit::DepositOperations::
+      GetDepositAddress("ETH", "", recvWindow, result);
   std::cout << result << std::endl;
 
   return 0;

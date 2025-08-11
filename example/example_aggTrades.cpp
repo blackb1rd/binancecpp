@@ -56,7 +56,8 @@ int main()
   binance_cpp::core::BinanceAPI::Init();
 
   //  AggTrades
-  binance_cpp::financial_trading::spot_trading::market_data_endpoints::TradeData::GetAggregateTradesList("BNBBTC", 0, 0, 0, 10, result);
+  binance_cpp::financial_trading::spot_trading::market_data_endpoints::
+      TradeData::GetAggregateTradesList("BNBBTC", 0, 0, 0, 10, result);
 
   for (int i = 0; i < result.size(); i++)
   {

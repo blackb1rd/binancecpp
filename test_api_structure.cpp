@@ -31,11 +31,12 @@ int main()
   try
   {
     Json::Value result;
-    binance_cpp::financial_trading::spot_trading::general_endpoints::ServerTime::GetServerTime(result);
+    binance_cpp::financial_trading::spot_trading::general_endpoints::
+        ServerTime::GetServerTime(result);
     if (!result.empty())
     {
-      std::cout << "✅ API server time: "
-                << result["serverTime"].asUInt64() << std::endl;
+      std::cout << "✅ API server time: " << result["serverTime"].asUInt64()
+                << std::endl;
     }
     else
     {
@@ -110,7 +111,8 @@ int main()
   std::cout << "\n4. Testing API - Get BTC Price..." << std::endl;
   try
   {
-    double price = binance_cpp::financial_trading::spot_trading::market_data_endpoints::CurrentPrices::GetPrice("BTCUSDT");
+    double price = binance_cpp::financial_trading::spot_trading::
+        market_data_endpoints::CurrentPrices::GetPrice("BTCUSDT");
     if (price > 0)
     {
       std::cout << "✅ API BTC price: $" << price << std::endl;

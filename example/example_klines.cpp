@@ -66,7 +66,8 @@ int main()
   binance_cpp::core::BinanceAPI::Init();
 
   // Klines/CandleStick
-  binance_cpp::financial_trading::spot_trading::market_data_endpoints::TradeData::GetKlinesCandlestickData("BNBBTC", "1h", 10, 0, 0, result);
+  binance_cpp::financial_trading::spot_trading::market_data_endpoints::
+      TradeData::GetKlinesCandlestickData("BNBBTC", "1h", 10, 0, 0, result);
   for (int i = 0; i < result.size(); i++)
   {
     long start_of_candle              = result[i][0].asInt64();

@@ -91,8 +91,6 @@ class BinanceAPI
 //   - financial_trading::wallet
 //   - financial_trading::copy_trading
 
-
-
 }  // namespace binance_cpp
 
 #endif  // BINANCE_CPP_H
