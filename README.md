@@ -15,7 +15,7 @@ binance_cpp::
 ├── financial_trading::
 │   ├── spot_trading::
 │   │   ├── general_endpoints::           // Test connectivity, server time, exchange info
-│   │   ├── market_data_endpoints::       // Order book, prices, trades, klines  
+│   │   ├── market_data_endpoints::       // Order book, prices, trades, klines
 │   │   ├── account_endpoints::           // Account info, trade history
 │   │   ├── spot_trading_endpoints::      // Order management, OCO orders
 │   │   └── user_data_stream_endpoints::  // WebSocket user data streams
@@ -41,7 +41,7 @@ binance_cpp::core::BinanceAPI::Init(api_key, secret_key);
 Json::Value result;
 binance_cpp::financial_trading::spot_trading::general_endpoints::ServerTime::GetServerTime(result);
 
-// Get account information  
+// Get account information
 binance_cpp::financial_trading::spot_trading::account_endpoints::AccountInformation::GetAccountInformation(10000, result);
 
 // Get current price
@@ -174,7 +174,7 @@ All code quality tools run automatically in GitHub Actions CI on every push and 
 
 ## 🚀 API Endpoints Status & Roadmap
 
-Based on [Binance API Documentation](https://developers.binance.com/en) (Updated 2025).  
+Based on [Binance API Documentation](https://developers.binance.com/en) (Updated 2025).
 Following the new categorized structure.
 
 ### ✅ FINANCIAL TRADING - SPOT TRADING
@@ -182,7 +182,7 @@ Following the new categorized structure.
 #### General Endpoints (Public)
 
 - [x] `GET /api/v3/ping` - Test connectivity to the API
-- [x] `GET /api/v3/time` - Check server time  
+- [x] `GET /api/v3/time` - Check server time
 - [x] `GET /api/v3/exchangeInfo` - Exchange trading rules and symbol information
 - [ ] `GET /sapi/v1/system/status` - System status (normal or system maintenance)
 
@@ -470,7 +470,7 @@ BinanceCPP::init(api_key, secret_key);
 Json::Value result;
 binance_cpp::financial_trading::spot_trading::general_endpoints::ServerTime::GetServerTime(result);
 
-// Legacy API  
+// Legacy API
 Json::Value result;
 BinanceCPP::get_serverTime(result);
 ```
@@ -651,7 +651,7 @@ BinanceCPP_websocket::enter_event_loop();
 For more detailed examples, check out these files:
 
 - [**example_depthCache.cpp**](example/example_depthCache.cpp) - Market depth cache via WebSocket
-- [**example_klines.cpp**](example/example_klines.cpp) - Kline/Candlestick cache via WebSocket  
+- [**example_klines.cpp**](example/example_klines.cpp) - Kline/Candlestick cache via WebSocket
 - [**example_aggTrades.cpp**](example/example_aggTrades.cpp) - Aggregated trades via WebSocket
 - [**example_userStream.cpp**](example/example_userStream.cpp) - User stream for order execution & balance updates
 - [**example.cpp**](example/example.cpp) - Multiple streams subscription example

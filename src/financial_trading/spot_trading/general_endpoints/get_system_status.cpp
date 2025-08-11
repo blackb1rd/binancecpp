@@ -3,13 +3,13 @@
         Date  : 2025/08/11
         Based on original work by tensaix2j (2017/10/15)
 
-        C++ library for Binance API - Server Time Implementation
-        GET /api/v3/time - Check server time
+        C++ library for Binance API - Get System Status
+        GET /sapi/v1/system/status - System status
         Following Google C++ Style Guide naming conventions
 */
 
-#include "binance_cpp.h"
-#include "binance_logger.h"
+#include "../../../binance_cpp.h"
+#include "../../../binance_logger.h"
 
 namespace binance_cpp
 {
@@ -20,12 +20,12 @@ namespace spot_trading
 namespace general_endpoints
 {
 
-void ServerTime::GetServerTime(Json::Value& json_result)
+void ExchangeInformation::GetSystemStatus(Json::Value& json_result)
 {
-  BinanceCPP_logger::write_log("<ServerTime::GetServerTime>");
+  BinanceCPP_logger::write_log("<ExchangeInformation::GetSystemStatus>");
 
   std::string url(BINANCE_HOST);
-  url += "/api/v3/time";
+  url += "/sapi/v1/system/status";
 
   std::string str_result;
   core::BinanceAPI::CurlAPI(url, str_result);
@@ -40,15 +40,16 @@ void ServerTime::GetServerTime(Json::Value& json_result)
     }
     catch (std::exception& e)
     {
-      BinanceCPP_logger::write_log("<ServerTime::GetServerTime> Error ! %s",
-                                   e.what());
+      BinanceCPP_logger::write_log(
+          "<ExchangeInformation::GetSystemStatus> Error ! %s", e.what());
     }
-    BinanceCPP_logger::write_log("<ServerTime::GetServerTime> Done.");
+    BinanceCPP_logger::write_log(
+        "<ExchangeInformation::GetSystemStatus> Done.");
   }
   else
   {
     BinanceCPP_logger::write_log(
-        "<ServerTime::GetServerTime> Failed to get anything.");
+        "<ExchangeInformation::GetSystemStatus> Failed to get anything.");
   }
 }
 

@@ -1,6 +1,8 @@
 
 #include "binance_utils.h"
 
+#include <chrono>
+
 //--------------------------------
 void split_string(std::string_view          s,
                   char                      delim,
@@ -81,19 +83,17 @@ std::string b2a_hex(char* byte_arr, int n)
 //---------------------------------
 time_t get_current_epoch()
 {
-  struct timeval tv;
-  gettimeofday(&tv, nullptr);
-
-  return tv.tv_sec;
+  return std::chrono::duration_cast<std::chrono::seconds>(
+             std::chrono::system_clock::now().time_since_epoch())
+      .count();
 }
 
 //---------------------------------
 unsigned long get_current_ms_epoch()
 {
-  struct timeval tv;
-  gettimeofday(&tv, nullptr);
-
-  return tv.tv_sec * 1000 + tv.tv_usec / 1000;
+  return std::chrono::duration_cast<std::chrono::milliseconds>(
+             std::chrono::system_clock::now().time_since_epoch())
+      .count();
 }
 
 //---------------------------

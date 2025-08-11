@@ -3,9 +3,19 @@
 
 #include <openssl/hmac.h>
 #include <openssl/sha.h>
+
+// Cross-platform includes
+#ifdef _WIN32
+#include <io.h>
+#include <windows.h>
+#define F_OK 0
+#define access _access
+#else
 #include <sys/time.h>
 #include <unistd.h>
+#endif
 
+#include <chrono>
 #include <concepts>
 #include <cstring>
 #include <iostream>
