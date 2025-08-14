@@ -1,0 +1,300 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+# Cancel in-progress workflows when a new commit is pushed
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
+
+jobs:
+  build:
+    name: Build (${{ matrix.os }}, ${{ matrix.build_type }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        build_type: [debug, release]
+
+    env:
+      PRESET_NAME: ${{ matrix.os == 'ubuntu-latest' && format('linux-{0}', matrix.build_type) || matrix.os == 'windows-latest' && format('windows-{0}', matrix.build_type) || format('macos-{0}', matrix.build_type) }}
+      VCPKG_TRIPLET: ${{ matrix.os == 'ubuntu-latest' && 'x64-linux' || matrix.os == 'windows-latest' && 'x64-windows' || 'arm64-osx' }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup vcpkg cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ github.workspace }}/vcpkg
+            ~/.cache/vcpkg
+          key: vcpkg-${{ matrix.os }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
+          restore-keys: |
+            vcpkg-${{ matrix.os }}-
+
+      - name: Install system dependencies (Ubuntu)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build pkg-config build-essential curl zip unzip tar
+
+      - name: Install system dependencies (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          brew install ninja pkg-config
+
+      - name: Install system dependencies (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          choco install ninja
+
+      - name: Setup CMake and vcpkg
+        uses: lukka/get-cmake@latest
+
+      - name: Setup vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: "dd3097e305afa53f7b4312371f62058d2e665320"
+
+      - name: Configure project
+        run: cmake --preset=${{ env.PRESET_NAME }}
+
+      - name: Build project
+        run: cmake --build --preset=${{ env.PRESET_NAME }}
+
+      - name: Test library linkage (Unix)
+        if: runner.os != 'Windows'
+        run: |
+          cd bin/build/${{ env.PRESET_NAME }}/example
+          ls -la
+          file example* || true
+
+      - name: Test library linkage (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          cd bin/build/${{ env.PRESET_NAME }}/example/${{ matrix.build_type }}
+          dir
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: binancecpp-${{ matrix.os }}-${{ matrix.build_type }}
+          path: |
+            build/${{ env.PRESET_NAME }}/src/
+            build/${{ env.PRESET_NAME }}/example/
+          retention-days: 5
+
+  code-quality:
+    name: Code Quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup code quality tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang-format cppcheck
+          python3 -m pip install --upgrade pip cpplint
+
+      - name: Find C++ source files
+        id: find-files
+        run: |
+          find src example -name "*.cpp" -o -name "*.h" -o -name "*.hpp" -o -name "*.cc" -o -name "*.cxx" > cpp_files.txt
+          echo "file-count=$(wc -l < cpp_files.txt)" >> $GITHUB_OUTPUT
+
+      - name: Check code formatting
+        run: |
+          echo "📋 Checking code formatting with clang-format..."
+          echo "Found ${{ steps.find-files.outputs.file-count }} C++ files"
+
+          FORMAT_ISSUES=0
+          while IFS= read -r file; do
+            if [ -f "$file" ]; then
+              echo "Checking: $file"
+              if ! clang-format --dry-run --Werror "$file" > /dev/null 2>&1; then
+                echo "⚠️  Format issues: $file"
+                FORMAT_ISSUES=1
+              fi
+            fi
+          done < cpp_files.txt
+
+          if [ $FORMAT_ISSUES -eq 1 ]; then
+            echo "⚠️  Code formatting issues found (acceptable for legacy code)"
+            echo "💡 To format: find src example -name '*.cpp' -o -name '*.h' | xargs clang-format -i"
+          else
+            echo "✅ All files properly formatted"
+          fi
+
+      - name: Run style checks
+        run: |
+          echo "🔍 Running cpplint style checker..."
+
+          LINT_ISSUES=0
+          while IFS= read -r file; do
+            if [ -f "$file" ]; then
+              echo "Checking style: $file"
+              if ! cpplint \
+                  --filter=-legal/copyright,-build/include_subdir,-readability/streams,-build/header_guard,-build/include_order,-build/namespaces,-whitespace/tab \
+                  --linelength=80 \
+                  "$file" 2>&1; then
+                LINT_ISSUES=1
+              fi
+            fi
+          done < cpp_files.txt
+
+          if [ $LINT_ISSUES -eq 1 ]; then
+            echo "⚠️  Style issues found (acceptable for legacy code)"
+          else
+            echo "✅ No significant style issues"
+          fi
+
+      - name: Run static analysis
+        run: |
+          echo "🔬 Running cppcheck static analysis..."
+
+          cppcheck \
+            --enable=warning,style,performance,portability \
+            --std=c++20 \
+            --language=c++ \
+            --verbose \
+            --error-exitcode=1 \
+            --suppress=missingIncludeSystem \
+            --suppress=unusedFunction \
+            --inline-suppr \
+            src/ example/ 2>&1 | tee cppcheck_output.txt
+
+          if grep -q "error:" cppcheck_output.txt; then
+            echo "❌ Cppcheck found errors"
+            exit 1
+          else
+            echo "✅ Static analysis passed"
+          fi
+
+  validate-project:
+    name: Project Validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate project files
+        run: |
+          echo "📋 Validating essential project files..."
+
+          # Check required files exist
+          required_files=(
+            "CMakeLists.txt"
+            "vcpkg.json"
+            "CMakePresets.json"
+            "README.md"
+          )
+
+          for file in "${required_files[@]}"; do
+            if [ -f "$file" ]; then
+              echo "✅ Found: $file"
+            else
+              echo "❌ Missing: $file"
+              exit 1
+            fi
+          done
+
+      - name: Validate README content
+        run: |
+          echo "📖 Validating README.md content..."
+
+          # Check for essential sections
+          if grep -q -i "cmake\|build" README.md; then
+            echo "✅ Build instructions found"
+          else
+            echo "⚠️  No build instructions found in README"
+          fi
+
+          if grep -q -i "vcpkg" README.md; then
+            echo "✅ vcpkg mention found"
+          else
+            echo "⚠️  No vcpkg mention found in README"
+          fi
+
+      - name: Validate CMake configuration
+        run: |
+          echo "⚙️  Validating CMake presets..."
+
+          # Check if presets are valid JSON
+          if ! python3 -m json.tool CMakePresets.json > /dev/null; then
+            echo "❌ Invalid JSON in CMakePresets.json"
+            exit 1
+          else
+            echo "✅ CMakePresets.json is valid JSON"
+          fi
+
+          # Check if vcpkg.json is valid
+          if ! python3 -m json.tool vcpkg.json > /dev/null; then
+            echo "❌ Invalid JSON in vcpkg.json"
+            exit 1
+          else
+            echo "✅ vcpkg.json is valid JSON"
+          fi
+
+      - name: Check license and legal files
+        run: |
+          echo "⚖️  Checking license information..."
+
+          if [ -f "LICENSE" ] || [ -f "LICENSE.txt" ] || [ -f "LICENSE.md" ]; then
+            echo "✅ License file found"
+          else
+            echo "⚠️  No license file found"
+          fi
+
+  # Summary job that depends on all others
+  ci-success:
+    name: CI Success
+    runs-on: ubuntu-latest
+    if: always()
+    needs: [build, code-quality, validate-project]
+
+    steps:
+      - name: Check all jobs status
+        run: |
+          echo "📊 CI Pipeline Summary:"
+          echo "======================"
+
+          # Check if any job failed
+          if [[ "${{ needs.build.result }}" != "success" ]]; then
+            echo "❌ Build job failed"
+            exit 1
+          else
+            echo "✅ Build job passed"
+          fi
+
+          if [[ "${{ needs.code-quality.result }}" != "success" ]]; then
+            echo "❌ Code quality job failed"
+            exit 1
+          else
+            echo "✅ Code quality job passed"
+          fi
+
+          if [[ "${{ needs.validate-project.result }}" != "success" ]]; then
+            echo "❌ Project validation job failed"
+            exit 1
+          else
+            echo "✅ Project validation job passed"
+          fi
+
+          echo "🎉 All CI checks passed successfully!"

@@ -1,0 +1,13 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+# Find required dependencies
+find_dependency(jsoncpp CONFIG REQUIRED)
+find_dependency(CURL REQUIRED)
+find_dependency(libwebsockets CONFIG REQUIRED)
+
+# Include the targets file
+include("${CMAKE_CURRENT_LIST_DIR}/binancecppTargets.cmake")
+
+check_required_components(binancecpp)

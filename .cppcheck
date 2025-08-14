@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="1">
+    <paths>
+        <dir name="src/"/>
+        <dir name="example/"/>
+    </paths>
+    <exclude>
+        <path name="bin/"/>
+        <path name="vcpkg_installed/"/>
+    </exclude>
+</project>

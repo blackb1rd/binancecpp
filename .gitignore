@@ -1,0 +1,44 @@
+# CMake build artifacts
+bin/
+cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+!CMakeLists.txt
+!CMakePresets.json
+
+# vcpkg
+vcpkg_installed/
+
+# Compiled Object files
+*.o
+*.obj
+
+# Shared libraries
+*.so
+*.dll
+*.dylib
+
+# Static libraries
+*.a
+*.lib
+
+# Executables
+*.exe
+example/example
+example/example_*
+!example/example*.cpp
+!example/example*.sh
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db

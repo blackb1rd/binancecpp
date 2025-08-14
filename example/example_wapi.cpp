@@ -1,41 +1,49 @@
 
-#include <map>
-#include <vector>
-#include <string>
-
-
-#include "binacpp.h"
-#include "binacpp_websocket.h"
 #include <json/json.h>
 
-#define API_KEY 		"api key"
-#define SECRET_KEY		"secret key"
+#include <map>
+#include <string>
+#include <vector>
 
+#include "binance_cpp.h"
+#include "binance_websocket.h"
+
+#define API_KEY "api key"
+#define SECRET_KEY "secret key"
 
 //----------------------
-int main() {
+int main()
+{
+  std::string api_key    = API_KEY;
+  std::string secret_key = SECRET_KEY;
+  binance_cpp::core::BinanceAPI::Init(api_key, secret_key);
 
+  Json::Value result;
+  long        recvWindow = 10000;
 
-	string api_key 		= API_KEY;
-	string secret_key 	= SECRET_KEY;
-	BinaCPP::init( api_key , secret_key );
+  binance_cpp::financial_trading::wallet::withdraw::WithdrawOperations::
+      Withdraw("ETH",
+               "0x7bBd854e1CC7A762FFa19DfF07Da7E68D997bFa2",
+               10.0,
+               "",
+               "",
+               "",
+               "",
+               recvWindow,
+               result);
+  std::cout << result << std::endl;
 
+  binance_cpp::financial_trading::wallet::deposit::DepositOperations::
+      GetDepositHistory("ETH", 0, 0, 0, 0, 1000, "", recvWindow, result);
+  std::cout << result << std::endl;
 
-	Json::Value result;
-	long recvWindow = 10000;	
+  binance_cpp::financial_trading::wallet::withdraw::WithdrawOperations::
+      GetWithdrawHistory("ETH", "", 0, 0, 0, 0, 1000, recvWindow, result);
+  std::cout << result << std::endl;
 
-	BinaCPP::withdraw("ETH", "0x7bBd854e1CC7A762FFa19DfF07Da7E68D997bFa2", "", 10.0, "", recvWindow, result); 
-	cout << result << endl;
-	
-	BinaCPP::get_depositHistory( "ETH", 0, 0,0, recvWindow, result ) ;
-	cout << result << endl;
-	
-	BinaCPP::get_withdrawHistory( "ETH", 0, 0,0, recvWindow, result ) ;
-	cout << result << endl;
-	
-	BinaCPP::get_depositAddress( "ETH", recvWindow, result ) ;
-	cout << result << endl;
-		
+  binance_cpp::financial_trading::wallet::deposit::DepositOperations::
+      GetDepositAddress("ETH", "", recvWindow, result);
+  std::cout << result << std::endl;
 
-	return 0;
+  return 0;
 }

@@ -1,0 +1,220 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 23,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "debug",
+            "displayName": "Debug Config",
+            "description": "Debug build using vcpkg",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/bin/build/${presetName}",
+            "installDir": "${sourceDir}/bin/install/${presetName}",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "release",
+            "displayName": "Release Config",
+            "description": "Release build using vcpkg",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/bin/build/${presetName}",
+            "installDir": "${sourceDir}/bin/install/${presetName}",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "deploy",
+            "displayName": "Deployment Config",
+            "description": "Production deployment build without examples",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/bin/build/${presetName}",
+            "installDir": "${sourceDir}/bin/install/${presetName}",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+                "CMAKE_BUILD_TYPE": "Release",
+                "BINANCECPP_BUILD_EXAMPLES": false
+            }
+        },
+        {
+            "name": "windows-debug",
+            "inherits": "debug",
+            "displayName": "Windows Debug",
+            "description": "Debug Windows build using vcpkg with Visual Studio",
+            "generator": "Visual Studio 17 2022",
+            "architecture": "x64",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {
+            "name": "windows-release",
+            "inherits": "release",
+            "displayName": "Windows Release",
+            "description": "Release Windows build using vcpkg with Visual Studio",
+            "generator": "Visual Studio 17 2022",
+            "architecture": "x64",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {
+            "name": "linux-debug",
+            "inherits": "debug",
+            "displayName": "Linux Debug",
+            "description": "Debug Linux build using vcpkg with GCC",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            },
+            "cacheVariables": {
+                "CMAKE_CXX_COMPILER": "g++"
+            }
+        },
+        {
+            "name": "linux-release",
+            "inherits": "release",
+            "displayName": "Linux Release",
+            "description": "Release Linux build using vcpkg with GCC",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            },
+            "cacheVariables": {
+                "CMAKE_CXX_COMPILER": "g++"
+            }
+        },
+        {
+            "name": "macos-debug",
+            "inherits": "debug",
+            "displayName": "macOS Debug",
+            "description": "Debug macOS build using vcpkg with Clang",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Darwin"
+            },
+            "cacheVariables": {
+                "CMAKE_CXX_COMPILER": "clang++"
+            }
+        },
+        {
+            "name": "macos-release",
+            "inherits": "release",
+            "displayName": "macOS Release",
+            "description": "Release macOS build using vcpkg with Clang",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Darwin"
+            },
+            "cacheVariables": {
+                "CMAKE_CXX_COMPILER": "clang++"
+            }
+        },
+        {
+            "name": "windows-deploy",
+            "inherits": "deploy",
+            "displayName": "Windows Deploy",
+            "description": "Production Windows deployment build without examples",
+            "generator": "Visual Studio 17 2022",
+            "architecture": "x64",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {
+            "name": "linux-deploy",
+            "inherits": "deploy",
+            "displayName": "Linux Deploy",
+            "description": "Production Linux deployment build without examples",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            },
+            "cacheVariables": {
+                "CMAKE_CXX_COMPILER": "g++"
+            }
+        },
+        {
+            "name": "macos-deploy",
+            "inherits": "deploy",
+            "displayName": "macOS Deploy",
+            "description": "Production macOS deployment build without examples",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Darwin"
+            },
+            "cacheVariables": {
+                "CMAKE_CXX_COMPILER": "clang++"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "windows-debug",
+            "displayName": "Windows Debug Build",
+            "configurePreset": "windows-debug"
+        },
+        {
+            "name": "windows-release",
+            "displayName": "Windows Release Build",
+            "configurePreset": "windows-release"
+        },
+        {
+            "name": "linux-debug",
+            "displayName": "Linux Debug Build",
+            "configurePreset": "linux-debug"
+        },
+        {
+            "name": "linux-release",
+            "displayName": "Linux Release Build",
+            "configurePreset": "linux-release"
+        },
+        {
+            "name": "macos-debug",
+            "displayName": "macOS Debug Build",
+            "configurePreset": "macos-debug"
+        },
+        {
+            "name": "macos-release",
+            "displayName": "macOS Release Build",
+            "configurePreset": "macos-release"
+        },
+        {
+            "name": "windows-deploy",
+            "displayName": "Windows Deploy Build",
+            "configurePreset": "windows-deploy"
+        },
+        {
+            "name": "linux-deploy",
+            "displayName": "Linux Deploy Build",
+            "configurePreset": "linux-deploy"
+        },
+        {
+            "name": "macos-deploy",
+            "displayName": "macOS Deploy Build",
+            "configurePreset": "macos-deploy"
+        }
+    ]
+}
