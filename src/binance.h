@@ -11,6 +11,17 @@
 #ifndef BINANCE_CPP_H
 #define BINANCE_CPP_H
 
+// Windows DLL export/import macros
+#ifdef _WIN32
+  #ifdef BINANCECPP_EXPORTS
+    #define BINANCECPP_API __declspec(dllexport)
+  #else
+    #define BINANCECPP_API __declspec(dllimport)
+  #endif
+#else
+  #define BINANCECPP_API
+#endif
+
 #include <curl/curl.h>
 #include <json/json.h>
 
@@ -46,7 +57,7 @@ concept Numeric = std::integral<T> || std::floating_point<T>;
 #include "financial_trading/spot_trading.h"
 #include "financial_trading/wallet.h"
 
-class BinanceCPP
+class BINANCECPP_API BinanceCPP
 {
   static std::string api_key;
   static std::string secret_key;
