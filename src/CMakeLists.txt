@@ -23,12 +23,15 @@ set_target_properties(binancecpp PROPERTIES
     EXPORT_NAME binancecpp
 )
 
+# Define export macro for Windows DLL
+target_compile_definitions(binancecpp PRIVATE BINANCECPP_EXPORTS)
+
 # Link libraries
 target_link_libraries(binancecpp
     PRIVATE
         JsonCpp::JsonCpp
         CURL::libcurl
-        websockets
+        $<IF:$<TARGET_EXISTS:websockets>,websockets,websockets_shared>
 )
 
 # Include directories
@@ -43,9 +46,13 @@ target_include_directories(binancecpp
 
 # Compiler-specific options for C++20
 target_compile_options(binancecpp PRIVATE
-    -fPIC
+    # Position Independent Code for Unix systems only
+    $<$<NOT:$<PLATFORM_ID:Windows>>:-fPIC>
+    # C++20 concepts support
     $<$<CXX_COMPILER_ID:GNU>:-fconcepts>
     $<$<CXX_COMPILER_ID:Clang>:-fconcepts-ts>
+    # Windows-specific options
+    $<$<CXX_COMPILER_ID:MSVC>:/std:c++20>
 )
 
 # Add alias for consistent naming
