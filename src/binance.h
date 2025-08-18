@@ -8,8 +8,8 @@
         https://developers.binance.com/
 */
 
-#ifndef BINANCE_CPP_H
-#define BINANCE_CPP_H
+#ifndef BINANCE_H_LEGACY
+#define BINANCE_H_LEGACY
 
 // Windows DLL export/import macros
 #ifdef _WIN32
@@ -195,4 +195,4 @@ namespace binance_cpp
 //   - financial_trading::copy_trading
 }  // namespace binance_cpp
 
-#endif  // BINANCE_CPP_H
+#endif  // BINANCE_H_LEGACY
