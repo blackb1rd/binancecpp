@@ -14,6 +14,7 @@
 
 // Platform-specific includes
 #ifdef _WIN32
+#define NOMINMAX  // Prevent Windows min/max macros from conflicting with std::min/max
 #include <direct.h>
 #include <io.h>
 #include <windows.h>
