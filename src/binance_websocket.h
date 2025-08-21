@@ -9,6 +9,7 @@
   #else
     #define BINANCECPP_API __declspec(dllimport)
   #endif
+  #define NOMINMAX  // Prevent Windows min/max macros from conflicting with std::min/max
 #else
   #define BINANCECPP_API
 #endif
