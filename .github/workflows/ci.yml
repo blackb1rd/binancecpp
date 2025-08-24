@@ -60,6 +60,10 @@ jobs:
         run: |
           choco install ninja
 
+      - name: Setup MSVC Developer Command Prompt (Windows)
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@v1
+
       - name: Setup CMake and vcpkg
         uses: lukka/get-cmake@latest
 

@@ -2,6 +2,18 @@
 #ifndef BINANCE_WEBSOCKET_H
 #define BINANCE_WEBSOCKET_H
 
+// Windows DLL export/import macros
+#ifdef _WIN32
+  #ifdef BINANCECPP_EXPORTS
+    #define BINANCECPP_API __declspec(dllexport)
+  #else
+    #define BINANCECPP_API __declspec(dllimport)
+  #endif
+  #define NOMINMAX  // Prevent Windows min/max macros from conflicting with std::min/max
+#else
+  #define BINANCECPP_API
+#endif
+
 // Modern C++20 headers
 #include <json/json.h>
 #include <libwebsockets.h>
@@ -10,6 +22,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <algorithm>
 #include <exception>
 #include <functional>
 #include <iostream>
@@ -25,7 +38,7 @@ constexpr int              BINANCE_WS_PORT = 9443;
 // Modern C++20 callback type using std::function
 using CB = std::function<int(Json::Value &json_value)>;
 
-class BinanceCPP_websocket
+class BINANCECPP_API BinanceCPP_websocket
 {
   static struct lws_context  *context;
   static struct lws_protocols protocols[];
