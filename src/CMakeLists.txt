@@ -28,8 +28,9 @@ target_compile_definitions(binancecpp PRIVATE BINANCECPP_EXPORTS)
 
 # Link libraries
 target_link_libraries(binancecpp
-    PRIVATE
+    PUBLIC
         JsonCpp::JsonCpp
+    PRIVATE
         CURL::libcurl
         $<IF:$<TARGET_EXISTS:websockets>,websockets,websockets_shared>
 )

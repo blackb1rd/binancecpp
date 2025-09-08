@@ -10,6 +10,19 @@
 #ifndef BINANCE_CPP_SPOT_TRADING_H
 #define BINANCE_CPP_SPOT_TRADING_H
 
+// Forward declare BINANCECPP_API if not already defined
+#ifndef BINANCECPP_API
+  #ifdef _WIN32
+    #ifdef BINANCECPP_EXPORTS
+      #define BINANCECPP_API __declspec(dllexport)
+    #else
+      #define BINANCECPP_API __declspec(dllimport)
+    #endif
+  #else
+    #define BINANCECPP_API
+  #endif
+#endif
+
 #include <json/json.h>
 
 #include <string_view>
@@ -37,7 +50,7 @@ class ExchangeInformation
   static void GetSystemStatus(Json::Value& json_result);
 };
 
-class ServerTime
+class BINANCECPP_API ServerTime
 {
  public:
   static void GetServerTime(Json::Value& json_result);
@@ -47,7 +60,7 @@ class ServerTime
 // Market Data Endpoints (Public)
 namespace market_data_endpoints
 {
-class OrderBook
+class BINANCECPP_API OrderBook
 {
  public:
   static void GetOrderBook(std::string_view symbol,
@@ -116,7 +129,7 @@ class KlineCandlestickData
                                      Json::Value&     json_result);
 };
 
-class TradeData
+class BINANCECPP_API TradeData
 {
  public:
   static void GetAggregateTradesList(std::string_view symbol,
@@ -137,7 +150,7 @@ class TradeData
 // Account Endpoints (Private - Requires API Key + Signature)
 namespace account_endpoints
 {
-class AccountInformation
+class BINANCECPP_API AccountInformation
 {
  public:
   static void GetAccountInformation(long recv_window, Json::Value& json_result);
@@ -350,7 +363,7 @@ class SOROrders
 // User Data Stream Endpoints (Requires API Key)
 namespace user_data_stream_endpoints
 {
-class UserDataStream
+class BINANCECPP_API UserDataStream
 {
  public:
   static void CreateListenKey(Json::Value& json_result);

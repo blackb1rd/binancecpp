@@ -11,6 +11,17 @@
 #ifndef BINANCE_CPP_H
 #define BINANCE_CPP_H
 
+// Windows DLL export/import macros
+#ifdef _WIN32
+  #ifdef BINANCECPP_EXPORTS
+    #define BINANCECPP_API __declspec(dllexport)
+  #else
+    #define BINANCECPP_API __declspec(dllimport)
+  #endif
+#else
+  #define BINANCECPP_API
+#endif
+
 #include <curl/curl.h>
 #include <json/json.h>
 
@@ -52,7 +63,7 @@ namespace binance_cpp
 // Core API functionality
 namespace core
 {
-class BinanceAPI
+class BINANCECPP_API BinanceAPI
 {
  public:
   static std::string api_key_;
