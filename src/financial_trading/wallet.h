@@ -10,6 +10,19 @@
 #ifndef BINANCE_CPP_WALLET_H
 #define BINANCE_CPP_WALLET_H
 
+// Forward declare BINANCECPP_API if not already defined
+#ifndef BINANCECPP_API
+  #ifdef _WIN32
+    #ifdef BINANCECPP_EXPORTS
+      #define BINANCECPP_API __declspec(dllexport)
+    #else
+      #define BINANCECPP_API __declspec(dllimport)
+    #endif
+  #else
+    #define BINANCECPP_API
+  #endif
+#endif
+
 #include <json/json.h>
 
 #include <string_view>
@@ -24,7 +37,7 @@ namespace wallet
 // System Status
 namespace system_status
 {
-class SystemInformation
+class BINANCECPP_API SystemInformation
 {
  public:
   static void GetSystemStatus(Json::Value& json_result);
@@ -46,7 +59,7 @@ class SystemInformation
 // Deposit Management
 namespace deposit
 {
-class DepositOperations
+class BINANCECPP_API DepositOperations
 {
  public:
   static void GetDepositHistory(std::string_view coin,
@@ -74,7 +87,7 @@ class DepositOperations
 // Withdrawal Management
 namespace withdraw
 {
-class WithdrawOperations
+class BINANCECPP_API WithdrawOperations
 {
  public:
   static void Withdraw(std::string_view coin,
@@ -98,7 +111,7 @@ class WithdrawOperations
                                  Json::Value&     json_result);
 };
 
-class WithdrawSettings
+class BINANCECPP_API WithdrawSettings
 {
  public:
   static void GetCapitalConfigGetall(long         recv_window,
@@ -130,7 +143,7 @@ class WithdrawSettings
 // Asset Management
 namespace asset_management
 {
-class AssetDetails
+class BINANCECPP_API AssetDetails
 {
  public:
   static void GetAssetDetail(std::string_view asset,
@@ -150,7 +163,7 @@ class AssetDetails
                                               Json::Value&     json_result);
 };
 
-class UniversalTransferOperations
+class BINANCECPP_API UniversalTransferOperations
 {
  public:
   static void UniversalTransfer(std::string_view type,
@@ -162,7 +175,7 @@ class UniversalTransferOperations
                                 Json::Value&     json_result);
 };
 
-class FundingWallet
+class BINANCECPP_API FundingWallet
 {
  public:
   static void GetFundingWallet(std::string_view asset,
@@ -195,7 +208,7 @@ class FundingWallet
 // API Key Management
 namespace api_management
 {
-class APIKeyInformation
+class BINANCECPP_API APIKeyInformation
 {
  public:
   static void GetAPIKeyPermission(long recv_window, Json::Value& json_result);
@@ -205,7 +218,7 @@ class APIKeyInformation
 // Convert Management
 namespace convert
 {
-class ConvertOperations
+class BINANCECPP_API ConvertOperations
 {
  public:
   static void GetConvertTradeHistory(long         start_time,
@@ -238,7 +251,7 @@ class ConvertOperations
 // Sub-Account Management
 namespace sub_account
 {
-class SubAccountOperations
+class BINANCECPP_API SubAccountOperations
 {
  public:
   static void CreateVirtualSubAccount(std::string_view sub_account_string,
