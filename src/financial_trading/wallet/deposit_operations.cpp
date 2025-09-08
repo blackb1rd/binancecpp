@@ -6,6 +6,7 @@
         Implementation of deposit operations for wallet functionality
 */
 
+// Include the main header first to ensure BINANCECPP_API is defined
 #include "../../binance_cpp.h"
 #include "../../binance_logger.h"
 #include "../../binance_utils.h"
@@ -19,7 +20,7 @@ namespace wallet
 namespace deposit
 {
 
-void DepositOperations::GetDepositHistory(std::string_view coin,
+BINANCECPP_API void DepositOperations::GetDepositHistory(std::string_view coin,
                                           int              status,
                                           long             start_time,
                                           long             end_time,
@@ -107,7 +108,7 @@ void DepositOperations::GetDepositHistory(std::string_view coin,
   }
 }
 
-void DepositOperations::GetDepositAddress(std::string_view coin,
+BINANCECPP_API void DepositOperations::GetDepositAddress(std::string_view coin,
                                           std::string_view network,
                                           long             recv_window,
                                           Json::Value&     json_result)
