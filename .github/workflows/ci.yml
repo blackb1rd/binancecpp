@@ -88,7 +88,7 @@ jobs:
       - name: Test library linkage (Windows)
         if: runner.os == 'Windows'
         run: |
-          cd bin/build/${{ env.PRESET_NAME }}/example/${{ matrix.build_type }}
+          cd bin/build/${{ env.PRESET_NAME }}/example
           dir
 
       - name: Upload build artifacts
