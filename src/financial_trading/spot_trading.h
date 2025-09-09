@@ -10,6 +10,8 @@
 #ifndef BINANCE_CPP_SPOT_TRADING_H
 #define BINANCE_CPP_SPOT_TRADING_H
 
+#include "../binance_cpp.h"
+
 #include <json/json.h>
 
 #include <string_view>

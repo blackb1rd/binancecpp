@@ -33,11 +33,7 @@
 
 #define BINANCE_HOST "https://api.binance.com"
 
-template <typename T>
-concept StringLike = std::convertible_to<T, std::string_view>;
-
-template <typename T>
-concept Numeric = std::integral<T> || std::floating_point<T>;
+// Note: StringLike and Numeric concepts are defined in binance_cpp.h
 
 // Include all Financial Trading modules following official Binance API
 // structure
