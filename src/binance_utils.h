@@ -6,6 +6,7 @@
 
 // Cross-platform includes
 #ifdef _WIN32
+#define NOMINMAX  // Prevent Windows min/max macros from conflicting with std::min/max
 #include <io.h>
 #include <windows.h>
 #define F_OK 0

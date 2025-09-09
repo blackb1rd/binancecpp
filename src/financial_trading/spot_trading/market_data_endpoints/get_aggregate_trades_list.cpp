@@ -6,7 +6,7 @@
         GET /api/v3/aggTrades - Compressed/Aggregate trades list
 */
 
-#include "../../../binance_cpp.h"
+#include "../../../binance_api.h"
 #include "../../../binance_logger.h"
 #include "../../../binance_utils.h"
 

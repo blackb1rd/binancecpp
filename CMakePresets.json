@@ -50,26 +50,32 @@
             "name": "windows-debug",
             "inherits": "debug",
             "displayName": "Windows Debug",
-            "description": "Debug Windows build using vcpkg with Visual Studio",
-            "generator": "Visual Studio 17 2022",
-            "architecture": "x64",
+            "description": "Debug Windows build using vcpkg with Ninja and MSVC",
+            "generator": "Ninja",
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
                 "rhs": "Windows"
+            },
+            "cacheVariables": {
+                "CMAKE_CXX_COMPILER": "cl.exe",
+                "CMAKE_C_COMPILER": "cl.exe"
             }
         },
         {
             "name": "windows-release",
             "inherits": "release",
             "displayName": "Windows Release",
-            "description": "Release Windows build using vcpkg with Visual Studio",
-            "generator": "Visual Studio 17 2022",
-            "architecture": "x64",
+            "description": "Release Windows build using vcpkg with Ninja and MSVC",
+            "generator": "Ninja",
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
                 "rhs": "Windows"
+            },
+            "cacheVariables": {
+                "CMAKE_CXX_COMPILER": "cl.exe",
+                "CMAKE_C_COMPILER": "cl.exe"
             }
         },
         {
@@ -132,13 +138,16 @@
             "name": "windows-deploy",
             "inherits": "deploy",
             "displayName": "Windows Deploy",
-            "description": "Production Windows deployment build without examples",
-            "generator": "Visual Studio 17 2022",
-            "architecture": "x64",
+            "description": "Production Windows deployment build without examples using Ninja and MSVC",
+            "generator": "Ninja",
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
                 "rhs": "Windows"
+            },
+            "cacheVariables": {
+                "CMAKE_CXX_COMPILER": "cl.exe",
+                "CMAKE_C_COMPILER": "cl.exe"
             }
         },
         {

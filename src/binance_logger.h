@@ -1,6 +1,8 @@
 #ifndef BINANCE_LOGGER_H
 #define BINANCE_LOGGER_H
 
+#include "binance_cpp.h"
+
 // Platform-specific includes
 #ifdef _WIN32
 #include <direct.h>
@@ -36,7 +38,7 @@
 #define HAS_STD_FORMAT 0
 #endif
 
-class BinanceCPP_logger
+class BINANCECPP_API BinanceCPP_logger
 {
   static int         debug_level;
   static std::string debug_log_file;

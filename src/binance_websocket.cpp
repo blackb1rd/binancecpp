@@ -1,3 +1,7 @@
+#ifdef _WIN32
+#define NOMINMAX  // Prevent Windows min/max macros from conflicting with std::min/max
+#endif
+
 #include "binance_websocket.h"
 
 #include "binance_logger.h"
@@ -91,7 +95,10 @@ void BinanceCPP_websocket::init()
 void BinanceCPP_websocket::connect_endpoint(CB cb, std::string_view path)
 {
   char ws_path[1024];
-  strcpy(ws_path, path.data());
+  // Use safer string copy with bounds checking
+  size_t path_len = std::min(path.length(), sizeof(ws_path) - 1);
+  std::memcpy(ws_path, path.data(), path_len);
+  ws_path[path_len] = '\0';
 
   /* Connect if we are not connected to the server. */
   struct lws_client_connect_info ccinfo = {0};

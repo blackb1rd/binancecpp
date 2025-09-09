@@ -13,10 +13,19 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 if(APPLE)
     set(CMAKE_INSTALL_RPATH "@loader_path/../lib")
+elseif(WIN32)
+    # On Windows, DLLs are found via PATH or same directory as executable
+    set(CMAKE_INSTALL_RPATH "")
 endif()
 
 # Options
 option(BINANCECPP_BUILD_EXAMPLES "Build examples" ON)
+option(BINANCECPP_DEPLOY_MODE "Enable deployment mode, disables examples" OFF)
+
+# Deployment mode overrides examples setting
+if(BINANCECPP_DEPLOY_MODE)
+    set(BINANCECPP_BUILD_EXAMPLES OFF CACHE BOOL "Deploy mode disables examples" FORCE)
+endif()
 
 
 # Find packages

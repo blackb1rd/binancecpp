@@ -60,6 +60,10 @@ jobs:
         run: |
           choco install ninja
 
+      - name: Setup MSVC Developer Command Prompt (Windows)
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@v1
+
       - name: Setup CMake and vcpkg
         uses: lukka/get-cmake@latest
 
@@ -84,7 +88,7 @@ jobs:
       - name: Test library linkage (Windows)
         if: runner.os == 'Windows'
         run: |
-          cd bin/build/${{ env.PRESET_NAME }}/example/${{ matrix.build_type }}
+          cd bin/build/${{ env.PRESET_NAME }}/example
           dir
 
       - name: Upload build artifacts

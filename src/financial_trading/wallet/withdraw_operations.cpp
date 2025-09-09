@@ -6,7 +6,8 @@
         Implementation of withdraw operations for wallet functionality
 */
 
-#include "../../binance_cpp.h"
+// Include the main header first to ensure BINANCECPP_API is defined
+#include "../../binance_api.h"
 #include "../../binance_logger.h"
 #include "../../binance_utils.h"
 
@@ -19,7 +20,7 @@ namespace wallet
 namespace withdraw
 {
 
-void WithdrawOperations::Withdraw(std::string_view coin,
+BINANCECPP_API void WithdrawOperations::Withdraw(std::string_view coin,
                                   std::string_view address,
                                   double           amount,
                                   std::string_view address_tag,
@@ -105,7 +106,7 @@ void WithdrawOperations::Withdraw(std::string_view coin,
   }
 }
 
-void WithdrawOperations::GetWithdrawHistory(std::string_view coin,
+BINANCECPP_API void WithdrawOperations::GetWithdrawHistory(std::string_view coin,
                                             std::string_view withdraw_order_id,
                                             int              status,
                                             long             start_time,
