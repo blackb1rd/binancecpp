@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-#include "src/binance_cpp.h"
+#include "binance_api.h"
 
 int main()
 {

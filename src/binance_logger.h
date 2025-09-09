@@ -1,20 +1,10 @@
 #ifndef BINANCE_LOGGER_H
 #define BINANCE_LOGGER_H
 
-// Windows DLL export/import macros
-#ifdef _WIN32
-  #ifdef BINANCECPP_EXPORTS
-    #define BINANCECPP_API __declspec(dllexport)
-  #else
-    #define BINANCECPP_API __declspec(dllimport)
-  #endif
-#else
-  #define BINANCECPP_API
-#endif
+#include "binance_cpp.h"
 
 // Platform-specific includes
 #ifdef _WIN32
-#define NOMINMAX  // Prevent Windows min/max macros from conflicting with std::min/max
 #include <direct.h>
 #include <io.h>
 #include <windows.h>

@@ -8,7 +8,7 @@
         Following Google C++ Style Guide naming conventions
 */
 
-#include "../../../binance_cpp.h"
+#include "../../binance_api.h"
 #include "../../../binance_logger.h"
 
 namespace binance_cpp

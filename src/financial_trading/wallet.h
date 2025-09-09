@@ -10,19 +10,6 @@
 #ifndef BINANCE_CPP_WALLET_H
 #define BINANCE_CPP_WALLET_H
 
-// Forward declare BINANCECPP_API if not already defined
-#ifndef BINANCECPP_API
-  #ifdef _WIN32
-    #ifdef BINANCECPP_EXPORTS
-      #define BINANCECPP_API __declspec(dllexport)
-    #else
-      #define BINANCECPP_API __declspec(dllimport)
-    #endif
-  #else
-    #define BINANCECPP_API
-  #endif
-#endif
-
 #include <json/json.h>
 
 #include <string_view>
