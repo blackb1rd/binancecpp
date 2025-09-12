@@ -20,11 +20,13 @@ endif()
 
 # Options
 option(BINANCECPP_BUILD_EXAMPLES "Build examples" ON)
+option(BINANCECPP_BUILD_TESTS "Build tests" ON)
 option(BINANCECPP_DEPLOY_MODE "Enable deployment mode, disables examples" OFF)
 
-# Deployment mode overrides examples setting
+# Deployment mode overrides examples and tests settings
 if(BINANCECPP_DEPLOY_MODE)
     set(BINANCECPP_BUILD_EXAMPLES OFF CACHE BOOL "Deploy mode disables examples" FORCE)
+    set(BINANCECPP_BUILD_TESTS OFF CACHE BOOL "Deploy mode disables tests" FORCE)
 endif()
 
 
@@ -42,6 +44,11 @@ add_subdirectory(src)
 # Conditionally build examples
 if(BINANCECPP_BUILD_EXAMPLES)
     add_subdirectory(example)
+endif()
+
+# Conditionally build tests
+if(BINANCECPP_BUILD_TESTS)
+    add_subdirectory(tests)
 endif()
 
 
