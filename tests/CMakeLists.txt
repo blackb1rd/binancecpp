@@ -35,9 +35,9 @@ foreach(TEST_SOURCE ${TEST_SOURCES})
     # Link against the main library and dependencies
     target_link_libraries(${UNIQUE_TEST_NAME} 
         binancecpp
-        jsoncpp_lib
+        JsonCpp::JsonCpp
         CURL::libcurl
-        websockets
+        $<IF:$<TARGET_EXISTS:websockets>,websockets,websockets_shared>
     )
     
     # Set C++ standard
