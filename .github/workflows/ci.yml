@@ -96,8 +96,9 @@ jobs:
         with:
           name: binancecpp-${{ matrix.os }}-${{ matrix.build_type }}
           path: |
-            build/${{ env.PRESET_NAME }}/src/
-            build/${{ env.PRESET_NAME }}/example/
+            bin/build/${{ env.PRESET_NAME }}/src/
+            bin/build/${{ env.PRESET_NAME }}/example/
+            bin/build/${{ env.PRESET_NAME }}/tests/
           retention-days: 5
 
   code-quality:
