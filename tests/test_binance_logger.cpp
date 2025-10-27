@@ -8,7 +8,7 @@
 #include <fstream>
 #include <cstdio>
 
-#include "../src/binance_logger.h"
+#include "binance_logger.h"
 
 int main()
 {

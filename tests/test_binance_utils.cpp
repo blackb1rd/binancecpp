@@ -9,7 +9,7 @@
 #include <chrono>
 #include <thread>
 
-#include "../src/binance_utils.h"
+#include "binance_utils.h"
 
 int main()
 {

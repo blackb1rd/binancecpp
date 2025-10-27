@@ -6,7 +6,7 @@
 #include <iostream>
 #include <string>
 
-#include "../src/binance_api.h"
+#include "binance_api.h"
 
 int main()
 {

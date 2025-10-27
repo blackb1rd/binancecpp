@@ -6,7 +6,7 @@
 #include <iostream>
 #include <string>
 
-#include "../src/binance_websocket.h"
+#include "binance_websocket.h"
 
 int main()
 {
