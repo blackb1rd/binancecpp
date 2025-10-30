@@ -24,6 +24,7 @@ foreach(TEST_SOURCE ${TEST_SOURCES})
     # Create unique test name by including directory path
     if(REL_DIR)
         string(REPLACE "/" "_" DIR_PREFIX ${REL_DIR})
+        string(REPLACE "\\" "_" DIR_PREFIX ${DIR_PREFIX})
         set(UNIQUE_TEST_NAME ${DIR_PREFIX}_${TEST_NAME})
     else()
         set(UNIQUE_TEST_NAME ${TEST_NAME})
@@ -44,6 +45,15 @@ foreach(TEST_SOURCE ${TEST_SOURCES})
     set_property(TARGET ${UNIQUE_TEST_NAME} PROPERTY CXX_STANDARD 20)
     set_property(TARGET ${UNIQUE_TEST_NAME} PROPERTY CXX_STANDARD_REQUIRED ON)
     
+    # On Windows, copy the DLL to the test executable directory
+    if(WIN32)
+        add_custom_command(TARGET ${UNIQUE_TEST_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                $<TARGET_FILE:binancecpp>
+                $<TARGET_FILE_DIR:${UNIQUE_TEST_NAME}>
+        )
+    endif()
+    
     # Add to test suite (optional)
     # add_test(NAME ${UNIQUE_TEST_NAME} COMMAND ${UNIQUE_TEST_NAME})
 endforeach()
@@ -57,6 +67,7 @@ foreach(TEST_SOURCE ${TEST_SOURCES})
     
     if(REL_DIR)
         string(REPLACE "/" "_" DIR_PREFIX ${REL_DIR})
+        string(REPLACE "\\" "_" DIR_PREFIX ${DIR_PREFIX})
         set(UNIQUE_TEST_NAME ${DIR_PREFIX}_${TEST_NAME})
     else()
         set(UNIQUE_TEST_NAME ${TEST_NAME})

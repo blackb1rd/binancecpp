@@ -42,6 +42,15 @@ foreach(EXAMPLE_NAME ${EXAMPLES})
             $<$<CXX_COMPILER_ID:Clang>:-fconcepts-ts>
         )
 
+        # On Windows, copy the DLL to the example executable directory
+        if(WIN32)
+            add_custom_command(TARGET ${EXAMPLE_NAME} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                    $<TARGET_FILE:binancecpp>
+                    $<TARGET_FILE_DIR:${EXAMPLE_NAME}>
+            )
+        endif()
+
         # Install example binaries
         install(TARGETS ${EXAMPLE_NAME}
             RUNTIME DESTINATION bin/examples
