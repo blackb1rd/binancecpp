@@ -45,12 +45,21 @@ foreach(TEST_SOURCE ${TEST_SOURCES})
     set_property(TARGET ${UNIQUE_TEST_NAME} PROPERTY CXX_STANDARD 20)
     set_property(TARGET ${UNIQUE_TEST_NAME} PROPERTY CXX_STANDARD_REQUIRED ON)
     
-    # On Windows, copy the DLL to the test executable directory
+    # On Windows, copy the DLL and its dependencies to the test executable directory
     if(WIN32)
         add_custom_command(TARGET ${UNIQUE_TEST_NAME} POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_if_different
                 $<TARGET_FILE:binancecpp>
                 $<TARGET_FILE_DIR:${UNIQUE_TEST_NAME}>
+            COMMENT "Copying binancecpp.dll to test directory"
+        )
+        # Copy runtime DLLs for dependencies (JsonCpp, CURL, websockets)
+        add_custom_command(TARGET ${UNIQUE_TEST_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                $<TARGET_RUNTIME_DLLS:${UNIQUE_TEST_NAME}>
+                $<TARGET_FILE_DIR:${UNIQUE_TEST_NAME}>
+            COMMAND_EXPAND_LISTS
+            COMMENT "Copying dependency DLLs to test directory"
         )
     endif()
     

@@ -9,6 +9,11 @@ project(binancecpp
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Windows-specific: Use MultiThreadedDLL runtime library for MSVC
+if(MSVC)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+endif()
+
 # Configure RPATH
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 if(APPLE)
