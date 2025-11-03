@@ -28,7 +28,7 @@ jobs:
 
     env:
       PRESET_NAME: ${{ matrix.os == 'ubuntu-latest' && format('linux-{0}', matrix.build_type) || matrix.os == 'windows-latest' && format('windows-{0}', matrix.build_type) || format('macos-{0}', matrix.build_type) }}
-      VCPKG_TRIPLET: ${{ matrix.os == 'ubuntu-latest' && 'x64-linux' || matrix.os == 'windows-latest' && 'x64-windows' || 'arm64-osx' }}
+      VCPKG_TRIPLET: ${{ matrix.os == 'ubuntu-latest' && 'x64-linux' || matrix.os == 'windows-latest' && 'x64-windows' || 'x64-osx' }}
 
     steps:
       - name: Checkout repository
@@ -78,6 +78,19 @@ jobs:
       - name: Build project
         run: cmake --build --preset=${{ env.PRESET_NAME }}
 
+      - name: Verify build output
+        if: success()
+        shell: bash
+        run: |
+          echo "Checking build output directory structure..."
+          if [ -d "bin/build/${{ env.PRESET_NAME }}" ]; then
+            echo "✅ Build directory exists"
+            find bin/build/${{ env.PRESET_NAME }} -type f -name "*.dll" -o -name "*.so" -o -name "*.dylib" -o -name "*.exe" -o -name "*.a" | head -20 || true
+          else
+            echo "⚠️  Build directory not found at expected location"
+            ls -la bin/ || echo "bin/ directory not found"
+          fi
+
       - name: Test library linkage (Unix)
         if: runner.os != 'Windows'
         run: |
@@ -93,12 +106,15 @@ jobs:
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
+        if: success() || failure()
         with:
           name: binancecpp-${{ matrix.os }}-${{ matrix.build_type }}
           path: |
-            build/${{ env.PRESET_NAME }}/src/
-            build/${{ env.PRESET_NAME }}/example/
+            bin/build/${{ env.PRESET_NAME }}/src/
+            bin/build/${{ env.PRESET_NAME }}/example/
+            bin/build/${{ env.PRESET_NAME }}/tests/
           retention-days: 5
+          if-no-files-found: warn
 
   code-quality:
     name: Code Quality
@@ -118,7 +134,7 @@ jobs:
       - name: Find C++ source files
         id: find-files
         run: |
-          find src example -name "*.cpp" -o -name "*.h" -o -name "*.hpp" -o -name "*.cc" -o -name "*.cxx" > cpp_files.txt
+          find src example \( -name "*.cpp" -o -name "*.h" -o -name "*.hpp" -o -name "*.cc" -o -name "*.cxx" \) > cpp_files.txt
           echo "file-count=$(wc -l < cpp_files.txt)" >> $GITHUB_OUTPUT
 
       - name: Check code formatting

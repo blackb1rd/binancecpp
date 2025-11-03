@@ -42,6 +42,24 @@ foreach(EXAMPLE_NAME ${EXAMPLES})
             $<$<CXX_COMPILER_ID:Clang>:-fconcepts-ts>
         )
 
+        # On Windows, copy the DLL and its dependencies to the example executable directory
+        if(WIN32)
+            add_custom_command(TARGET ${EXAMPLE_NAME} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                    $<TARGET_FILE:binancecpp>
+                    $<TARGET_FILE_DIR:${EXAMPLE_NAME}>
+                COMMENT "Copying binancecpp.dll to example directory"
+            )
+            # Copy runtime DLLs for dependencies (JsonCpp, CURL, websockets)
+            add_custom_command(TARGET ${EXAMPLE_NAME} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                    $<TARGET_RUNTIME_DLLS:${EXAMPLE_NAME}>
+                    $<TARGET_FILE_DIR:${EXAMPLE_NAME}>
+                COMMAND_EXPAND_LISTS
+                COMMENT "Copying dependency DLLs to example directory"
+            )
+        endif()
+
         # Install example binaries
         install(TARGETS ${EXAMPLE_NAME}
             RUNTIME DESTINATION bin/examples

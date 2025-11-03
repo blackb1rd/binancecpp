@@ -46,6 +46,26 @@ void BinanceAPI::Cleanup() noexcept
   curl_global_cleanup();
 }
 
+void BinanceAPI::SetAPIKey(std::string_view api_key)
+{
+  api_key_ = std::string(api_key);
+}
+
+void BinanceAPI::SetSecretKey(std::string_view secret_key)
+{
+  secret_key_ = std::string(secret_key);
+}
+
+const std::string& BinanceAPI::GetAPIKey() noexcept
+{
+  return api_key_;
+}
+
+const std::string& BinanceAPI::GetSecretKey() noexcept
+{
+  return secret_key_;
+}
+
 size_t BinanceAPI::CurlCallback(void*        content,
                                 size_t       size,
                                 size_t       nmemb,

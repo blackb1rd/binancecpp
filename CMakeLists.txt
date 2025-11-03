@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.21)
 
 project(binancecpp
     VERSION 1.0.0
@@ -8,6 +8,11 @@ project(binancecpp
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Windows-specific: Use MultiThreadedDLL runtime library for MSVC
+if(MSVC)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+endif()
 
 # Configure RPATH
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
@@ -20,11 +25,13 @@ endif()
 
 # Options
 option(BINANCECPP_BUILD_EXAMPLES "Build examples" ON)
+option(BINANCECPP_BUILD_TESTS "Build tests" ON)
 option(BINANCECPP_DEPLOY_MODE "Enable deployment mode, disables examples" OFF)
 
-# Deployment mode overrides examples setting
+# Deployment mode overrides examples and tests settings
 if(BINANCECPP_DEPLOY_MODE)
     set(BINANCECPP_BUILD_EXAMPLES OFF CACHE BOOL "Deploy mode disables examples" FORCE)
+    set(BINANCECPP_BUILD_TESTS OFF CACHE BOOL "Deploy mode disables tests" FORCE)
 endif()
 
 
@@ -42,6 +49,11 @@ add_subdirectory(src)
 # Conditionally build examples
 if(BINANCECPP_BUILD_EXAMPLES)
     add_subdirectory(example)
+endif()
+
+# Conditionally build tests
+if(BINANCECPP_BUILD_TESTS)
+    add_subdirectory(tests)
 endif()
 
 
